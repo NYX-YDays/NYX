@@ -1,0 +1,5 @@
+= NYX
+
+Application de planification d'événements.
+
+**Work in progress...**
