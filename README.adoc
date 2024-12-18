@@ -1,5 +1,10 @@
 = NYX
 
-Application de planification d'événements.
+NYX is an event scheduling and service advertising web application.
+
+== Structure
+
+* `link:backend/[]`: The application backend using https://symfony.com/[Symfony] and https://www.doctrine-project.org/[Doctrine ORM].
+* `link:frontend/[]`: The application frontend using https://angular.dev/[Angular] and https://getbootstrap.com/[Bootstrap].
 
 **Work in progress...**

@@ -1,0 +1,9 @@
+@use "sass:map";
+
+$primary: #272b30;
+$body-bg-dark: #272b30;
+
+$theme-colors: map.merge($theme-colors, (
+  "primary": $primary,
+  "body-bg-dark": $body-bg-dark
+));

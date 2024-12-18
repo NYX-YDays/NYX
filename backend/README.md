@@ -1,0 +1,1 @@
+The application backend (using Symfony and Doctrine ORM).
