@@ -1,10 +1,48 @@
 = NYX
+:toc: macro
+:sectnums:
 
 NYX is an event scheduling and service advertising web application.
 
+**Work in progress...**
+
+toc::[]
+
 == Structure
 
-* `link:backend/[]`: The application backend using https://symfony.com/[Symfony] and https://www.doctrine-project.org/[Doctrine ORM].
-* `link:frontend/[]`: The application frontend using https://angular.dev/[Angular] and https://getbootstrap.com/[Bootstrap].
+* `link:backend/[]`: the application backend using https://symfony.com/[Symfony] and https://www.doctrine-project.org/[Doctrine ORM]
+* `link:frontend/[]`: the application frontend using https://angular.dev/[Angular] and https://getbootstrap.com/[Bootstrap]
 
-**Work in progress...**
+== Installation and commands
+
+=== Installation
+
+To install and run NYX on a local environment, follow these steps:
+
+. Install the latest stable version of https://nodejs.org/[NodeJS]
+. Clone this repo on your device
+. Add a `.env` file in the `link:backend/[]` directory with the following content:
++
+[source, bash]
+----
+DATABASE_URL="mysql://<user>:<password>@<host>:3306/<database>"
+----
++
+Complete the connection URL with your database information
+. Add the `DATABASE_URL` environment variable to your device, you can use the following command on Windows:
++
+[source, bash]
+----
+$env:DATABASE_URL="mysql://<user>:<password>@<host>:3306/<database>";
+----
+. Run `npm i` in a terminal at the project root to install all dependencies
+
+=== NPM commands
+
+* `npm dev`: running both the application frontend and backend simultaneously
+* `npm dev:front`: running the application frontend only
+* `npm dev:back`: running the application backend only
+
+=== Docker database
+
+A `Dockerfile` has been added to build and run a MySQL image to support a local database for the project. See the steps link:docker/README.adoc[here].

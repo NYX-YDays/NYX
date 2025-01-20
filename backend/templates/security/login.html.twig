@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+{% for errorMessage in app.flashes('warning') %}
+    <div class="alert alert-warning">
+        {{ errorMessage }}
+    </div>
+{% endfor %}
+
+{% if app.user %}
+    <div class="alert alert-success" role="alert">
+        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+    </div>
+{% endif %}
+
+<div class="container">
+    
+    <div class="row justify-content-center align-items-center vh-100">
+        <div class="col-md-6">
+            <form method="post" class="form-signin">
+                {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mb-2" placeholder="Email address" autocomplete="email" required autofocus>
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control mb-2" placeholder="Password" autocomplete="current-password" required>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            </form>
+          
+        </div>
+          <a href="http://localhost:4200/connexion" class="btn btn-lg btn-secondary btn-block mt-3">Connexion en tant qu'adhérents</a>
+
+    </div>
+</div>
+
+{% endblock %}

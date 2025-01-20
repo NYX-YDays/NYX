@@ -1,0 +1,72 @@
+
+    /* Styles pour la mise en page */
+    .flex {
+        display: flex;
+    }
+
+    .justify-center {
+        justify-content: center;
+    }
+
+    .text-2xl {
+        font-size: 1.5rem;
+    }
+
+    .font-bold {
+        font-weight: bold;
+    }
+
+    .p-4 {
+        padding: 1rem;
+    }
+
+    .bg-green-500 {
+        background-color: #34D399;
+    }
+
+    .bg-blue-500 {
+        background-color: #3B82F6;
+    }
+
+    .bg-yellow-500 {
+        background-color: orange;
+    }
+
+ 
+
+    .text-white {
+        color: #FFFFFF;
+    }
+
+    .rounded-lg {
+        border-radius: 0.5rem;
+    }
+
+    .text-lg {
+        font-size: 1.125rem;
+    }
+
+    .text-3xl {
+        font-size: 1.875rem;
+    }
+
+   
+    .mt-2 {
+        margin-top: 0.5rem;
+    }
+
+    /* Hover effect */
+    .rounded-lg:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+
+    /* Better list styling */
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 1rem;
+    }
