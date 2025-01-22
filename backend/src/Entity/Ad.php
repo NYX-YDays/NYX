@@ -39,9 +39,11 @@ class Ad
 
     #[ORM\ManyToOne(inversedBy: 'ads')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['ad:read'])]
     private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'ads')]
+    #[Groups(['ad:read'])]
     private Collection $categories;
 
     public function __construct()
