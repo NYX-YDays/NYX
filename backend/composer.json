@@ -11,7 +11,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.0",
         "easycorp/easyadmin-bundle": "^4.8",
-        "fakerphp/faker": "^1.23",
+        "fakerphp/faker": "^1.24",
         "lexik/jwt-authentication-bundle": "^2.20",
         "symfony/console": "7.0.*",
         "symfony/dotenv": "7.0.*",
