@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "install": "composer require doctrine/ORM && composer install && symfony server:ca:install",
+    "install": "composer install && symfony server:ca:install",
     "dev": "symfony server:start --port=8008",
     "build": "encore production --progress"
   },

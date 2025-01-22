@@ -43,12 +43,13 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    access_control:
-         - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_USER, ROLE_SUPER_ADMIN] }
-         - { path: ^/api/auth, roles: PUBLIC_ACCESS }
-         - { path: ^/api/user, roles: ROLE_USER }
-         - { path: ^/api/reservation, roles: ROLE_USER }
-         - { path: ^/api, roles: PUBLIC_ACCESS }
+    # access_control:
+    #      - { path: ^/api/docs, roles: ROLE_ADMIN }
+    #      - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_USER, ROLE_SUPER_ADMIN] }
+    #      - { path: ^/api/auth, roles: PUBLIC_ACCESS }
+    #      - { path: ^/api/user, roles: ROLE_USER }
+    #      - { path: ^/api/reservation, roles: ROLE_USER }
+    #      - { path: ^/api, roles: PUBLIC_ACCESS }
 
 when@test:
     security:

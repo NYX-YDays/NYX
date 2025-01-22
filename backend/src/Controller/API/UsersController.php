@@ -3,13 +3,15 @@
 namespace App\Controller\API;
 
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\AdRepository;
+use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Users;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
-
 
 class UsersController extends AbstractController
 {
@@ -25,6 +27,36 @@ class UsersController extends AbstractController
         } else {
             return new JsonResponse(null, 404);
         }
+    }
+
+    #[Route('/api/user/{userId}/ads', name: 'app_user_ads', methods: ['GET'])]
+    public function getUserAds($userId, AdRepository $adRepository): Response
+    {
+        // Récupérer les annonces en fonction de l'utilisateur
+        $ads = $adRepository->findBy(['user' => $userId]);
+
+        // Si aucune annonce trouvée
+        if (empty($ads)) {
+            return $this->json(['error' => 'No ads found for this user'], 404);
+        }   
+
+        // Retourner les annonces avec la sérialisation appropriée
+        return $this->json($ads, 200, [], ['groups' => 'ad:read']);
+    }
+
+    #[Route('/api/user/{userId}/events', name: 'app_user_events', methods: ['GET'])]
+    public function getUserEvents($userId, EventRepository $eventRepository): Response
+    {
+        // Récupérer les événements en fonction de l'utilisateur
+        $ads = $eventRepository->findBy(['user' => $userId]);
+
+        // Si aucun événement trouvée
+        if (empty($ads)) {
+            return $this->json(['error' => 'No ads found for this user'], 404);
+        }   
+
+        // Retourner les annonces avec la sérialisation appropriée
+        return $this->json($ads, 200, [], ['groups' => 'event:read']);
     }
 
     // #[Route('/api/user', methods: ['PUT'])]

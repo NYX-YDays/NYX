@@ -13,7 +13,7 @@ class AuthController extends AbstractController
 
     public function __construct(private JWTTokenManagerInterface $jwtManager) {}
 
-    #[Route('/api/auth', methods: ['POST'])]
+    #[Route('/api/auth', name: 'api_login', methods: ['POST'])]
     public function login(UserInterface $user)
     {
         $token = $this->jwtManager->create($user);

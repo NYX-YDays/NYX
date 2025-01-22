@@ -6,6 +6,7 @@ use App\Repository\AdRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AdRepository::class)]
 class Ad
@@ -13,21 +14,27 @@ class Ad
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['ad:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['ad:read'])]
     private ?string $title = null;
 
     #[ORM\Column]
+    #[Groups(['ad:read'])]
     private ?float $price = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['ad:read'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['ad:read'])]
     private ?string $priceIndication = null;
 
     #[ORM\Column]
+    #[Groups(['ad:read'])]
     private ?bool $isVerified = null;
 
     #[ORM\ManyToOne(inversedBy: 'ads')]
