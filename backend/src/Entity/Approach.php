@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ApproachRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ApproachRepository::class)]
 class Approach
@@ -12,21 +13,27 @@ class Approach
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['approach:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['approach:read'])]
     private ?int $state = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['approach:read'])]
     private ?\DateTimeInterface $dateNotif = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['approach:read'])]
     private ?string $message = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups(['approach:read'])]
     private ?Ad $ad = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups(['approach:read'])]    
     private ?Event $event = null;
 
     public function getId(): ?int

@@ -15,19 +15,19 @@ class User
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['ad:read'])]
+    #[Groups(['ad:read', 'approach:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['ad:read'])]
+    #[Groups(['ad:read', 'approach:read'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['ad:read'])]
+    #[Groups(['ad:read', 'approach:read'])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['ad:read'])]
+    #[Groups(['ad:read', 'approach:read'])]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -46,6 +46,7 @@ class User
     private ?bool $isPro = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['ad:read', 'approach:read'])]
     private ?int $phone = null;
 
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'user', orphanRemoval: true)]

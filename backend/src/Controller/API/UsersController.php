@@ -2,13 +2,16 @@
 
 namespace App\Controller\API;
 
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AdRepository;
+use App\Repository\ApproachRepository;
 use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Users;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,6 +60,25 @@ class UsersController extends AbstractController
 
         // Retourner les annonces avec la sérialisation appropriée
         return $this->json($ads, 200, [], ['groups' => 'event:read']);
+    }
+
+    #[Route('/api/approaches/{userId}', name: 'app_user_approaches', methods: ['GET'])]
+    public function getUserApproaches($userId, ApproachRepository $approachRepository, UserRepository $userRepository): Response
+    {
+        $user = $userRepository->find($userId);
+
+        if (!$user) {
+            return $this->json(['error' => 'User not found'], 404);
+        }
+
+        $approaches = $approachRepository->createQueryBuilder('a')
+            ->join('a.ad', 'ad')
+            ->where('ad.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+        
+        return $this->json($approaches, 200, [], ['groups' => 'approach:read']);
     }
 
     // #[Route('/api/user', methods: ['PUT'])]

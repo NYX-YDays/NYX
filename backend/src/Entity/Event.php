@@ -12,11 +12,11 @@ class Event
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'approach:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'approach:read'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
@@ -24,6 +24,7 @@ class Event
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'events')]
+    #[Groups(['approach:read'])]
     private ?User $user = null;
 
     public function getId(): ?int

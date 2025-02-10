@@ -14,11 +14,11 @@ class Ad
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['ad:read'])]
+    #[Groups(['ad:read', 'approach:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['ad:read'])]
+    #[Groups(['ad:read', 'approach:read'])]
     private ?string $title = null;
 
     #[ORM\Column]
