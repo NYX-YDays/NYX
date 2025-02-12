@@ -24,8 +24,8 @@ class AdController extends AbstractController
         return $this->json($ads, 200, [], ['groups' => 'ad:read']);
     }
 
-    #[Route('/api/ads/{id}', name: 'get_ads_by_id', methods: ['GET'])]
-    public function getAdsById($id, AdRepository $adRepository): Response
+    #[Route('/api/ads/{id}', name: 'get_ad_by_id', methods: ['GET'])]
+    public function getAdById($id, AdRepository $adRepository): Response
     {
         $ad = $adRepository->find($id);
         if (!$ad) {

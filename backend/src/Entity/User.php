@@ -8,45 +8,51 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['ad:read', 'approach:read'])]
+    #[Groups(['ad:read', 'approach:read', 'user:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['ad:read', 'approach:read'])]
+    #[Groups(['ad:read', 'approach:read', 'user:read'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['ad:read', 'approach:read'])]
+    #[Groups(['ad:read', 'approach:read', 'user:read'])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['ad:read', 'approach:read'])]
+    #[Groups(['ad:read', 'approach:read', 'user:read'])]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['user:read'])]
     private ?\DateTimeInterface $birthdayDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['user:read'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['user:read'])]
     private ?string $sex = null;
 
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $passwordHash = null;
 
     #[ORM\Column(nullable: false)]
+    #[Groups(['user:read'])]
     private ?bool $isPro = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['ad:read', 'approach:read'])]
+    #[Groups(['ad:read', 'approach:read', 'user:read'])]
     private ?int $phone = null;
 
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'user', orphanRemoval: true)]
@@ -142,12 +148,12 @@ class User
         return $this;
     }
 
-    public function getPasswordHash(): ?string
+    public function getPassword(): ?string
     {
         return $this->passwordHash;
     }
 
-    public function setPasswordHash(?string $passwordHash): static
+    public function setPassword(?string $passwordHash): static
     {
         $this->passwordHash = $passwordHash;
 
@@ -177,6 +183,10 @@ class User
 
         return $this;
     }
+
+    public function eraseCredentials(): void {}
+    public function getUserIdentifier(): string { return $this->email; }
+    public function getRoles(): array { return ['ROLE_USER']; }
 
     /**
      * @return Collection<int, File>
