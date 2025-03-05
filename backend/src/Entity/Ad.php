@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AdRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -14,11 +15,11 @@ class Ad
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['ad:read', 'approach:read'])]
+    #[Groups(['event:read', 'ad:read', 'approach:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['ad:read', 'approach:read'])]
+    #[Groups(['event:read', 'ad:read', 'approach:read'])]
     private ?string $title = null;
 
     #[ORM\Column]
@@ -28,6 +29,14 @@ class Ad
     #[ORM\Column(length: 255)]
     #[Groups(['ad:read'])]
     private ?string $description = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['ad:read'])]
+    private ?\DateTimeInterface $dateAd = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups(['ad:read'])]
+    private ?\DateTimeInterface $datePublicationAd = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['ad:read'])]
@@ -39,7 +48,7 @@ class Ad
 
     #[ORM\ManyToOne(inversedBy: 'ads')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['ad:read'])]
+    #[Groups(['event:read', 'ad:read'])]
     private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'ads')]
@@ -88,6 +97,30 @@ class Ad
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDateAd(): ?\DateTimeInterface
+    {
+        return $this->dateAd;
+    }
+
+    public function setDateAd(\DateTimeInterface $dateEvent): static
+    {
+        $this->dateAd = $dateEvent;
+
+        return $this;
+    }
+
+    public function getDatePublicationAd(): ?\DateTimeInterface
+    {
+        return $this->datePublicationAd;
+    }
+
+    public function setDatePublicationAd(\DateTimeInterface $dateEvent): static
+    {
+        $this->datePublicationAd = $dateEvent;
 
         return $this;
     }

@@ -17,19 +17,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['ad:read', 'approach:read', 'user:read'])]
+    #[Groups(['event:read', 'ad:read', 'approach:read', 'user:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['ad:read', 'approach:read', 'user:read'])]
+    #[Groups(['event:read', 'ad:read', 'approach:read', 'user:read'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['ad:read', 'approach:read', 'user:read'])]
+    #[Groups(['event:read', 'ad:read', 'approach:read', 'user:read'])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['ad:read', 'approach:read', 'user:read'])]
+    #[Groups(['event:read', 'ad:read', 'approach:read', 'user:read'])]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -43,6 +43,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['user:read'])]
     private ?string $sex = null;
+    
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['user:read'])]
+    private ?string $bio = null;
 
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $passwordHash = null;
@@ -52,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $isPro = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['ad:read', 'approach:read', 'user:read'])]
+    #[Groups(['event:read', 'ad:read', 'approach:read', 'user:read'])]
     private ?int $phone = null;
 
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'user', orphanRemoval: true)]
@@ -145,6 +149,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->sex = $sex;
 
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): static
+    {
+        $this->bio = $bio;
         return $this;
     }
 

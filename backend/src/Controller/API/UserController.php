@@ -21,38 +21,10 @@ class UserController extends AbstractController
 
     public function __construct(private Security $security) {}
 
-    // #[Route('/api/user', methods: ['GET'])]
-    // public function getCustomer()
-    // {
-    //     $user = $this->security->getUser();
-    //     if (!empty($user)) {
-    //         return new JsonResponse($user);
-    //     } else {
-    //         return new JsonResponse(null, 404);
-    //     }
-    // }
-
-    // #[Route('/api/user', methods: ['PUT'])]
-    // public function setAdherent(Request $request, EntityManagerInterface $entityManager): JsonResponse
-    // {
-    //     $data = json_decode($request->getContent(), true);
-    //     $user = $this->security->getUser();
-    //     if (!isset($user)) return new JsonResponse(null, 404);
-    //     if (isset($data['prenom'])) $user->setPrenom($data['prenom']);
-    //     if (isset($data['nom'])) $user->setNom($data['nom']);
-    //     if (isset($data['photo'])) $user->setPhoto($data['photo']);
-    //     if (isset($data['adresse_postale'])) $user->setAdressePostale($data['adresse_postale']);
-    //     if (isset($data['date_naissance'])) $user->setDateNaissance(date_create_immutable_from_format('Y-m-d', $data['date_naissance']));
-    //     if (isset($data['num_tel'])) $user->setNumTel($data['num_tel']);
-    //     $entityManager->persist($user);
-    //     $entityManager->flush();
-    //     return $this->json($user, JsonResponse::HTTP_CREATED);
-    // }
-
-    #[Route('/api/user/{id}', name: 'get_user_by_id', methods: ['GET'])]
-    public function getUserById(int $id, UserRepository $userRepository): Response
+    #[Route('/api/user/{userId}', name: 'get_user_by_id', methods: ['GET'])]
+    public function getUserById(int $userId, UserRepository $userRepository): Response
     {
-        $user = $userRepository->find($id);
+        $user = $userRepository->find($userId);
 
         if (!$user) {
             return $this->json(['error' => 'User not found'], 404);
@@ -80,15 +52,15 @@ class UserController extends AbstractController
     public function getUserEvents($userId, EventRepository $eventRepository): Response
     {
         // Récupérer les événements en fonction de l'utilisateur
-        $ads = $eventRepository->findBy(['user' => $userId]);
+        $events = $eventRepository->findBy(['user' => $userId]);
 
         // Si aucun événement trouvée
-        if (empty($ads)) {
+        if (empty($events)) {
             return $this->json(['error' => 'No ads found for this user'], 404);
         }   
 
         // Retourner les annonces avec la sérialisation appropriée
-        return $this->json($ads, 200, [], ['groups' => 'event:read']);
+        return $this->json($events, 200, [], ['groups' => 'event:read']);
     }
 
     #[Route('/api/user/{userId}/approaches', name: 'app_user_approaches', methods: ['GET'])]
@@ -124,6 +96,7 @@ class UserController extends AbstractController
         $user->setEmail($data['email'] ?? null);
         $user->setAddress($data['address'] ?? null);
         $user->setSex($data['sex'] ?? null);
+        $user->setBio($data['bio'] ?? null);
         $user->setIsPro($data['isPro'] ?? false);
         $user->setPhone($data['phone'] ?? null);
 
@@ -150,9 +123,9 @@ class UserController extends AbstractController
         return $this->json($user, 201, [], ['groups' => 'user:read']);
     }
 
-    #[Route('/api/user/{id}', name: 'update_user', methods: ['PUT'])]
-    public function updateUser(int $id, Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response {
-        $user = $userRepository->find($id);
+    #[Route('/api/user/{userId}', name: 'update_user', methods: ['PUT'])]
+    public function updateUser(int $userId, Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response {
+        $user = $userRepository->find($userId);
 
         if (!$user) {
             return $this->json(['error' => 'User not found'], 404);
@@ -169,6 +142,7 @@ class UserController extends AbstractController
         $user->setEmail($data['email'] ?? $user->getEmail());
         $user->setAddress($data['address'] ?? $user->getAddress());
         $user->setSex($data['sex'] ?? $user->getSex());
+        $user->setBio($data['bio'] ?? $user->getBio());
         $user->setIsPro($data['isPro'] ?? $user->isIsPro());
         $user->setPhone($data['phone'] ?? $user->getPhone());
 
@@ -192,10 +166,10 @@ class UserController extends AbstractController
         return $this->json($user, 200, [], ['groups' => 'user:read']);
     }
 
-    #[Route('/api/user/{id}', name: 'delete_user', methods: ['DELETE'])]
-    public function deleteUser(int $id, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
+    #[Route('/api/user/{userId}', name: 'delete_user', methods: ['DELETE'])]
+    public function deleteUser(int $userId, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
-        $user = $userRepository->find($id);
+        $user = $userRepository->find($userId);
 
         if (!$user) {
             return $this->json(['error' => 'User not found'], 404);

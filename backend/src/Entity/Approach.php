@@ -8,31 +8,34 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ApproachRepository::class)]
+#[ORM\UniqueConstraint(name: 'unique_event_ad', columns: ['event_id', 'ad_id'])]
 class Approach
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['approach:read'])]
+    #[Groups(['event:read', 'approach:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['approach:read'])]
+    #[Groups(['event:read', 'approach:read'])]
     private ?int $state = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['approach:read'])]
+    #[Groups(['event:read', 'approach:read'])]
     private ?\DateTimeInterface $dateNotif = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['approach:read'])]
+    #[Groups(['event:read', 'approach:read'])]
     private ?string $message = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['approach:read'])]
+    #[ORM\ManyToOne(targetEntity: Ad::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['event:read', 'approach:read'])]
     private ?Ad $ad = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'approaches')]
+    #[ORM\JoinColumn(nullable: false)]
     #[Groups(['approach:read'])]    
     private ?Event $event = null;
 

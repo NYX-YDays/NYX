@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class EventController extends AbstractController
 {
-    #[Route('/api/events', name: 'add_event', methods: ['POST'])]
+    #[Route('/api/event', name: 'add_event', methods: ['POST'])]
     public function addEvent(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, UserRepository $userRepository): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -26,6 +26,7 @@ class EventController extends AbstractController
 
         $event = new Event();
         $event->setTitle($data['title']);
+        $event->setDateEvent(new \DateTime());
         $event->setDescription($data['description']);
         $event->setUser($user);
 
@@ -40,10 +41,10 @@ class EventController extends AbstractController
         return $this->json($event, 201, [], ['groups' => 'event:read']);
     }
 
-    #[Route('/api/events/{id}', name: 'update_event', methods: ['PUT'])]
-    public function updateEvent($id, Request $request, EntityManagerInterface $entityManager, EventRepository $eventRepository, ValidatorInterface $validator) 
+    #[Route('/api/event/{eventId}', name: 'update_event', methods: ['PUT'])]
+    public function updateEvent($eventId, Request $request, EntityManagerInterface $entityManager, EventRepository $eventRepository, ValidatorInterface $validator) 
     {
-        $event = $eventRepository->find($id);
+        $event = $eventRepository->find($eventId);
         if (!$event) {
             return $this->json(['error' => 'Event not found'], 404);
         }
@@ -58,6 +59,9 @@ class EventController extends AbstractController
             $event->setDescription($data['description']);
         }
 
+        // Mettre à jour la date de l'événement
+        $event->setDateEvent(new \DateTime());
+
         $errors = $validator->validate($event);
         if (count($errors) > 0) {
             return $this->json($errors, 400);
@@ -69,10 +73,10 @@ class EventController extends AbstractController
         return $this->json($event, 200, [], ['groups' => 'event:read']);
     }
 
-    #[Route('/api/events/{id}', name: 'delete_event', methods: ['DELETE'])]
-    public function deleteEvent($id, EntityManagerInterface $entityManager, EventRepository $eventRepository)
+    #[Route('/api/event/{eventId}', name: 'delete_event', methods: ['DELETE'])]
+    public function deleteEvent($eventId, EntityManagerInterface $entityManager, EventRepository $eventRepository)
     {
-        $event = $eventRepository->find($id);
+        $event = $eventRepository->find($eventId);
         if (!$event) {
             return $this->json(['error' => 'Event not found'], 404);
         }

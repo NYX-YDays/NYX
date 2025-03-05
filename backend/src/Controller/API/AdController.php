@@ -24,17 +24,17 @@ class AdController extends AbstractController
         return $this->json($ads, 200, [], ['groups' => 'ad:read']);
     }
 
-    #[Route('/api/ads/{id}', name: 'get_ad_by_id', methods: ['GET'])]
-    public function getAdById($id, AdRepository $adRepository): Response
+    #[Route('/api/ad/{adId}', name: 'get_ad_by_id', methods: ['GET'])]
+    public function getAdById($adId, AdRepository $adRepository): Response
     {
-        $ad = $adRepository->find($id);
+        $ad = $adRepository->find($adId);
         if (!$ad) {
             return $this->json(['error' => 'Ad not found'], 404);
         }
         return $this->json($ad, 200, [], ['groups' => 'ad:read']);
     }
 
-    #[Route('/api/ads', name: 'add_ad', methods: ['POST'])]
+    #[Route('/api/ad', name: 'add_ad', methods: ['POST'])]
     public function addAd(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, UserRepository $userRepository)
     {
         $data = json_decode($request->getContent(), true);
@@ -54,6 +54,7 @@ class AdController extends AbstractController
         $ad->setTitle($data['title']);
         $ad->setPrice($data['price']);
         $ad->setDescription($data['description']);
+        $ad->setDateAd(new \DateTime());
         $ad->setPriceIndication($data['priceIndication']);
         $ad->setIsVerified($data['isVerified']);
         $ad->setUser($user);
@@ -71,10 +72,10 @@ class AdController extends AbstractController
         return $this->json($ad, 201, [], ['groups' => 'ad:read']);
     }
 
-    #[Route('/api/ads/{id}', name: 'update_ad', methods: ['PUT'])]
-    public function updateAd($id, Request $request, EntityManagerInterface $entityManager, AdRepository $adRepository, ValidatorInterface $validator)
+    #[Route('/api/ad/{adId}', name: 'update_ad', methods: ['PUT'])]
+    public function updateAd($adId, Request $request, EntityManagerInterface $entityManager, AdRepository $adRepository, ValidatorInterface $validator)
     {
-        $ad = $adRepository->find($id);
+        $ad = $adRepository->find($adId);
         if (!$ad) {
             return $this->json(['error' => 'Ad not found'], 404);
         }
@@ -96,6 +97,9 @@ class AdController extends AbstractController
         if(isset($data['isVerified']))
             $ad->setIsVerified($data['isVerified']);
 
+        // Mettre à jour automatiquement la date de l'ad
+        $ad->setDateAd(new \DateTime());
+
         // Validation
         $errors = $validator->validate($ad);
         if (count($errors) > 0) {
@@ -109,10 +113,10 @@ class AdController extends AbstractController
         return $this->json($ad, 200, [], ['groups' => 'ad:read']);
     }
 
-    #[Route('/api/ads/{id}', name: 'delete_ad', methods: ['DELETE'])]
-    public function deleteAd($id, EntityManagerInterface $entityManager, AdRepository $adRepository)
+    #[Route('/api/ad/{adId}', name: 'delete_ad', methods: ['DELETE'])]
+    public function deleteAd($adId, EntityManagerInterface $entityManager, AdRepository $adRepository)
     {
-        $ad = $adRepository->find($id);
+        $ad = $adRepository->find($adId);
         if (!$ad) {
             return $this->json(['error' => 'Ad not found'], 404);
         }

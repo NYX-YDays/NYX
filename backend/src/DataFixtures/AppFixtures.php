@@ -28,7 +28,8 @@ class AppFixtures extends Fixture
                 ->setBirthdayDate($faker->dateTimeBetween('-30 years', '-18 years'))
                 ->setAddress($faker->address)
                 ->setSex($faker->randomElement(['Male', 'Female', 'Other']))
-                ->setPasswordHash(password_hash('password', PASSWORD_BCRYPT)) 
+                ->setBio($faker->text(200))
+                ->setPassword(password_hash('password', PASSWORD_BCRYPT)) 
                 ->setIsPro($faker->boolean)
                 ->setPhone((int) preg_replace('/\D/', '', $faker->phoneNumber));
 
@@ -54,6 +55,8 @@ class AppFixtures extends Fixture
                     $ad->setTitle($faker->sentence(6, true))
                         ->setPrice($faker->randomFloat(2, 5, 1000))
                         ->setDescription($faker->paragraph(3))
+                        ->setDateAd($faker->dateTimeThisYear)
+                        ->setDatePublicationAd($faker->dateTimeThisYear)
                         ->setPriceIndication($faker->randomElement(['Negotiable', 'Fixed', 'Discounted']))
                         ->setIsVerified($faker->boolean(70)) 
                         ->setUser($user);
@@ -75,7 +78,8 @@ class AppFixtures extends Fixture
         for ($k = 0; $k < 20; $k++) { 
             $event = new Event();
             $event->setTitle($faker->sentence(3, true)) 
-                ->setDescription($faker->paragraph(2)) 
+                ->setDescription($faker->paragraph(2))
+                ->setDateEvent($faker->dateTimeThisYear) 
                 ->setUser($faker->randomElement($users)); 
 
             $manager->persist($event);
