@@ -3,6 +3,7 @@
 namespace App\Controller\API;
 
 use App\Entity\User;
+use App\Constants\AppConstants;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AdRepository;
 use App\Repository\ApproachRepository;
@@ -98,7 +99,7 @@ class UserController extends AbstractController
         $user->setSex($data['sex'] ?? null);
         $user->setBio($data['bio'] ?? null);
         $user->setPhone($data['phone'] ?? null);
-        $user->setRoles($data['roles'] ?? ['ROLE_INDIVIDUAL']);
+        $user->setRoles($data['roles'] ?? [AppConstants::ROLE_INDIVIDUAL]);
 
         if (isset($data['birthdayDate']) && $data['birthdayDate']) {
             $birthdayDate = DateTime::createFromFormat('Y-m-d', $data['birthdayDate']);
@@ -144,7 +145,7 @@ class UserController extends AbstractController
         $user->setSex($data['sex'] ?? $user->getSex());
         $user->setBio($data['bio'] ?? $user->getBio());
         $user->setPhone($data['phone'] ?? $user->getPhone());
-        $user->setRoles($data['roles'] ?? ['ROLE_INDIVIDUAL']);
+        $user->setRoles($data['roles'] ?? [AppConstants::ROLE_INDIVIDUAL]);
         
         if (isset($data['birthdayDate']) && $data['birthdayDate']) {
             $birthdayDate = DateTime::createFromFormat('Y-m-d', $data['birthdayDate']);

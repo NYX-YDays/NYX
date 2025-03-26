@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Constants\AppConstants;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -56,6 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $phone = null;
 
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'user', orphanRemoval: true)]
+    #[Groups(['user:read'])]
     private Collection $files;
 
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'user')]
@@ -196,8 +198,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setRoles(array $roles): self
     {
-        if(!(in_array('ROLE_INDIVIDUAL' , $roles))) {
-            $roles[] = 'ROLE_INDIVIDUAL';
+        if(!(in_array(AppConstants::ROLE_INDIVIDUAL , $roles))) {
+            $roles[] = AppConstants::ROLE_INDIVIDUAL;
         }
         
         $this->roles = $roles;

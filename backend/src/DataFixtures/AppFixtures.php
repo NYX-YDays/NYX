@@ -8,6 +8,7 @@ use App\Entity\Category;
 use App\Entity\Event;
 use App\Entity\File;
 use App\Entity\User;
+use App\Constants\AppConstants;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -29,7 +30,7 @@ class AppFixtures extends Fixture
                 ->setAddress($faker->address)
                 ->setSex($faker->randomElement(['Male', 'Female', 'Other']))
                 ->setBio($faker->text(200))
-                ->setRoles($faker->randomElement([['ROLE_INDIVIDUAL'], ['ROLE_SERVICE_PROVIDER']]))
+                ->setRoles($faker->randomElement([[AppConstants::ROLE_INDIVIDUAL], [AppConstants::ROLE_SERVICE_PROVIDER]]))
                 ->setPassword(password_hash('password', PASSWORD_BCRYPT)) 
                 ->setPhone((int) preg_replace('/\D/', '', $faker->phoneNumber));
 
@@ -86,15 +87,23 @@ class AppFixtures extends Fixture
             $events[] = $event;
         }
 
-        // // Créer des fichiers
-        for ($l = 0; $l < 30; $l++) { 
-            $file = new File();
-            $file->setFileName($faker->word . '.jpg') 
-                ->setFilePath($faker->filePath) 
-                ->setDescription($faker->sentence(6, true)) 
-                ->setUser($faker->randomElement($users)); 
+        // Créer des fichiers
+        foreach($users as $user) {
+            // Créer un fichier de type "profile_picture" 
+            $profilePicture = new File();
+            $profilePicture->setFileName($faker->word . '.jpg') 
+                ->setFilePath($faker->filePath)  
+                ->setFileType(AppConstants::FILE_TYPE_PROFILE_PICTURE)
+                ->setUser($user);
+            $manager->persist($profilePicture);
 
-            $manager->persist($file);
+            // Créer un fichier de type "banner"
+            $banner = new File();
+            $banner->setFileName($faker->word . '.jpg') 
+                ->setFilePath($faker->filePath) 
+                ->setFileType(AppConstants::FILE_TYPE_BANNER)
+                ->setUser($user);
+            $manager->persist($banner);
         }
 
         // Créer des approches
