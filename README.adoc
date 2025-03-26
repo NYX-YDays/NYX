@@ -39,9 +39,9 @@ $env:DATABASE_URL="mysql://<user>:<password>@<host>:3306/<database>";
 
 === NPM commands
 
-* `npm dev`: running both the application frontend and backend simultaneously
-* `npm dev:front`: running the application frontend only
-* `npm dev:back`: running the application backend only
+* `npm run dev`: running both the application frontend and backend simultaneously
+* `npm run dev:front`: running the application frontend only
+* `npm run dev:back`: running the application backend only
 
 === Docker database
 

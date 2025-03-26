@@ -1,8 +1,14 @@
 <div class="d-flex flex-column overflow-hidden vw-100 vh-100">
 
-  <app-header></app-header>
+  <!-- Header -->
+  @if (showAppLayout) {
+    <app-header/>
+  }
 
-  <div class="flex-grow-1 overflow-auto position-relative p-4">
+  <!-- Router pages -->
+  <div [class]="showAppLayout ? 'p-4' : ''"
+       class="flex-grow-1 overflow-auto position-relative">
+    <app-alert-stack/>
     <router-outlet></router-outlet>
   </div>
 

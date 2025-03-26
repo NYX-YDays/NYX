@@ -7,4 +7,7 @@
 @import "styles/colors";
 @import "styles/fonts";
 
-@import "../node_modules/bootstrap/scss/bootstrap";
+@import "styles/components/form/input";
+@import "styles/components/form/check";
+
+@import "bootstrap/scss/bootstrap";

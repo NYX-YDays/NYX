@@ -4,6 +4,6 @@ export const environment = {
   appName: "NYX",
 
   /** The application API URL. */
-  apiUrl: "http://localhost:8000"
+  apiUrl: "http://localhost:8008"
 
 };

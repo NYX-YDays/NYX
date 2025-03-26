@@ -1,1 +1,13 @@
-$font-family-sans-serif: /*"Comic Sans MS",*/ system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+@font-face {
+  font-family: poppins;
+  src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: poppins;
+  src: url('/fonts/Poppins-Bold.ttf') format('truetype');
+  font-weight: 500;
+}
+
+$font-family-sans-serif: poppins, system-ui, Arial, sans-serif;

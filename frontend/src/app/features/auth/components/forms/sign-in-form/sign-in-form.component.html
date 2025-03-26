@@ -1,0 +1,63 @@
+<app-auth-form-layout [title]="'AUTH.SIGN_IN.FORM_TITLE' | translate"
+                      (onSubmit)="signInAsync()"
+                      [isLoading]="isAuthenticating"
+                      [buttonSubmitText]="'AUTH.SIGN_IN.FORM_SUBMIT_BUTTON_TEXT' | translate"
+                      [disableSubmitButton]="authForm.invalid ?? false"
+                      [extraLinkText]="'AUTH.SIGN_IN.FORM_LINK_TEXT' | translate"
+                      extraLinkUri="/sign-up"
+                      [errorMessage]="errorMessage">
+  <form #authForm="ngForm" (keyup.enter)="authForm.valid ? signInAsync() : null"
+        class="d-flex flex-column align-items-center gap-3 w-100">
+
+    <!-- Email -->
+    <div class="form-floating w-100">
+      <input #emailInput="ngModel"
+             [(ngModel)]="email"
+             [class]="{'is-invalid': emailInput.dirty && emailInput.invalid}"
+             type="email"
+             class="form-control"
+             name="email"
+             id="emailInput"
+             placeholder="name@example.com"
+             required>
+      <label for="emailInput">{{ 'AUTH.SIGN_IN.FORM_EMAIL_INPUT_TEXT' | translate }}</label>
+      @if (emailInput.dirty && emailInput.invalid) {
+        <div class="d-block invalid-feedback">
+          {{ 'AUTH.SIGN_IN.FORM_INVALID_EMAIL_TEXT' | translate }}
+        </div>
+      }
+    </div>
+
+    <!-- Password -->
+    <div class="form-floating w-100">
+      <input #passwordInput="ngModel"
+             [(ngModel)]="password"
+             [class]="{'is-invalid': passwordInput.dirty && passwordInput.invalid}"
+             type="password"
+             class="form-control"
+             name="password"
+             id="passwordInput"
+             placeholder="Password"
+             required>
+      <label for="passwordInput">{{ 'AUTH.SIGN_IN.FORM_PWD_INPUT_TEXT' | translate }}</label>
+      @if (passwordInput.dirty && passwordInput.invalid) {
+        <div class="d-block invalid-feedback">
+          {{ 'AUTH.SIGN_IN.FORM_INVALID_PWD_TEXT' | translate }}
+        </div>
+      }
+    </div>
+
+    <!-- Remember me -->
+    <div class="form-check">
+      <input [(ngModel)]="rememberMe"
+             type="checkbox"
+             class="form-check-input"
+             name="remember"
+             id="rememberCheckbox">
+      <label class="form-check-label" for="rememberCheckbox">
+        {{ 'AUTH.SIGN_IN.FORM_REMEMBER_CB_TEXT' | translate }}
+      </label>
+    </div>
+
+  </form>
+</app-auth-form-layout>

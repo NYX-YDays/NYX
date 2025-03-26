@@ -1,0 +1,26 @@
+<div role="alert"
+     class="alert alert-dismissible position-relative overflow-hidden fade show"
+     [class]="{'alert-light': alert.type == AlertType.DEFAULT,
+                   'alert-danger': alert.type == AlertType.ERROR,
+                   'alert-warning': alert.type == AlertType.WARNING,
+                   'alert-info': alert.type == AlertType.INFO,
+                   'alert-success': alert.type == AlertType.SUCCESS}">
+  <div [innerHTML]="alert.msg"></div>
+  <button #closeButton
+          (click)="dismissAlert()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"></button>
+  @if (!isNaN(alert.duration)) {
+    <div role="progressbar" class="progress position-absolute w-100 bottom-0 start-0 rounded-0">
+      <div class="progress-bar"
+           [style]="{'width': (alert.countdown / alert.duration)* 100 + '%'}"
+           [class]="{'bg-primary': alert.type == AlertType.DEFAULT,
+                         'bg-danger': alert.type == AlertType.ERROR,
+                         'bg-info': alert.type == AlertType.INFO,
+                         'bg-warning': alert.type == AlertType.WARNING,
+                         'bg-success': alert.type == AlertType.SUCCESS}"></div>
+    </div>
+  }
+</div>

@@ -1,0 +1,126 @@
+<app-auth-form-layout [title]="'AUTH.SIGN_IN.FORM_TITLE' | translate"
+                      (onSubmit)="signUpAsync()"
+                      [isLoading]="isRegistering"
+                      [buttonSubmitText]="'AUTH.SIGN_UP.FORM_SUBMIT_BUTTON_TEXT' | translate"
+                      [disableSubmitButton]="authForm.invalid ?? false"
+                      [extraLinkText]="'AUTH.SIGN_UP.FORM_LINK_TEXT' | translate"
+                      extraLinkUri="/sign-in"
+                      [errorMessage]="errorMessage">
+  <form #authForm="ngForm" (keyup.enter)="authForm.valid ? signUpAsync() : null"
+        class="d-flex flex-column align-items-center gap-3 w-100">
+
+    <!-- First name -->
+    <div class="form-floating w-100">
+      <input #firstNameInput="ngModel"
+             [(ngModel)]="newUser.firstName"
+             [class]="{'is-invalid': firstNameInput.dirty && firstNameInput.invalid}"
+             type="text"
+             class="form-control"
+             name="firstName"
+             id="firstNameInput"
+             placeholder="First name"
+             required>
+      <label for="firstNameInput">{{ 'AUTH.SIGN_UP.FORM_FIST_NAME_INPUT_TEXT' | translate }}*</label>
+      @if (firstNameInput.dirty && firstNameInput.invalid) {
+        <div class="invalid-feedback">
+          {{ 'AUTH.SIGN_UP.FORM_INVALID_FIST_NAME_TEXT' | translate }}
+        </div>
+      }
+    </div>
+
+    <!-- Last name -->
+    <div class="form-floating w-100">
+      <input #lastNameInput="ngModel"
+             [(ngModel)]="newUser.lastName"
+             [class]="{'is-invalid': lastNameInput.dirty && lastNameInput.invalid}"
+             type="text"
+             class="form-control"
+             name="lastName"
+             id="lastNameInput"
+             placeholder="Last name">
+      <label for="lastNameInput">{{ 'AUTH.SIGN_UP.FORM_LAST_NAME_INPUT_TEXT' | translate }}</label>
+      @if (lastNameInput.dirty && lastNameInput.invalid) {
+        <div class="invalid-feedback">
+          {{ 'AUTH.SIGN_UP.FORM_INVALID_LAST_NAME_TEXT' | translate }}
+        </div>
+      }
+    </div>
+
+    <!-- Birth date -->
+    <div class="form-floating w-100">
+      <input #birthdateInput="ngModel"
+             [(ngModel)]="newUser.birthdate"
+             [class]="{'is-invalid': birthdateInput.dirty && birthdateInput.invalid}"
+             type="date"
+             class="form-control"
+             name="birthdate"
+             id="birthdateInput"
+             placeholder="xx/xx/xxxx"
+             required>
+      <label for="birthdateInput">{{ 'AUTH.SIGN_UP.FORM_BIRTHDATE_INPUT_TEXT' | translate }}*</label>
+      @if (birthdateInput.dirty && birthdateInput.invalid) {
+        <div class="invalid-feedback">
+          {{ 'AUTH.SIGN_UP.FORM_INVALID_BIRTHDATE_TEXT' | translate }}
+        </div>
+      }
+    </div>
+
+    <!-- Email -->
+    <div class="form-floating w-100">
+      <input #emailInput="ngModel"
+             [(ngModel)]="newUser.email"
+             [class]="{'is-invalid': emailInput.dirty && emailInput.invalid}"
+             type="email"
+             class="form-control"
+             name="email"
+             id="emailInput"
+             placeholder="name@example.com"
+             required>
+      <label for="emailInput">{{ 'AUTH.SIGN_UP.FORM_EMAIL_INPUT_TEXT' | translate }}*</label>
+      @if (emailInput.dirty && emailInput.invalid) {
+        <div class="invalid-feedback">
+          {{ 'AUTH.SIGN_UP.FORM_INVALID_EMAIL_TEXT' | translate }}
+        </div>
+      }
+    </div>
+
+    <!-- Password -->
+    <div class="form-floating w-100">
+      <input #passwordInput="ngModel"
+             [(ngModel)]="newUser.password"
+             [class]="{'is-invalid': passwordInput.dirty && passwordInput.invalid}"
+             type="password"
+             class="form-control"
+             name="password"
+             id="passwordInput"
+             placeholder="Password"
+             [pattern]="Constants.PASSWORD_FORMAT_REGEX"
+             required>
+      <label for="passwordInput">{{ 'AUTH.SIGN_UP.FORM_PWD_INPUT_TEXT' | translate }}*</label>
+      @if (passwordInput.dirty && passwordInput.invalid) {
+        <div class="invalid-feedback" [innerHTML]="'AUTH.SIGN_UP.FORM_INVALID_PWD_TEXT' | translate"></div>
+      }
+    </div>
+
+    <!-- Confirm password -->
+    <div class="form-floating w-100">
+      <input #confirmPasswordInput="ngModel"
+             [(ngModel)]="passwordConfirm"
+             [class]="{'is-invalid': confirmPasswordInput.dirty && confirmPasswordInput.invalid}"
+             [originalPassword]="newUser.password"
+             type="password"
+             class="form-control"
+             name="confirmPassword"
+             id="confirmPasswordInput"
+             placeholder="Password"
+             required>
+      <label for="confirmPasswordInput">{{ 'AUTH.SIGN_UP.FORM_CONFIRM_PWD_INPUT_TEXT' | translate }}*</label>
+      @if (confirmPasswordInput.dirty && confirmPasswordInput.invalid) {
+        <div class="invalid-feedback">
+          {{ 'AUTH.SIGN_UP.FORM_INVALID_CONFIRM_PWD_TEXT' | translate }}
+        </div>
+      }
+    </div>
+
+  </form>
+</app-auth-form-layout>

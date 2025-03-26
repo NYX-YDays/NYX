@@ -1,0 +1,11 @@
+.alert {
+  max-width: 500px;
+
+  .progress {
+    height: 3px;
+  }
+
+  .btn-close:focus {
+    box-shadow: none !important;
+  }
+}

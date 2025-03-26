@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AlertService } from '../../shared/services/alert.service';
+import { AlertType } from '../alert-manager/enums/alert-type';
 
 @Component({
   selector: 'app-e404',
@@ -10,6 +12,20 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   styleUrl: './not-found.component.scss'
 })
-export class NotFoundComponent {
+export class NotFoundComponent implements OnInit {
+
+  //region injections
+
+  private alertService = inject(AlertService);
+
+  //endregion
+
+  //region methods
+
+  ngOnInit() {
+    this.alertService.pushAlert(AlertType.WARNING, 'Page not found.', 7);
+  }
+
+  //endregion
 
 }

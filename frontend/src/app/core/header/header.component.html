@@ -2,10 +2,11 @@
   <div class="container-fluid">
 
     <!-- App title / logo -->
-    <a class="navbar-brand" routerLink="/">{{ appName }}</a>
+    <a class="navbar-brand fw-bold" routerLink="/">{{ appName }}</a>
 
     <!-- Mobile mode menu button -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -13,14 +14,19 @@
 
       <!-- Navigation links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <!-- <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li> -->
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/profile">Test</a>
+        </li>
       </ul>
 
       <!-- Right side content -->
       <div>
-        <a class="btn btn-outline-secondary" href="#"><i class="bi bi-box-arrow-in-left"></i> Sign in</a>
+
+        <!-- Sign in button -->
+        <a class="btn btn-outline-secondary" routerLink="/sign-in">
+          <i class="bi bi-box-arrow-in-left"></i> {{ 'HEADER.SIGN_IN_BUTTON_TEXT' | translate }}
+        </a>
+
       </div>
 
     </div>

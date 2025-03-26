@@ -1,0 +1,13 @@
+.auth-form {
+
+  & > img.auth-form-bg {
+    opacity: 25%;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+  }
+
+  & > .auth-form-container {
+    max-width: 600px;
+  }
+
+}
