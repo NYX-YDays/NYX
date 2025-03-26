@@ -2,48 +2,62 @@
 
 namespace App\Entity;
 
+use App\Constants\AppConstants;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['event:read', 'ad:read', 'approach:read', 'user:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['event:read', 'ad:read', 'approach:read', 'user:read'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['event:read', 'ad:read', 'approach:read', 'user:read'])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Groups(['event:read', 'ad:read', 'approach:read', 'user:read'])]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['user:read'])]
     private ?\DateTimeInterface $birthdayDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['user:read'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['user:read'])]
     private ?string $sex = null;
+    
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['user:read'])]
+    private ?string $bio = null;
 
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $passwordHash = null;
 
-    #[ORM\Column(nullable: false)]
-    private ?bool $isPro = null;
-
     #[ORM\Column(nullable: true)]
+    #[Groups(['event:read', 'ad:read', 'approach:read', 'user:read'])]
     private ?int $phone = null;
 
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'user', orphanRemoval: true)]
+    #[Groups(['user:read'])]
     private Collection $files;
 
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'user')]
@@ -51,6 +65,10 @@ class User
 
     #[ORM\OneToMany(targetEntity: Ad::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $ads;
+
+    #[ORM\Column(type: 'json')]
+    #[Groups(['user:read'])]
+    private array $roles = [];
 
     public function __construct()
     {
@@ -136,26 +154,25 @@ class User
         return $this;
     }
 
-    public function getPasswordHash(): ?string
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): static
+    {
+        $this->bio = $bio;
+        return $this;
+    }
+
+    public function getPassword(): ?string
     {
         return $this->passwordHash;
     }
 
-    public function setPasswordHash(?string $passwordHash): static
+    public function setPassword(?string $passwordHash): static
     {
         $this->passwordHash = $passwordHash;
-
-        return $this;
-    }
-
-    public function isIsPro(): ?bool
-    {
-        return $this->isPro;
-    }
-
-    public function setIsPro(?bool $isPro): static
-    {
-        $this->isPro = $isPro;
 
         return $this;
     }
@@ -169,6 +186,23 @@ class User
     {
         $this->phone = $phone;
 
+        return $this;
+    }
+
+    public function eraseCredentials(): void {}
+    public function getUserIdentifier(): string { return $this->email; }
+
+    public function getRoles(): array {
+        return array_unique($this->roles);    
+    }
+
+    public function setRoles(array $roles): self
+    {
+        if(!(in_array(AppConstants::ROLE_INDIVIDUAL , $roles))) {
+            $roles[] = AppConstants::ROLE_INDIVIDUAL;
+        }
+        
+        $this->roles = $roles;
         return $this;
     }
 
@@ -261,4 +295,6 @@ class User
 
         return $this;
     }
+
+
 }

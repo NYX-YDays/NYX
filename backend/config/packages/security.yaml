@@ -13,11 +13,11 @@ security:
         login:
             pattern: ^/api/auth
             stateless: true
-            json_login:
-                check_path: /api/auth
-                username_path: email
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            # json_login:
+            #     check_path: /api/auth
+            #     username_path: email
+            #     success_handler: lexik_jwt_authentication.handler.authentication_success
+            #     failure_handler: lexik_jwt_authentication.handler.authentication_failure
         api:
             pattern: ^/api
             stateless: true
@@ -44,11 +44,27 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_USER, ROLE_SUPER_ADMIN] }
-         - { path: ^/api/auth, roles: PUBLIC_ACCESS }
-         - { path: ^/api/user, roles: ROLE_USER }
-         - { path: ^/api/reservation, roles: ROLE_USER }
-         - { path: ^/api, roles: PUBLIC_ACCESS }
+        # Ads
+        - { path: ^/api/ads, methods: [GET], roles: [PUBLIC_ACCESS] }
+        - { path: ^/api/ad/\d+, methods: [GET], roles: [PUBLIC_ACCESS] }
+        - { path: ^/api/ad/\d+, methods: [PUT, DELETE], roles: [ROLE_SERVICE_PROVIDER] }
+        - { path: ^/api/ad, methods: [POST], roles: [ROLE_SERVICE_PROVIDER] }
+
+        # Users (and their datas)
+        - { path: ^/api/user/\d+/ads, methods: [GET], roles: [ROLE_SERVICE_PROVIDER] }
+        - { path: ^/api/user/\d+/approaches, methods: [GET], roles: [ROLE_SERVICE_PROVIDER] }
+        - { path: ^/api/user/\d+/events, methods: [GET], roles: [ROLE_INDIVIDUAL] }
+        - { path: ^/api/user/, methods: [POST], roles: [PUBLIC_ACCESS] }
+        - { path: ^/api/user/\d+, methods: [GET], roles: [PUBLIC_ACCESS] }
+        - { path: ^/api/user/\d+, methods: [PUT, DELETE], roles: [ROLE_INDIVIDUAL] }
+
+        # Events
+        - { path: ^/api/event, methods: [POST], roles: [ROLE_INDIVIDUAL] }
+        - { path: ^/api/event/\d+, methods: [PUT, DELETE], roles: [ROLE_INDIVIDUAL] }
+        
+        # Approaches
+        - { path: ^/api/approach, methods: [POST], roles: [ROLE_INDIVIDUAL] }
+        - { path: ^/api/approach/\d+, methods: [PUT], roles: [ROLE_INDIVIDUAL, ROLE_SERVICE_PROVIDER] }
 
 when@test:
     security:

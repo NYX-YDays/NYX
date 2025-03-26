@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
+use App\Constants\AppConstants;
 use App\Repository\FileRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: FileRepository::class)]
+#[ORM\UniqueConstraint(name: "unique_user_file_type", columns: ["user_id", "file_type"])]
 class File
 {
     #[ORM\Id]
@@ -14,13 +17,16 @@ class File
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['user:read'])]
     private ?string $fileName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['user:read'])]
     private ?string $filePath = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $description = null;
+    #[ORM\Column(length: 50, nullable: false)]
+    #[Groups(['user:read'])]
+    private ?string $fileType = null;
 
     #[ORM\ManyToOne(inversedBy: 'files')]
     #[ORM\JoinColumn(nullable: false)]
@@ -55,15 +61,18 @@ class File
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getFileType(): ?string
     {
-        return $this->description;
+        return $this->fileType;
     }
 
-    public function setDescription(?string $description): static
+    public function setFileType(?string $fileType): static
     {
-        $this->description = $description;
+        if(!in_array($fileType, AppConstants::ALLOWED_FILE_TYPES)) {
+            throw new \InvalidArgumentException('Invalid file type');
+        }
 
+        $this->fileType = $fileType;
         return $this;
     }
 
