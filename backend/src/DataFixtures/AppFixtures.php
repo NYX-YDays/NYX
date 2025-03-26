@@ -29,8 +29,8 @@ class AppFixtures extends Fixture
                 ->setAddress($faker->address)
                 ->setSex($faker->randomElement(['Male', 'Female', 'Other']))
                 ->setBio($faker->text(200))
+                ->setRoles($faker->randomElement([['ROLE_INDIVIDUAL'], ['ROLE_SERVICE_PROVIDER']]))
                 ->setPassword(password_hash('password', PASSWORD_BCRYPT)) 
-                ->setIsPro($faker->boolean)
                 ->setPhone((int) preg_replace('/\D/', '', $faker->phoneNumber));
 
             $manager->persist($user);
@@ -49,7 +49,7 @@ class AppFixtures extends Fixture
         // Créer des annonces pour les utilisateurs professionnels
         $ads = [];
         foreach ($users as $user) {
-            if ($user->isIsPro()) {
+            if (in_array('ROLE_SERVICE_PROVIDER', $user->getRoles())) {
                 for ($j = 0; $j < 2; $j++) { 
                     $ad = new Ad();
                     $ad->setTitle($faker->sentence(6, true))

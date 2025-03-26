@@ -51,10 +51,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $passwordHash = null;
 
-    #[ORM\Column(nullable: false)]
-    #[Groups(['user:read'])]
-    private ?bool $isPro = null;
-
     #[ORM\Column(nullable: true)]
     #[Groups(['event:read', 'ad:read', 'approach:read', 'user:read'])]
     private ?int $phone = null;
@@ -67,6 +63,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(targetEntity: Ad::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $ads;
+
+    #[ORM\Column(type: 'json')]
+    #[Groups(['user:read'])]
+    private array $roles = [];
 
     public function __construct()
     {
@@ -175,18 +175,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isIsPro(): ?bool
-    {
-        return $this->isPro;
-    }
-
-    public function setIsPro(?bool $isPro): static
-    {
-        $this->isPro = $isPro;
-
-        return $this;
-    }
-
     public function getPhone(): ?int
     {
         return $this->phone;
@@ -201,7 +189,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void {}
     public function getUserIdentifier(): string { return $this->email; }
-    public function getRoles(): array { return ['ROLE_USER']; }
+
+    public function getRoles(): array {
+        return array_unique($this->roles);    
+    }
+
+    public function setRoles(array $roles): self
+    {
+        if(!(in_array('ROLE_INDIVIDUAL' , $roles))) {
+            $roles[] = 'ROLE_INDIVIDUAL';
+        }
+        
+        $this->roles = $roles;
+        return $this;
+    }
 
     /**
      * @return Collection<int, File>
@@ -292,4 +293,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+
 }

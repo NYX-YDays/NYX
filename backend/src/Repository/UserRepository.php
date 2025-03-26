@@ -31,7 +31,7 @@ class UserRepository extends ServiceEntityRepository
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
         }
 
-        $user->setPasswordHash($newHashedPassword);
+        $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }

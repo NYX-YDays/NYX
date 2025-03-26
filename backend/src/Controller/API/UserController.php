@@ -97,8 +97,8 @@ class UserController extends AbstractController
         $user->setAddress($data['address'] ?? null);
         $user->setSex($data['sex'] ?? null);
         $user->setBio($data['bio'] ?? null);
-        $user->setIsPro($data['isPro'] ?? false);
         $user->setPhone($data['phone'] ?? null);
+        $user->setRoles($data['roles'] ?? ['ROLE_INDIVIDUAL']);
 
         if (isset($data['birthdayDate']) && $data['birthdayDate']) {
             $birthdayDate = DateTime::createFromFormat('Y-m-d', $data['birthdayDate']);
@@ -143,9 +143,9 @@ class UserController extends AbstractController
         $user->setAddress($data['address'] ?? $user->getAddress());
         $user->setSex($data['sex'] ?? $user->getSex());
         $user->setBio($data['bio'] ?? $user->getBio());
-        $user->setIsPro($data['isPro'] ?? $user->isIsPro());
         $user->setPhone($data['phone'] ?? $user->getPhone());
-
+        $user->setRoles($data['roles'] ?? ['ROLE_INDIVIDUAL']);
+        
         if (isset($data['birthdayDate']) && $data['birthdayDate']) {
             $birthdayDate = DateTime::createFromFormat('Y-m-d', $data['birthdayDate']);
             if (!$birthdayDate) {
