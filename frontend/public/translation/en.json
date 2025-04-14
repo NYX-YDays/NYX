@@ -19,7 +19,8 @@
       "FORM_INVALID_CONFIRM_PWD_TEXT": "The passwords don't correspond",
       "FORM_EMAIL_ALREADY_IN_USE_ERROR": "A user has already signed up using the provided email address.",
       "FORM_SUBMIT_BUTTON_TEXT": "Sign up",
-      "FORM_LINK_TEXT": "Already have an account? Sign in"
+      "FORM_LINK_TEXT": "Already have an account? Sign in",
+      "FORM_SUCCESS_TEXT": "New account created. You can now <b>sign in</b>."
     },
     "SIGN_IN": {
       "FORM_TITLE": "Sign in",
@@ -31,7 +32,8 @@
       "FORM_INVALID_USER_ERROR": "No user was found for the given email address.",
       "FORM_INVALID_LOGIN_ERROR":  "The provided email address or password isn't valid.",
       "FORM_SUBMIT_BUTTON_TEXT": "Sign in",
-      "FORM_LINK_TEXT": "No account yet? Sign up"
+      "FORM_LINK_TEXT": "No account yet? Sign up",
+      "FORM_SUCCESS_TEXT": "Successfully signed in."
     },
     "FORM_SERVER_ERROR": "An error occurred server side.",
     "FORM_ERROR": "An error occurred."

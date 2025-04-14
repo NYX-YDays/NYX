@@ -91,6 +91,8 @@ class UserController extends AbstractController
             return $this->json(['error' => 'Invalid JSON'], 400);
         }
 
+        // TODO: check that user (email) is unique -> return error 401 / 403 if not
+
         $user = new User();
         $user->setFirstName($data['firstName'] ?? null);
         $user->setLastName($data['lastName'] ?? null);

@@ -20,6 +20,6 @@ export const individualGuard: CanActivateFn = async (
   const isIndividual = sharedAuthService.getCurrentUserIdentity()?.roles.includes(UserRole.INDIVIDUAL) ?? false;
 
   // Redirect to the auth form if the user isn't an "individual"
-  if (!isIndividual) await router.navigateByUrl('/auth');
+  if (!isIndividual) await router.navigateByUrl('/sign-in');
   return isIndividual;
 };

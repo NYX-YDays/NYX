@@ -54,7 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     #[Groups(['event:read', 'ad:read', 'approach:read', 'user:read'])]
-    private ?int $phone = null;
+    private ?string $phone = null;
 
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'user', orphanRemoval: true)]
     #[Groups(['user:read'])]
@@ -177,12 +177,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(?int $phone): static
+    public function setPhone(?string $phone): static
     {
         $this->phone = $phone;
 

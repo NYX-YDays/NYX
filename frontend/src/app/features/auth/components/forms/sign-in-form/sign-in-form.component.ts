@@ -6,6 +6,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import Cookies from 'universal-cookie';
 import { AuthFormLayoutComponent } from '../../auth-form-layout/auth-form-layout.component';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { AlertType } from '../../../../../core/alert-manager/enums/alert-type';
+import { AlertService } from '../../../../../shared/services/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in-form',
@@ -42,7 +45,11 @@ export class SignInFormComponent {
 
   private translateService = inject(TranslateService);
 
+  private alertService = inject(AlertService);
+
   private authService = inject(AuthService);
+
+  private router = inject(Router);
 
   //endregion
 
@@ -61,6 +68,15 @@ export class SignInFormComponent {
       // Save the user identity in a cookie
       const cookie = new Cookies(null, {path: '/'});
       cookie.set(Constants.COOKIE_NAMES.userIdentity, JSON.stringify(userIdentity));
+
+      // Redirect to the application home page
+      await this.router.navigateByUrl('/');
+
+      this.alertService.pushAlert(
+        AlertType.SUCCESS,
+        this.translateService.instant('AUTH.SIGN_IN.FORM_SUCCESS_TEXT'),
+        7
+      );
 
     } catch (e) {
 

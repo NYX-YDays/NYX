@@ -13,7 +13,7 @@ export class User {
   public lastName = '';
 
   /** User birthdate. */
-  public birthdate = new Date;
+  public birthdayDate = new Date;
 
   /** User email. */
   public email = '';

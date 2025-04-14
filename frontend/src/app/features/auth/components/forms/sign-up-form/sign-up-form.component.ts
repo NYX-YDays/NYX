@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { PasswordConfirmDirective } from '../../../directives/password-confirm.directive';
 import { AuthFormLayoutComponent } from '../../auth-form-layout/auth-form-layout.component';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { AlertService } from '../../../../../shared/services/alert.service';
+import { AlertType } from '../../../../../core/alert-manager/enums/alert-type';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -47,6 +49,8 @@ export class SignUpFormComponent {
 
   private authService = inject(AuthService);
 
+  private alertService = inject(AlertService);
+
   private router = inject(Router);
 
   //endregion
@@ -59,8 +63,19 @@ export class SignUpFormComponent {
     this.errorMessage = '';
 
     try {
+
+      // Add the new user
       await this.authService.signUpAsync(this.newUser);
+
+      // Redirect to the sign-in page
       await this.router.navigateByUrl('/sign-in');
+
+      this.alertService.pushAlert(
+        AlertType.SUCCESS,
+        this.translateService.instant('AUTH.SIGN_UP.FORM_SUCCESS_TEXT'),
+        7
+      );
+
     } catch (e) {
 
       // Display server errors

@@ -13,13 +13,39 @@ toc::[]
 * `link:backend/[]`: the application backend using https://symfony.com/[Symfony] and https://www.doctrine-project.org/[Doctrine ORM]
 * `link:frontend/[]`: the application frontend using https://angular.dev/[Angular] and https://getbootstrap.com/[Bootstrap]
 
-== Installation and commands
+== Installation
 
-=== Installation
+To install and run NYX on a local environment, follow these steps.
 
-To install and run NYX on a local environment, follow these steps:
+=== Prerequisites
 
-. Install the latest stable version of https://nodejs.org/[NodeJS]
+==== External dependencies
+
+Install the following external dependencies:
+
+* https://nodejs.org[NodeJS]
+* https://www.php.net/downloads.php[PHP]
+* https://symfony.com/download[Symfony]
+* https://getcomposer.org/download[Composer]
+
+==== PHP configuration
+
+. Add the path of your PHP installation to your OS environment variables
+. Enable the following modules in the `php.ini` file of your installation:
+
+* `extension_dir = "ext"`
+* `extension=curl`
+* `extension=fileinfo`
+* `extension=intl`
+* `extension=mbstring`
+* `extension=openssl`
+* `extension=mysqli`
+* `extension=pdo_mysql`
+* `extension=pdo_sqlite`
+* `extension=sodium`
+
+==== Project dependencies
+
 . Clone this repo on your device
 . Add a `.env` file in the `link:backend/[]` directory with the following content:
 +
@@ -37,12 +63,28 @@ $env:DATABASE_URL="mysql://<user>:<password>@<host>:3306/<database>";
 ----
 . Run `npm i` in a terminal at the project root to install all dependencies
 
-=== NPM commands
+==== JWT RSA key pair
+
+. In the `link:backend/config/jwt/[]` folder, generate a public and private RSA key pair from a same passphrase (you can use https://www.openssl.org[OpenSSL])
+. In the previously created `.env` file, add the following lines:
++
+[source, bash]
+----
+JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+JWT_PASSPHRASE=<passphrase>
+----
++
+Complete the last line with the passphrase you used to generate the key pair
+
+== Running
+
+=== Docker database
+
+A `link:docker/Dockerfile[Dockerfile]` has been added to build and run a MySQL image to support a local database for the project. See the steps link:docker/README.adoc[here].
+
+=== Commands
 
 * `npm run dev`: running both the application frontend and backend simultaneously
 * `npm run dev:front`: running the application frontend only
 * `npm run dev:back`: running the application backend only
-
-=== Docker database
-
-A `Dockerfile` has been added to build and run a MySQL image to support a local database for the project. See the steps link:docker/README.adoc[here].

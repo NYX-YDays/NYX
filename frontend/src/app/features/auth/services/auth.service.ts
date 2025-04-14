@@ -13,7 +13,7 @@ export class AuthService {
   //region fields
 
   /** Authentication route URL. */
-  private apiUrl = `${environment.apiUrl}/auth`;
+  private apiUrl = environment.apiUrl;
 
   //endregion
 
@@ -30,7 +30,7 @@ export class AuthService {
    * @param user New application user to register.
    */
   public signUpAsync(user: User): Promise<any> {
-    return firstValueFrom(this.http.post(this.apiUrl, user));
+    return firstValueFrom(this.http.post(`${this.apiUrl}/user`, user));
   }
 
   /**
@@ -40,7 +40,7 @@ export class AuthService {
    * @returns The corresponding user identity if the authentication succeeded.
    */
   public signInAsync(email: string, password: string): Promise<UserIdentity> {
-    return firstValueFrom(this.http.post<UserIdentity>(this.apiUrl, {email: email, password: password}));
+    return firstValueFrom(this.http.post<UserIdentity>(`${this.apiUrl}/auth`, {email: email, password: password}));
   }
 
   //endregion

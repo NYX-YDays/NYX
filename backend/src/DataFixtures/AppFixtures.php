@@ -31,8 +31,8 @@ class AppFixtures extends Fixture
                 ->setSex($faker->randomElement(['Male', 'Female', 'Other']))
                 ->setBio($faker->text(200))
                 ->setRoles($faker->randomElement([[AppConstants::ROLE_INDIVIDUAL], [AppConstants::ROLE_SERVICE_PROVIDER]]))
-                ->setPassword(password_hash('password', PASSWORD_BCRYPT)) 
-                ->setPhone((int) preg_replace('/\D/', '', $faker->phoneNumber));
+                ->setPassword(password_hash('password', PASSWORD_BCRYPT))
+                ->setPhone($faker->phoneNumber);
 
             $manager->persist($user);
             $users[] = $user;
