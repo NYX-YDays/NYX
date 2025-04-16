@@ -7,12 +7,13 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AlertService } from '../../../../shared/services/alert.service';
 import { AlertType } from '../../../../core/alert-manager/enums/alert-type';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-ad-list',
   templateUrl: './ad-list.component.html',
   styleUrl: './ad-list.component.scss',
-  imports: [DatePipe, FormsModule, TranslatePipe], 
+  imports: [DatePipe, FormsModule, TranslatePipe, RouterModule], 
   standalone: true 
 })
 
@@ -23,7 +24,6 @@ export class AdListComponent implements OnInit {
   isLoading = false; 
 
   private alertService = inject(AlertService);
-
   private translateService = inject(TranslateService);
 
   constructor(private adService: AdService) { } 

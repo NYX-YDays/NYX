@@ -7,6 +7,7 @@ import { RouteSettings } from './shared/models/route-settings';
 import { SignInFormComponent } from './features/auth/components/forms/sign-in-form/sign-in-form.component';
 import { SignUpFormComponent } from './features/auth/components/forms/sign-up-form/sign-up-form.component';
 import { AdListComponent } from './features/ads/components/ad-list/ad-list.component';
+import { AdDetailComponent } from './features/ads/components/ad-detail/ad-detail.component';
 
 export const routes: Routes = [
 
@@ -30,6 +31,12 @@ export const routes: Routes = [
     data: {
       showAppLayout: true
     } as RouteSettings
+  },
+
+  // Ad detail
+  { 
+    path: 'ad/:id', 
+    component: AdDetailComponent 
   },
 
   //endregion
@@ -65,11 +72,11 @@ export const routes: Routes = [
   },
 
   // 404 page
-  {
-    path: '**',
-    component: NotFoundComponent,
-    pathMatch: 'full'
-  }
+  // {
+  //   path: '**',
+  //   component: NotFoundComponent,
+  //   pathMatch: 'full'
+  // }
 
   //endregion
 

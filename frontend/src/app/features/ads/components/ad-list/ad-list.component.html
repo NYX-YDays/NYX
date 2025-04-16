@@ -24,7 +24,7 @@
     @if(isLoading) {
         <div class="d-flex justify-content-center">
             <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">{{"ADS.LISTING_PAGE.SPINNER_TEXT" | translate}}</span>
+                <span class="visually-hidden">{{"ADS.SPINNER_TEXT" | translate}}</span>
             </div>
         </div>
     }
@@ -44,7 +44,7 @@
                     <div class="card h-100 shadow-sm">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <span class="badge" [class]="ad.isVerified ? 'bg-success' : 'bg-secondary'">
-                                {{ (ad.isVerified ? "ADS.LISTING_PAGE.AD_STATUS.VERIFIED" : "ADS.LISTING_PAGE.AD_STATUS.NOT_VERIFIED") | translate }}
+                                {{ (ad.isVerified ? "ADS.AD_STATUS.VERIFIED" : "ADS.AD_STATUS.NOT_VERIFIED") | translate }}
                             </span>
                             <small class="text-muted">
                                 {{"ADS.LISTING_PAGE.PUBLICATION_DATE" | translate}} {{ ad.datePublicationAd | date:'dd/MM/yyyy' }}
@@ -76,7 +76,7 @@
                                 <small class="text-muted">{{"ADS.LISTING_PAGE.DATE" | translate}}{{ ad.dateAd | date:'dd/MM/yyyy' }}</small>
                                 <div>
                                 <small class="text-muted me-2">{{"ADS.LISTING_PAGE.USER" | translate}}{{ ad.user?.firstName + ' ' + ad.user?.lastName }}</small>
-                                <button class="btn btn-outline-primary btn-sm">{{"ADS.LISTING_PAGE.BUTTON_MORE" | translate}}</button>
+                                <button class="btn btn-outline-primary btn-sm" [routerLink]="['/ad', ad.id]">{{"ADS.LISTING_PAGE.BUTTON_MORE" | translate}}</button>
                                 </div>
                             </div>
                         </div>

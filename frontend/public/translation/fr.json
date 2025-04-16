@@ -8,7 +8,9 @@
     }
   },
   "HEADER": {
-    "SIGN_IN_BUTTON_TEXT": "Se connecter"
+    "SIGN_IN_BUTTON_TEXT": "Se connecter",
+    "PROFILE": "Profil",
+    "ADS": "Annonces"
   },
   "AUTH": {
     "SIGN_UP": {
@@ -51,18 +53,29 @@
       "TITLE": "Annonces",
       "FILTER_TITLE": "Filtrer par catégorie :",
       "DEFAULT_OPTION": "Toutes les catégories",
-      "SPINNER_TEXT": "Chargement...",
       "NO_ADS_TEXT": "Aucune annonce n'est disponible pour le moment.",
-      "AD_STATUS": {
-        "VERIFIED": "Vérifié",
-        "NOT_VERIFIED": "Non vérifié"
-      },
       "PUBLICATION_DATE": "Publié le ",
       "DATE": "Date : ",
       "USER": "Par : ",
       "BUTTON_MORE": "Voir détails",
       "CATEGORIES_ERROR": "Erreur de récupération des catégories",
       "ADS_ERROR": "Error fetching ads"
-    }
+    },
+    "DETAIL_PAGE": {
+      "BACK_TO_ADS": "Retour aux annonces",
+      "DESCRIPTION": "Description",
+      "CATEGORIES": "Categories",
+      "CREATION_DATE": "Date de création : ",
+      "PUBLICATION_DATE": "Date de publication : ",
+      "CONTACT": "Contact",
+      "NO_INFORMATION": "Pas d'informations disponibles",
+      "NO_ID_ADS": "Aucun ID d'annonce spécifié",
+      "ADS_ERROR": "Erreur lors du chargement de l'annonce"
+    },
+    "AD_STATUS": {
+      "VERIFIED": "Vérifié",
+      "NOT_VERIFIED": "Non vérifié"
+    },
+    "SPINNER_TEXT": "Chargement..."
   }
 }

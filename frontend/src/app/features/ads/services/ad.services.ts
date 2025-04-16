@@ -8,24 +8,26 @@ import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AdService {
-  private apiUrl = `${environment.apiUrl}/ads`;
+    private apiUrlAds = `${environment.apiUrl}/ads`;
+    private apiUrlAd = `${environment.apiUrl}/ad`;
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  getAds(params: {category?: number} = {}): Observable<Ad[]> {
-    let httpParams = new HttpParams();
-    if (params.category) {
-        httpParams = httpParams.set('category', params.category.toString());
+    getAds(params: {category?: number} = {}): Observable<Ad[]> {
+        let httpParams = new HttpParams();
+        if (params.category) {
+            httpParams = httpParams.set('category', params.category.toString());
+        }
+        return this.http.get<Ad[]>(this.apiUrlAds, { params: httpParams });
     }
-    return this.http.get<Ad[]>(this.apiUrl, { params: httpParams });
-  }
-  
-  getAdById(id: number): Observable<Ad> {
-    return this.http.get<Ad>(`${this.apiUrl}/${id}`);
-  }
+    
+    getAdById(id: number): Observable<Ad> {
+        return this.http.get<Ad>(`${this.apiUrlAd}/${id}`);
+    }
 
-  getAllCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.apiUrl.replace('/ads', '/categories')}`);
-  }
+    getAllCategories(): Observable<Category[]> {
+        return this.http.get<Category[]>(`${this.apiUrlAds.replace('/ads', '/categories')}`);
+    }
 }
