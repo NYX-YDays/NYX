@@ -6,6 +6,7 @@ import { individualGuard } from './shared/guards/individual.guard';
 import { RouteSettings } from './shared/models/route-settings';
 import { SignInFormComponent } from './features/auth/components/forms/sign-in-form/sign-in-form.component';
 import { SignUpFormComponent } from './features/auth/components/forms/sign-up-form/sign-up-form.component';
+import { AdListComponent } from './features/ads/components/ad-list/ad-list.component';
 
 export const routes: Routes = [
 
@@ -16,6 +17,19 @@ export const routes: Routes = [
     path: 'profile',
     component: IndividualProfileComponent,
     canActivate: [individualGuard]
+  },
+
+  //endregion
+
+  //region ads
+
+  // Ads list
+  {
+    path: 'ads',
+    component: AdListComponent,
+    data: {
+      showAppLayout: true
+    } as RouteSettings
   },
 
   //endregion

@@ -37,5 +37,24 @@
     },
     "FORM_SERVER_ERROR": "An error occurred server side.",
     "FORM_ERROR": "An error occurred."
+  },
+  "ADS": {
+    "LISTING_PAGE": {
+      "TITLE": "Ads",
+      "FILTER_TITLE": "Filter by category :",
+      "DEFAULT_OPTION": "All categories",
+      "SPINNER_TEXT": "Loading...",
+      "NO_ADS_TEXT": "No adverts are available at the moment.",
+      "AD_STATUS": {
+        "VERIFIED": "Verified",
+        "NOT_VERIFIED": "Not verified"
+      },
+      "PUBLICATION_DATE": "Published on",
+      "DATE": "Date : ",
+      "USER": "By : ",
+      "BUTTON_MORE": "See more",
+      "CATEGORIES_ERROR": "Error fetching categories",
+      "ADS_ERROR": "Error fetching ads"
+    }
   }
 }

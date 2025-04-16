@@ -37,5 +37,24 @@
     },
     "FORM_SERVER_ERROR": "Une erreur s'est produite côté serveur.",
     "FORM_ERROR": "Une erreur s'est produite."
+  },
+  "ADS": {
+    "LISTING_PAGE": {
+      "TITLE": "Annonces",
+      "FILTER_TITLE": "Filtrer par catégorie :",
+      "DEFAULT_OPTION": "Toutes les catégories",
+      "SPINNER_TEXT": "Chargement...",
+      "NO_ADS_TEXT": "Aucune annonce n'est disponible pour le moment.",
+      "AD_STATUS": {
+        "VERIFIED": "Vérifié",
+        "NOT_VERIFIED": "Non vérifié"
+      },
+      "PUBLICATION_DATE": "Publié le ",
+      "DATE": "Date : ",
+      "USER": "Par : ",
+      "BUTTON_MORE": "Voir détails",
+      "CATEGORIES_ERROR": "Erreur de récupération des catégories",
+      "ADS_ERROR": "Error fetching ads"
+    }
   }
 }

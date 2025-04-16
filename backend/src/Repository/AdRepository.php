@@ -21,6 +21,16 @@ class AdRepository extends ServiceEntityRepository
         parent::__construct($registry, Ad::class);
     }
 
+    public function findByCategory(int $categoryId): array
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.categories', 'category')
+            ->andWhere('category.id = :categoryId')
+            ->setParameter('categoryId', $categoryId)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Ad[] Returns an array of Ad objects
 //     */
