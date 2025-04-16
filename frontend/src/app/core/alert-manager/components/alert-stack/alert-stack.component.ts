@@ -26,7 +26,7 @@ export class AlertStackComponent implements OnInit {
 
   //region injections
 
-  private alertService = inject(AlertService);
+  private readonly alertService = inject(AlertService);
 
   //endregion
 

@@ -13,13 +13,13 @@ export class AuthService {
   //region fields
 
   /** Authentication route URL. */
-  private apiUrl = environment.apiUrl;
+  private readonly apiUrl = environment.apiUrl;
 
   //endregion
 
   //region injections
 
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
   //endregion
 

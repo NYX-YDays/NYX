@@ -43,13 +43,13 @@ export class SignInFormComponent {
 
   //region injections
 
-  private translateService = inject(TranslateService);
+  private readonly translateService = inject(TranslateService);
 
-  private alertService = inject(AlertService);
+  private readonly alertService = inject(AlertService);
 
-  private authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
 
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
   //endregion
 
@@ -67,7 +67,7 @@ export class SignInFormComponent {
 
       // Save the user identity in a cookie
       const cookie = new Cookies(null, {path: '/'});
-      cookie.set(Constants.COOKIE_NAMES.userIdentity, JSON.stringify(userIdentity));
+      cookie.set(Constants.COOKIE_NAMES.userIdentity, userIdentity);
 
       // Redirect to the application home page
       await this.router.navigateByUrl('/');

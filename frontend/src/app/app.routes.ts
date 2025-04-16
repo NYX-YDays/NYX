@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/components/home/home.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
-import { IndividualProfileComponent } from './features/individuals/individual-profile/individual-profile.component';
+import { IndividualProfileComponent } from './features/individuals/components/individual-profile/individual-profile.component';
 import { individualGuard } from './shared/guards/individual.guard';
 import { RouteSettings } from './shared/models/route-settings';
 import { SignInFormComponent } from './features/auth/components/forms/sign-in-form/sign-in-form.component';

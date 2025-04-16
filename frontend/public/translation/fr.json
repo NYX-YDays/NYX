@@ -1,4 +1,12 @@
 {
+  "COMMON": {
+    "API": {
+      "GET_ERROR": "Les données n'ont pas pu être récupérées.",
+      "ADD_ERROR": "Les données n'ont pas pu être ajoutées.",
+      "UPDATE_ERROR": "Les données n'ont pas pu être modifiées.",
+      "DELETE_ERROR": "Les données n'ont pas pu être supprimées."
+    }
+  },
   "HEADER": {
     "SIGN_IN_BUTTON_TEXT": "Se connecter"
   },

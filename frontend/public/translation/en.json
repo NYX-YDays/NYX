@@ -1,4 +1,12 @@
 {
+  "COMMON": {
+    "API": {
+      "GET_ERROR": "Failed retrieving data.",
+      "ADD_ERROR": "Failed adding data.",
+      "UPDATE_ERROR": "Failed updating data.",
+      "DELETE_ERROR": "Failed deleting data."
+    }
+  },
   "HEADER": {
     "SIGN_IN_BUTTON_TEXT": "Sign in"
   },
@@ -14,7 +22,7 @@
       "FORM_BIRTHDATE_INPUT_TEXT": "Birthdate",
       "FORM_INVALID_BIRTHDATE_TEXT": "Invalid birthdate",
       "FORM_PWD_INPUT_TEXT": "Password",
-      "FORM_INVALID_PWD_TEXT":  "The password must:<ul><li>contain at least 1 uppercase letter</li><li>contain at least 1 lowercase letter</li><li>contain at least 1 special character</li><li>be at least 8 characters long</li></ul>",
+      "FORM_INVALID_PWD_TEXT": "The password must:<ul><li>contain at least 1 uppercase letter</li><li>contain at least 1 lowercase letter</li><li>contain at least 1 special character</li><li>be at least 8 characters long</li></ul>",
       "FORM_CONFIRM_PWD_INPUT_TEXT": "Confirm password",
       "FORM_INVALID_CONFIRM_PWD_TEXT": "The passwords don't correspond",
       "FORM_EMAIL_ALREADY_IN_USE_ERROR": "A user has already signed up using the provided email address.",
@@ -30,7 +38,7 @@
       "FORM_INVALID_PWD_TEXT": "Invalid password",
       "FORM_REMEMBER_CB_TEXT": "Remember me",
       "FORM_INVALID_USER_ERROR": "No user was found for the given email address.",
-      "FORM_INVALID_LOGIN_ERROR":  "The provided email address or password isn't valid.",
+      "FORM_INVALID_LOGIN_ERROR": "The provided email address or password isn't valid.",
       "FORM_SUBMIT_BUTTON_TEXT": "Sign in",
       "FORM_LINK_TEXT": "No account yet? Sign up",
       "FORM_SUCCESS_TEXT": "Successfully signed in."
