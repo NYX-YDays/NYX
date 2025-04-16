@@ -91,7 +91,14 @@ class UserController extends AbstractController
             return $this->json(['error' => 'Invalid JSON'], 400);
         }
 
-        // TODO: check that user (email) is unique -> return error 401 / 403 if not
+        if (!isset($data['email']) || !$data['email']) {
+            return $this->json(['error' => 'Email is required'], 400);
+        }
+
+        $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $data['email']]);
+        if ($existingUser) {
+            return $this->json(['error' => 'Email already in use'], 409);
+        }
 
         $user = new User();
         $user->setFirstName($data['firstName'] ?? null);
