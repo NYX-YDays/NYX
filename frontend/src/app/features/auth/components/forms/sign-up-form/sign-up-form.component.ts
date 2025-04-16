@@ -45,13 +45,13 @@ export class SignUpFormComponent {
 
   //region injections
 
-  private translateService = inject(TranslateService);
+  private readonly translateService = inject(TranslateService);
 
-  private authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
 
-  private alertService = inject(AlertService);
+  private readonly alertService = inject(AlertService);
 
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
   //endregion
 
@@ -81,8 +81,7 @@ export class SignUpFormComponent {
       // Display server errors
       if (e instanceof HttpErrorResponse) {
         switch (e.status) {
-          case 401:
-          case 403:
+          case 409:
             this.errorMessage = this.translateService.instant('AUTH.SIGN_UP.FORM_EMAIL_ALREADY_IN_USE_ERROR');
             break;
           default:

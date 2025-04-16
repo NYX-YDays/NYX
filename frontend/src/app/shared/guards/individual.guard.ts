@@ -1,7 +1,7 @@
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { inject } from '@angular/core';
-import { UserIdentityService } from '../services/user-identity.service';
 import { UserRole } from '../enums/user-role';
+import { UtilService } from '../services/util.service';
 
 /**
  * Guard checking if the current user is authenticated as an "individual".
@@ -14,10 +14,10 @@ export const individualGuard: CanActivateFn = async (
   _state: RouterStateSnapshot
 ) => {
   const router = inject(Router);
-  const sharedAuthService = inject(UserIdentityService);
+  const utilService = inject(UtilService);
 
   // Check if current user is an "individual"
-  const isIndividual = sharedAuthService.getCurrentUserIdentity()?.roles.includes(UserRole.INDIVIDUAL) ?? false;
+  const isIndividual = utilService.getCurrentUserIdentity()?.roles.includes(UserRole.INDIVIDUAL) ?? false;
 
   // Redirect to the auth form if the user isn't an "individual"
   if (!isIndividual) await router.navigateByUrl('/sign-in');
