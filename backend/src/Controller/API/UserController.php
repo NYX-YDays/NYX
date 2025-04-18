@@ -22,6 +22,52 @@ class UserController extends AbstractController
 
     public function __construct(private Security $security) {}
 
+    #[Route('/api/user/events', name: 'app_user_events', methods: ['GET'])]
+    public function getUserEvents(EventRepository $eventRepository, Security $security): Response
+    {
+        // Récupérer l'utilisateur connecté
+        $user = $security->getUser();
+
+        // Si l'utilisateur n'est pas connecté
+        if(!$user) {
+            return $this->json(['error' => 'User not authenticated'], 404);
+        }
+
+        // Récupérer les événements en fonction de l'utilisateur
+        $events = $eventRepository->findBy(['user' => $user]);
+
+        // Si aucun événement trouvée
+        if (empty($events)) {
+            return $this->json(['message' => 'No events found for this user'], 200);
+        }
+
+        // Retourner les annonces avec la sérialisation appropriée
+        return $this->json($events, 200, [], ['groups' => 'event:read']);
+    }
+
+    #[Route('/api/user/ads', name: 'app_user_ads', methods: ['GET'])]
+    public function getUserAds(AdRepository $adRepository, Security $security): Response
+    {
+        // Récupérer l'utilisateur connecté
+        $user = $security->getUser();
+
+        // Si l'utilisateur n'est pas connecté
+        if(!$user) {
+            return $this->json(['error' => 'User not authenticated'], 404);
+        } 
+
+        // Récupérer les annonces en fonction de l'utilisateur
+        $ads = $adRepository->findBy(['user' => $user]);
+
+        // Si aucune annonce trouvée
+        if (empty($ads)) {
+            return $this->json(['message' => 'No ads found for this user'], 200);
+        }
+
+        // Retourner les annonces avec la sérialisation appropriée
+        return $this->json($ads, 200, [], ['groups' => 'ad:read']);
+    }
+
     #[Route('/api/user/{userId}', name: 'get_user_by_id', methods: ['GET'])]
     public function getUserById(int $userId, UserRepository $userRepository): Response
     {
@@ -32,36 +78,6 @@ class UserController extends AbstractController
         }
 
         return $this->json($user, 200, [], ['groups' => 'user:read']);
-    }
-
-    #[Route('/api/user/{userId}/ads', name: 'app_user_ads', methods: ['GET'])]
-    public function getUserAds($userId, AdRepository $adRepository): Response
-    {
-        // Récupérer les annonces en fonction de l'utilisateur
-        $ads = $adRepository->findBy(['user' => $userId]);
-
-        // Si aucune annonce trouvée
-        if (empty($ads)) {
-            return $this->json(['error' => 'No ads found for this user'], 404);
-        }   
-
-        // Retourner les annonces avec la sérialisation appropriée
-        return $this->json($ads, 200, [], ['groups' => 'ad:read']);
-    }
-
-    #[Route('/api/user/{userId}/events', name: 'app_user_events', methods: ['GET'])]
-    public function getUserEvents($userId, EventRepository $eventRepository): Response
-    {
-        // Récupérer les événements en fonction de l'utilisateur
-        $events = $eventRepository->findBy(['user' => $userId]);
-
-        // Si aucun événement trouvée
-        if (empty($events)) {
-            return $this->json(['error' => 'No ads found for this user'], 404);
-        }   
-
-        // Retourner les annonces avec la sérialisation appropriée
-        return $this->json($events, 200, [], ['groups' => 'event:read']);
     }
 
     #[Route('/api/user/{userId}/approaches', name: 'app_user_approaches', methods: ['GET'])]

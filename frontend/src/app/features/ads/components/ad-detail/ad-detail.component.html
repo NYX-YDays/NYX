@@ -31,9 +31,9 @@
                         <div class="mt-4">
                             <h5>{{"ADS.DETAIL_PAGE.CATEGORIES" | translate}}</h5>
                             @for(category of ad.categories; track category.id) {
-                            @if(category) {
-                                <span class="badge bg-info me-2 mb-2">{{ category.title }}</span>
-                            }
+                                @if(category) {
+                                    <span class="badge bg-info me-2 mb-2">{{ category.title }}</span>
+                                }
                             }
                         </div>
                         }

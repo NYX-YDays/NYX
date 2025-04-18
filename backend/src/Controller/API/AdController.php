@@ -58,12 +58,6 @@ class AdController extends AbstractController
             return $this->json(['message' => 'User not found'], 404);
         }
 
-        // Récupérer l'utilisateur connecté
-        // $user = $security->getUser();
-        // if (!$user || !$user instanceof \App\Entity\User) {
-        //     return $this->json(['error' => 'Authenticated user must be a valid User entity.'], 403);
-        // }
-
         $ad = new Ad();
         $ad->setTitle($data['title']);
         $ad->setPrice($data['price']);

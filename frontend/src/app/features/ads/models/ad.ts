@@ -1,5 +1,5 @@
 import { Category } from "./category";
-import { AdUser } from "./adUser";
+import { AdUser } from "./aduser";
 
 /** Ads */
 

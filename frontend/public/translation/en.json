@@ -5,7 +5,11 @@
       "ADD_ERROR": "Failed adding data.",
       "UPDATE_ERROR": "Failed updating data.",
       "DELETE_ERROR": "Failed deleting data."
-    }
+    },
+    "ADD": "Add",
+    "UPDATE": "Edit",
+    "DELETE": "Delete",
+    "CANCEL": "Cancel"
   },
   "HEADER": {
     "SIGN_IN_BUTTON_TEXT": "Sign in",
@@ -77,5 +81,26 @@
       "NOT_VERIFIED": "Not verified"
     },
     "SPINNER_TEXT": "Loading..."
+  },
+  "EVENT": {
+    "MY_EVENTS": "My events",
+    "ADD_EVENT": "Add event",
+    "EDIT_EVENT": "Modify event",
+    "TITLE": "Title",
+    "TITLE_REQUIRED": "Title is required",
+    "DESCRIPTION": "Description",
+    "DESCRIPTION_REQUIRED": "Description is required",
+    "NO_EVENTS": "You don't have any events yet",
+    "ADD_SUCCESS": "Event added successfully",
+    "UPDATE_SUCCESS": "Event updated successfully",
+    "DELETE_SUCCESS": "Event deleted successfully",
+    "CONFIRM_DELETE": "Are you sure you want to delete this event?",
+    "APPROACHES": "Approaches",
+    "FROM": "From",
+    "ABOUT_AD": "Concerning the announcement",
+    "STATE_1": "Waiting",
+    "STATE_2": "In progress",
+    "STATE_3": "Accepted",
+    "STATE_4": "Rejected"
   }
 }
