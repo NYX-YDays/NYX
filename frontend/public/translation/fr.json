@@ -1,20 +1,31 @@
 {
   "COMMON": {
+    "ADD": "Ajouter",
+    "UPDATE": "Modifier",
+    "DELETE": "Supprimer",
+    "CANCEL": "Annuler",
     "API": {
       "GET_ERROR": "Les données n'ont pas pu être récupérées.",
       "ADD_ERROR": "Les données n'ont pas pu être ajoutées.",
       "UPDATE_ERROR": "Les données n'ont pas pu être modifiées.",
       "DELETE_ERROR": "Les données n'ont pas pu être supprimées."
     },
-    "ADD": "Ajouter",
-    "UPDATE": "Modifier",
-    "DELETE": "Supprimer",
-    "CANCEL": "Annuler"
+    "CONFIRM_MODAL": {
+      "MODAL_TITLE": "Confirmer",
+      "MODAL_MESSAGE": "Êtes-vous sûr(e) ?",
+      "CONFIRM_BTN_TEXT": "Confirmer",
+      "DISMISS_BTN_TEXT": "Fermer"
+    }
   },
   "HEADER": {
-    "SIGN_IN_BUTTON_TEXT": "Se connecter",
-    "PROFILE": "Profil",
-    "ADS": "Annonces"
+    "SIGN_IN_BTN_TEXT": "Se connecter",
+    "ADS_LINK_TEXT": "Annonces",
+    "MY_PROFILE_LINK_TEXT": "Mon profil",
+    "MY_ADS_LINK_TEXT": "Mes annonces",
+    "MY_EVENTS_LINK_TEXT": " Mes événements",
+    "SIGN_OUT_BTN_TEXT": "Se déconnecter",
+    "CONFIRM_SIGN_OUT_MESSAGE": "Se déconnecter ?",
+    "SIGN_OUT_SUCCESS_TEXT": "Déconnecté avec succès."
   },
   "AUTH": {
     "SIGN_UP": {
