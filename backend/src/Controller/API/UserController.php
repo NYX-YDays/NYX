@@ -68,13 +68,13 @@ class UserController extends AbstractController
         return $this->json($ads, 200, [], ['groups' => 'ad:read']);
     }
 
-    #[Route('/api/user/{userId}', name: 'get_user_by_id', methods: ['GET'])]
-    public function getUserById(int $userId, UserRepository $userRepository): Response
+    #[Route('/api/user', name: 'get_user', methods: ['GET'])]
+    public function getUserById(Security $security): Response
     {
-        $user = $userRepository->find($userId);
+        $user = $security->getUser();
 
         if (!$user) {
-            return $this->json(['error' => 'User not found'], 404);
+            return $this->json(['error' => 'User not authenticated'], 401);
         }
 
         return $this->json($user, 200, [], ['groups' => 'user:read']);

@@ -51,11 +51,11 @@ security:
         - { path: ^/api/ad, methods: [POST], roles: [ROLE_SERVICE_PROVIDER] }
 
         # Users (and their datas)
-        - { path: ^/api/user/\d+/ads, methods: [GET], roles: [ROLE_SERVICE_PROVIDER] }
+        - { path: ^/api/user/ads, methods: [GET], roles: [ROLE_SERVICE_PROVIDER] }
         - { path: ^/api/user/\d+/approaches, methods: [GET], roles: [ROLE_SERVICE_PROVIDER] }
-        - { path: ^/api/user/\d+/events, methods: [GET], roles: [ROLE_INDIVIDUAL] }
-        - { path: ^/api/user/, methods: [POST], roles: [PUBLIC_ACCESS] }
-        - { path: ^/api/user/\d+, methods: [GET], roles: [PUBLIC_ACCESS] }
+        - { path: ^/api/user/events, methods: [GET], roles: [ROLE_INDIVIDUAL] }
+        - { path: ^/api/user, methods: [POST], roles: [PUBLIC_ACCESS] }
+        - { path: ^/api/user, methods: [GET], roles: [PUBLIC_ACCESS] }
         - { path: ^/api/user/\d+, methods: [PUT, DELETE], roles: [ROLE_INDIVIDUAL] }
 
         # Events

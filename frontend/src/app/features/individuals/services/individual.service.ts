@@ -19,7 +19,7 @@ export class IndividualService extends UtilService {
 
   /** @returns Get the currently authenticated individual. */
   public getCurrentIndividual(): Promise<Individual> {
-    return this.tryGetAsync(`${this.apiUrl}/${this.getCurrentUserIdentity()?.id}`);
+    return this.tryGetAsync(`${this.apiUrl}`);
   }
 
   //endregion
