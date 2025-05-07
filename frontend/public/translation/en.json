@@ -5,10 +5,23 @@
       "ADD_ERROR": "Failed adding data.",
       "UPDATE_ERROR": "Failed updating data.",
       "DELETE_ERROR": "Failed deleting data."
+    },
+    "CONFIRM_MODAL": {
+      "MODAL_TITLE": "Confirm",
+      "MODAL_MESSAGE": "Are you sure?",
+      "CONFIRM_BTN_TEXT": "Confirm",
+      "DISMISS_BTN_TEXT": "Dismiss"
     }
   },
   "HEADER": {
-    "SIGN_IN_BUTTON_TEXT": "Sign in"
+    "SIGN_IN_BTN_TEXT": "Sign in",
+    "ADS_LINK_TEXT": "Ads",
+    "MY_PROFILE_LINK_TEXT": "My profile",
+    "MY_ADS_LINK_TEXT": "My ads",
+    "MY_EVENTS_LINK_TEXT": " My events",
+    "SIGN_OUT_BTN_TEXT": "Sign out",
+    "CONFIRM_SIGN_OUT_MESSAGE": "Sign out?",
+    "SIGN_OUT_SUCCESS_TEXT": "Successfully signed out."
   },
   "AUTH": {
     "SIGN_UP:": {

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { UserIdentity } from '../models/user-identity';
 import Cookies from 'universal-cookie';
 import { Constants } from '../constants';
@@ -7,6 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import { AlertService } from './alert.service';
 import { AlertType } from '../../core/alert-manager/enums/alert-type';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,11 @@ export class UtilService {
 
   //region API
 
+  /** Application API URL. */
+  protected readonly apiRootUrl = environment.apiUrl;
+
   /** HTTP headers to use to call API routes. */
-  private readonly apiAuthHeader!: HttpHeaders;
+  protected readonly apiAuthHeader!: HttpHeaders;
 
   //endregion
 
@@ -26,11 +30,11 @@ export class UtilService {
 
   //region injections
 
+  protected readonly translateService = inject(TranslateService);
+
   protected readonly http = inject(HttpClient);
 
   protected readonly alertService = inject(AlertService);
-
-  protected readonly translateService = inject(TranslateService);
 
   //endregion
 
@@ -50,6 +54,23 @@ export class UtilService {
   public getCurrentUserIdentity(): UserIdentity | null {
     const cookie = new Cookies(null, {path: '/'});
     return cookie.get(Constants.COOKIE_NAMES.userIdentity);
+  }
+
+  /** Remove the current user identity. */
+  public removeCurrentUserIdentity() {
+    const cookie = new Cookies(null, {path: '/'});
+    cookie.remove(Constants.COOKIE_NAMES.userIdentity);
+  }
+
+  /** @returns `true` if the current user identity is still valid, else `false`. */
+  public async checkUserIdentityAsync(): Promise<boolean> {
+    try {
+      await this.tryGetAsync(`${this.apiRootUrl}/user/${this.getCurrentUserIdentity()?.id}`, false);
+      return true;
+    } catch (e) {
+      if (e instanceof HttpErrorResponse && (e.status == 401 || e.status == 403)) return false;
+      else throw e;
+    }
   }
 
   //endregion
