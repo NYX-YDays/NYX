@@ -1,0 +1,70 @@
+
+services:
+  ### 🔹 API Symfony (cachée, accessible seulement via le reverse proxy)
+  api:
+    build: ./backend
+    container_name: symfony_api
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/var/www/html/backend
+    environment:
+      APP_ENV: dev
+      DATABASE_URL: "mysql://symfony:symfony@db:3306/my_app?serverVersion=8.0"
+    networks:
+      - app_nyx
+
+  ### 🔹 Reverse Proxy NGINX (expose Angular et redirige /api vers Symfony)
+  nginx:
+    build: ./docker/nginx
+    container_name: nginx_proxy
+    ports:
+      - "80:80"  # Accès principal (redirige vers Angular en dev)
+    depends_on:
+      - api
+      - frontend
+    networks:
+      - app_nyx
+
+  ### 🔹 Angular (serveur de dev sur port 4200)
+  frontend:
+    build: ./frontend
+    container_name: angular_frontend
+    ports:
+      - "4200:4200"  # Expose le serveur Angular de dev
+    volumes:
+      - ./frontend:/var/www/html/frontend
+      # - /var/www/html/frontend/node_modules
+    working_dir: /var/www/html/frontend
+    command: npm start  # Lance `ng serve`
+    networks:
+      - app_nyx
+
+  ### 🔹 MySQL
+  db:
+    image: mysql:8
+    container_name: mysql_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_app
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app_nyx
+
+
+networks:
+  app_nyx:
+    driver: bridge
+
+volumes:
+  db_data:
+
+
