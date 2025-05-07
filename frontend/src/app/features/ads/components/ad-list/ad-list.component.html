@@ -1,0 +1,88 @@
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>{{"ADS.LISTING_PAGE.TITLE" | translate}}</h1>
+        </div>
+    </div>
+
+    <!-- Filtre par catégorie -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <label for="categoryFilter" class="form-label">{{"ADS.LISTING_PAGE.FILTER_TITLE" | translate}}</label>
+            <select id="categoryFilter" class="form-select" [(ngModel)]="selectedCategoryId" (change)="onCategoryChange()">
+                <option [ngValue]="null">{{"ADS.LISTING_PAGE.DEFAULT_OPTION" | translate}}</option>
+                @for(category of categories; track category.id) {
+                    <option [ngValue]="category.id">
+                        {{ category.title }}
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+  
+    <!-- Loading state -->
+    @if(isLoading) {
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">{{"ADS.SPINNER_TEXT" | translate}}</span>
+            </div>
+        </div>
+    }
+  
+    <!-- No ads state -->
+    @if(!isLoading && ads.length === 0) {
+        <div class="alert alert-info" role="alert">
+            {{"ADS.LISTING_PAGE.NO_ADS_TEXT" | translate}}
+        </div>
+    }
+  
+    <!-- Ad list -->
+    @if(!isLoading && ads.length > 0) {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @for(ad of ads; track ad.id) {
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span class="badge" [class]="ad.isVerified ? 'bg-success' : 'bg-secondary'">
+                                {{ (ad.isVerified ? "ADS.AD_STATUS.VERIFIED" : "ADS.AD_STATUS.NOT_VERIFIED") | translate }}
+                            </span>
+                            <small class="text-muted">
+                                {{"ADS.LISTING_PAGE.PUBLICATION_DATE" | translate}} {{ ad.datePublicationAd | date:'dd/MM/yyyy' }}
+                            </small>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ ad.title }}</h5>
+                            <p class="card-text">{{ ad.description }}</p>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="fw-bold text-primary">{{ ad.priceIndication }}</span>
+                            </div>
+                            
+                            @if(ad.categories.length) {
+                                <div class="mt-3">
+                                    @for(category of ad.categories; track category.id) {
+                                        @if(category) {
+                                            <!-- Display category title with a badge -->
+                                            <span class="badge bg-info me-1 mb-1">
+                                                {{ category.title }}
+                                            </span>
+                                        }
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">{{"ADS.LISTING_PAGE.DATE" | translate}}{{ ad.dateAd | date:'dd/MM/yyyy' }}</small>
+                                <div>
+                                <small class="text-muted me-2">{{"ADS.LISTING_PAGE.USER" | translate}}{{ ad.user?.firstName + ' ' + ad.user?.lastName }}</small>
+                                <button class="btn btn-outline-primary btn-sm" [routerLink]="['/ad', ad.id]">{{"ADS.LISTING_PAGE.BUTTON_MORE" | translate}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

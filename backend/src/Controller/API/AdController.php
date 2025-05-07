@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\Entity\Ad;
 use App\Repository\AdRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Entity;
@@ -18,10 +19,23 @@ class AdController extends AbstractController
 {
 
     #[Route('/api/ads', name: 'get_ads', methods: ['GET'])]
-    public function getAds(AdRepository $adRepository): Response
+    public function getAds(Request $request, AdRepository $adRepository): Response
     {
-        $ads = $adRepository->findAll();
+        // Récupérer le paramètre de catégorie depuis la requête
+        $categoryId = $request->query->get('category');
+        if ($categoryId) {
+            $ads = $adRepository->findByCategory($categoryId);
+        } else {
+            $ads = $adRepository->findAll();
+        }
         return $this->json($ads, 200, [], ['groups' => 'ad:read']);
+    }
+
+    #[Route('/api/categories', name: 'get_categories', methods: ['GET'])]
+    public function getCategories(CategoryRepository $categoryRepository): Response
+    {
+        $categories = $categoryRepository->findAll();
+        return $this->json($categories, 200, [], ['groups' => 'ad:read']);
     }
 
     #[Route('/api/ad/{adId}', name: 'get_ad_by_id', methods: ['GET'])]
@@ -43,12 +57,6 @@ class AdController extends AbstractController
         if (!$user) {
             return $this->json(['message' => 'User not found'], 404);
         }
-
-        // Récupérer l'utilisateur connecté
-        // $user = $security->getUser();
-        // if (!$user || !$user instanceof \App\Entity\User) {
-        //     return $this->json(['error' => 'Authenticated user must be a valid User entity.'], 403);
-        // }
 
         $ad = new Ad();
         $ad->setTitle($data['title']);

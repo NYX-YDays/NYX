@@ -1,0 +1,115 @@
+<!-- src/app/components/user-events/user-events.component.html -->
+<div class="container my-4">
+    <h1 class="mb-4">{{ 'EVENT.MY_EVENTS' | translate }}</h1>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+        <h5>{{ isEditing ? ('EVENT.EDIT_EVENT' | translate) : ('EVENT.ADD_EVENT' | translate) }}</h5>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="title" class="form-label">{{ 'EVENT.TITLE' | translate }}</label>
+                    <input type="text" class="form-control" id="title" formControlName="title">
+                    @if(eventForm.get('title')?.invalid && eventForm.get('title')?.touched) {
+                        <div class="text-danger">
+                        {{ 'EVENT.TITLE_REQUIRED' | translate }}
+                        </div>
+                    }
+                </div>
+                
+                <div class="mb-3">
+                    <label for="description" class="form-label">{{ 'EVENT.DESCRIPTION' | translate }}</label>
+                    <textarea class="form-control" id="description" rows="3" formControlName="description"></textarea>
+                    @if(eventForm.get('description')?.invalid && eventForm.get('description')?.touched) {
+                        <div class="text-danger">
+                        {{ 'EVENT.DESCRIPTION_REQUIRED' | translate }}
+                        </div>
+                    }
+                </div>
+                
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary" [disabled]="eventForm.invalid">
+                        {{ isEditing ? ('COMMON.UPDATE' | translate) : ('COMMON.ADD' | translate) }}
+                    </button>
+                    @if(isEditing) {
+                        <button type="button" class="btn btn-secondary" (click)="resetForm()">
+                        {{ 'COMMON.CANCEL' | translate }}
+                        </button>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    @if(loading) {
+        <div class="d-flex justify-content-center my-4">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">{{ 'COMMON.LOADING' | translate }}</span>
+            </div>
+        </div>
+    }
+
+    @if(!loading && events.length === 0) {
+        <div class="alert alert-info" role="alert">
+            {{ 'EVENT.NO_EVENTS' | translate }}
+        </div>
+    }
+    
+    @if(!loading && events.length > 0) {
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            @for(event of events; track event.id) {
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                {{ event.dateEvent | date:'dd/MM/yyyy HH:mm' }}
+                            </h6>
+                            <p class="card-text">{{ event.description }}</p>
+                          
+                            @if(event.approaches && event.approaches.length > 0) {
+                                <div>
+                                    <h6>{{ 'EVENT.APPROACHES' | translate }}</h6>
+                                    <ul class="list-group list-group-flush">
+                                        @for(approach of event.approaches; track approach.id) {
+                                            <li class="list-group-item">
+                                                <div class="mb-2">
+                                                    <span class="badge" [ngClass]="{
+                                                    'bg-warning': approach.state === 1,
+                                                    'bg-info': approach.state === 2,
+                                                    'bg-success': approach.state === 3,
+                                                    'bg-danger': approach.state === 4
+                                                    }">
+                                                    {{ 'EVENT.STATE_' + approach.state | translate }}
+                                                    </span>
+                                                    <small class="ms-2">{{ approach.dateNotif | date:'dd/MM/yyyy' }}</small>
+                                                </div>
+                                                <p>{{ approach.message }}</p>
+                                                <div class="fst-italic">
+                                                    {{ 'EVENT.FROM' | translate }}: {{ approach.ad.user?.firstName }} {{ approach.ad.user?.lastName }}
+                                                </div>
+                                                <div class="small">
+                                                    {{ 'EVENT.ABOUT_AD' | translate }}: {{ approach.ad.title }}
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+              
+                        </div>
+                        <div class="card-footer d-flex justify-content-end gap-2">
+                            <button class="btn btn-sm btn-outline-primary" (click)="editEvent(event)">
+                                <i class="bi bi-pencil"></i> {{ 'COMMON.UPDATE' | translate }}
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" (click)="deleteEvent(event.id)">
+                                <i class="bi bi-trash"></i> {{ 'COMMON.DELETE' | translate }}
+                            </button>
+                        </div>
+                      </div>
+                </div>
+            }
+        </div>
+    }
+  </div>
