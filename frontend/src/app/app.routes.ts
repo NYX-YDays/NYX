@@ -1,4 +1,3 @@
-//import { NotFoundComponent } from './core/not-found/not-found.component';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/components/home/home.component';
 import { IndividualProfileComponent } from './features/individuals/components/individual-profile/individual-profile.component';
@@ -9,6 +8,7 @@ import { SignInFormComponent } from './features/auth/components/forms/sign-in-fo
 import { SignUpFormComponent } from './features/auth/components/forms/sign-up-form/sign-up-form.component';
 import { AdListComponent } from './features/ads/components/ad-list/ad-list.component';
 import { AdDetailComponent } from './features/ads/components/ad-detail/ad-detail.component';
+import { NotFoundComponent } from './core/not-found/not-found.component';
 
 export const routes: Routes = [
 
@@ -45,9 +45,9 @@ export const routes: Routes = [
   },
 
   // Ad detail
-  { 
-    path: 'ad/:id', 
-    component: AdDetailComponent 
+  {
+    path: 'ad/:id',
+    component: AdDetailComponent
   },
 
   //endregion
@@ -83,11 +83,11 @@ export const routes: Routes = [
   },
 
   // 404 page
-  // {
-  //   path: '**',
-  //   component: NotFoundComponent,
-  //   pathMatch: 'full'
-  // }
+  {
+    path: '**',
+    component: NotFoundComponent,
+    pathMatch: 'full'
+  }
 
   //endregion
 

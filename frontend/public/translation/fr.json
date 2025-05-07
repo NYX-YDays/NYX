@@ -3,7 +3,7 @@
     "ADD": "Ajouter",
     "UPDATE": "Modifier",
     "DELETE": "Supprimer",
-    "CANCEL": "Annuler"
+    "CANCEL": "Annuler",
     "API": {
       "GET_ERROR": "Les données n'ont pas pu être récupérées.",
       "ADD_ERROR": "Les données n'ont pas pu être ajoutées.",
@@ -22,7 +22,7 @@
     "ADS_LINK_TEXT": "Annonces",
     "MY_PROFILE_LINK_TEXT": "Mon profil",
     "MY_ADS_LINK_TEXT": "Mes annonces",
-    "MY_EVENTS_LINK_TEXT": " Mes évènements",
+    "MY_EVENTS_LINK_TEXT": " Mes événements",
     "SIGN_OUT_BTN_TEXT": "Se déconnecter",
     "CONFIRM_SIGN_OUT_MESSAGE": "Se déconnecter ?",
     "SIGN_OUT_SUCCESS_TEXT": "Déconnecté avec succès."
