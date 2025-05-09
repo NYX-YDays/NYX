@@ -6,7 +6,6 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "start": "ng serve --host 0.0.0.0 --poll 1000 --disable-host-check"
-    
   },
   "dependencies": {
     "@angular/animations": "^19.0.0",
