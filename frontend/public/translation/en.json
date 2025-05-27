@@ -1,14 +1,31 @@
 {
   "COMMON": {
+    "ADD": "Add",
+    "UPDATE": "Edit",
+    "DELETE": "Delete",
+    "CANCEL": "Cancel",
     "API": {
       "GET_ERROR": "Failed retrieving data.",
       "ADD_ERROR": "Failed adding data.",
       "UPDATE_ERROR": "Failed updating data.",
       "DELETE_ERROR": "Failed deleting data."
+    },
+    "CONFIRM_MODAL": {
+      "MODAL_TITLE": "Confirm",
+      "MODAL_MESSAGE": "Are you sure?",
+      "CONFIRM_BTN_TEXT": "Confirm",
+      "DISMISS_BTN_TEXT": "Dismiss"
     }
   },
   "HEADER": {
-    "SIGN_IN_BUTTON_TEXT": "Sign in"
+    "SIGN_IN_BTN_TEXT": "Sign in",
+    "ADS_LINK_TEXT": "Ads",
+    "MY_PROFILE_LINK_TEXT": "My profile",
+    "MY_ADS_LINK_TEXT": "My ads",
+    "MY_EVENTS_LINK_TEXT": " My events",
+    "SIGN_OUT_BTN_TEXT": "Sign out",
+    "CONFIRM_SIGN_OUT_MESSAGE": "Sign out?",
+    "SIGN_OUT_SUCCESS_TEXT": "Successfully signed out."
   },
   "AUTH": {
     "SIGN_UP:": {
@@ -45,5 +62,56 @@
     },
     "FORM_SERVER_ERROR": "An error occurred server side.",
     "FORM_ERROR": "An error occurred."
+  },
+  "ADS": {
+    "LISTING_PAGE": {
+      "TITLE": "Ads",
+      "FILTER_TITLE": "Filter by category :",
+      "DEFAULT_OPTION": "All categories",
+      "NO_ADS_TEXT": "No adverts are available at the moment.",
+      "PUBLICATION_DATE": "Published on",
+      "DATE": "Date : ",
+      "USER": "By : ",
+      "BUTTON_MORE": "See more",
+      "CATEGORIES_ERROR": "Error fetching categories",
+      "ADS_ERROR": "Error fetching ads"
+    },
+    "DETAIL_PAGE": {
+      "BACK_TO_ADS": "Back to ads",
+      "DESCRIPTION": "Description",
+      "CATEGORIES": "Categories",
+      "CREATION_DATE": "Creation date : ",
+      "PUBLICATION_DATE": "Publication date : ",
+      "CONTACT": "Contact",
+      "NO_INFORMATION": "No informations available",
+      "NO_ID_ADS": "No ad ID specified",
+      "ADS_ERROR": "Error loading ads"
+    },
+    "AD_STATUS": {
+      "VERIFIED": "Verified",
+      "NOT_VERIFIED": "Not verified"
+    },
+    "SPINNER_TEXT": "Loading..."
+  },
+  "EVENT": {
+    "MY_EVENTS": "My events",
+    "ADD_EVENT": "Add event",
+    "EDIT_EVENT": "Modify event",
+    "TITLE": "Title",
+    "TITLE_REQUIRED": "Title is required",
+    "DESCRIPTION": "Description",
+    "DESCRIPTION_REQUIRED": "Description is required",
+    "NO_EVENTS": "You don't have any events yet",
+    "ADD_SUCCESS": "Event added successfully",
+    "UPDATE_SUCCESS": "Event updated successfully",
+    "DELETE_SUCCESS": "Event deleted successfully",
+    "CONFIRM_DELETE": "Are you sure you want to delete this event?",
+    "APPROACHES": "Approaches",
+    "FROM": "From",
+    "ABOUT_AD": "Concerning the announcement",
+    "STATE_1": "Waiting",
+    "STATE_2": "In progress",
+    "STATE_3": "Accepted",
+    "STATE_4": "Rejected"
   }
 }

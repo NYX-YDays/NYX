@@ -1,14 +1,31 @@
 {
   "COMMON": {
+    "ADD": "Ajouter",
+    "UPDATE": "Modifier",
+    "DELETE": "Supprimer",
+    "CANCEL": "Annuler",
     "API": {
       "GET_ERROR": "Les données n'ont pas pu être récupérées.",
       "ADD_ERROR": "Les données n'ont pas pu être ajoutées.",
       "UPDATE_ERROR": "Les données n'ont pas pu être modifiées.",
       "DELETE_ERROR": "Les données n'ont pas pu être supprimées."
+    },
+    "CONFIRM_MODAL": {
+      "MODAL_TITLE": "Confirmer",
+      "MODAL_MESSAGE": "Êtes-vous sûr(e) ?",
+      "CONFIRM_BTN_TEXT": "Confirmer",
+      "DISMISS_BTN_TEXT": "Fermer"
     }
   },
   "HEADER": {
-    "SIGN_IN_BUTTON_TEXT": "Se connecter"
+    "SIGN_IN_BTN_TEXT": "Se connecter",
+    "ADS_LINK_TEXT": "Annonces",
+    "MY_PROFILE_LINK_TEXT": "Mon profil",
+    "MY_ADS_LINK_TEXT": "Mes annonces",
+    "MY_EVENTS_LINK_TEXT": " Mes événements",
+    "SIGN_OUT_BTN_TEXT": "Se déconnecter",
+    "CONFIRM_SIGN_OUT_MESSAGE": "Se déconnecter ?",
+    "SIGN_OUT_SUCCESS_TEXT": "Déconnecté avec succès."
   },
   "AUTH": {
     "SIGN_UP": {
@@ -45,5 +62,56 @@
     },
     "FORM_SERVER_ERROR": "Une erreur s'est produite côté serveur.",
     "FORM_ERROR": "Une erreur s'est produite."
+  },
+  "ADS": {
+    "LISTING_PAGE": {
+      "TITLE": "Annonces",
+      "FILTER_TITLE": "Filtrer par catégorie :",
+      "DEFAULT_OPTION": "Toutes les catégories",
+      "NO_ADS_TEXT": "Aucune annonce n'est disponible pour le moment.",
+      "PUBLICATION_DATE": "Publié le ",
+      "DATE": "Date : ",
+      "USER": "Par : ",
+      "BUTTON_MORE": "Voir détails",
+      "CATEGORIES_ERROR": "Erreur de récupération des catégories",
+      "ADS_ERROR": "Error fetching ads"
+    },
+    "DETAIL_PAGE": {
+      "BACK_TO_ADS": "Retour aux annonces",
+      "DESCRIPTION": "Description",
+      "CATEGORIES": "Categories",
+      "CREATION_DATE": "Date de création : ",
+      "PUBLICATION_DATE": "Date de publication : ",
+      "CONTACT": "Contact",
+      "NO_INFORMATION": "Pas d'informations disponibles",
+      "NO_ID_ADS": "Aucun ID d'annonce spécifié",
+      "ADS_ERROR": "Erreur lors du chargement de l'annonce"
+    },
+    "AD_STATUS": {
+      "VERIFIED": "Vérifié",
+      "NOT_VERIFIED": "Non vérifié"
+    },
+    "SPINNER_TEXT": "Chargement..."
+  },
+  "EVENT": {
+    "MY_EVENTS": "Mes événements",
+    "ADD_EVENT": "Ajouter un événement",
+    "EDIT_EVENT": "Modifier l'événement",
+    "TITLE": "Titre",
+    "TITLE_REQUIRED": "Le titre est requis",
+    "DESCRIPTION": "Description",
+    "DESCRIPTION_REQUIRED": "La description est requise",
+    "NO_EVENTS": "Vous n'avez pas encore d'événements",
+    "ADD_SUCCESS": "Événement ajouté avec succès",
+    "UPDATE_SUCCESS": "Événement mis à jour avec succès",
+    "DELETE_SUCCESS": "Événement supprimé avec succès",
+    "CONFIRM_DELETE": "Êtes-vous sûr de vouloir supprimer cet événement ?",
+    "APPROACHES": "Approches",
+    "FROM": "De",
+    "ABOUT_AD": "Concernant l'annonce",
+    "STATE_1": "En attente",
+    "STATE_2": "En cours",
+    "STATE_3": "Accepté",
+    "STATE_4": "Refusé"
   }
 }

@@ -1,0 +1,21 @@
+.card {
+    transition: transform 0.2s ease-in-out;
+    
+    &:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-title {
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .card-header {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+  }
+  
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+  }

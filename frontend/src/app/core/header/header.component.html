@@ -15,17 +15,60 @@
       <!-- Navigation links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="/profile">Test</a>
+          <a class="nav-link active" routerLink="/ads">{{ 'HEADER.ADS_LINK_TEXT' | translate}}</a>
         </li>
       </ul>
 
       <!-- Right side content -->
-      <div>
+      <div class="d-flex gap-3">
+
+        @if (currentUserIdentity?.roles?.includes(UserRole.SERVICE_PROVIDER)) {
+          <button class="btn btn-secondary"><i class="bi bi-bell-fill"></i></button>
+        }
 
         <!-- Sign in button -->
-        <a class="btn btn-outline-secondary" routerLink="/sign-in">
-          <i class="bi bi-box-arrow-in-left"></i> {{ 'HEADER.SIGN_IN_BUTTON_TEXT' | translate }}
-        </a>
+        @if (!currentUserIdentity) {
+          <a class="btn btn-outline-secondary" routerLink="/sign-in">
+            <i class="bi bi-box-arrow-in-left"></i> {{ 'HEADER.SIGN_IN_BTN_TEXT' | translate }}
+          </a>
+        } @else {
+          <ul class="navbar-nav" data-bs-theme="light">
+            <li class="nav-item dropdown">
+              <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle me-1"></i>
+                {{ currentUserIdentity.firstName }} {{ currentUserIdentity.lastName }}
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" routerLink="/profile">{{ 'HEADER.MY_PROFILE_LINK_TEXT' | translate }}</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                @if (currentUserIdentity.roles.includes(UserRole.SERVICE_PROVIDER)) {
+                  <li>
+                    <a class="dropdown-item" href="#">
+                      <i class="bi bi-newspaper me-1"></i> {{ 'HEADER.MY_ADS_LINK_TEXT' | translate }}
+                    </a>
+                  </li>
+                }
+                <li>
+                  <a class="dropdown-item" routerLink="/events">
+                    <i class="bi bi-calendar-week me-1"></i> {{ 'HEADER.MY_EVENTS_LINK_TEXT' | translate }}
+                  </a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <button (click)="confirmModal.openModal()" class="dropdown-item text-danger">
+                    {{ 'HEADER.SIGN_OUT_BTN_TEXT' | translate }}
+                  </button>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        }
 
       </div>
 
@@ -33,3 +76,7 @@
 
   </div>
 </nav>
+
+<app-confirm-modal #confirmModal
+                   (onConfirm)="signOut()"
+                   [message]="'HEADER.CONFIRM_SIGN_OUT_MESSAGE' | translate"/>

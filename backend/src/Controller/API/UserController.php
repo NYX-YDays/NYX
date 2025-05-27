@@ -22,46 +22,62 @@ class UserController extends AbstractController
 
     public function __construct(private Security $security) {}
 
-    #[Route('/api/user/{userId}', name: 'get_user_by_id', methods: ['GET'])]
-    public function getUserById(int $userId, UserRepository $userRepository): Response
+    #[Route('/api/user/events', name: 'app_user_events', methods: ['GET'])]
+    public function getUserEvents(EventRepository $eventRepository, Security $security): Response
     {
-        $user = $userRepository->find($userId);
+        // Récupérer l'utilisateur connecté
+        $user = $security->getUser();
 
-        if (!$user) {
-            return $this->json(['error' => 'User not found'], 404);
+        // Si l'utilisateur n'est pas connecté
+        if(!$user) {
+            return $this->json(['error' => 'User not authenticated'], 404);
         }
 
-        return $this->json($user, 200, [], ['groups' => 'user:read']);
+        // Récupérer les événements en fonction de l'utilisateur
+        $events = $eventRepository->findBy(['user' => $user]);
+
+        // Si aucun événement trouvée
+        if (empty($events)) {
+            return $this->json(['message' => 'No events found for this user'], 200);
+        }
+
+        // Retourner les annonces avec la sérialisation appropriée
+        return $this->json($events, 200, [], ['groups' => 'event:read']);
     }
 
-    #[Route('/api/user/{userId}/ads', name: 'app_user_ads', methods: ['GET'])]
-    public function getUserAds($userId, AdRepository $adRepository): Response
+    #[Route('/api/user/ads', name: 'app_user_ads', methods: ['GET'])]
+    public function getUserAds(AdRepository $adRepository, Security $security): Response
     {
+        // Récupérer l'utilisateur connecté
+        $user = $security->getUser();
+
+        // Si l'utilisateur n'est pas connecté
+        if(!$user) {
+            return $this->json(['error' => 'User not authenticated'], 404);
+        } 
+
         // Récupérer les annonces en fonction de l'utilisateur
-        $ads = $adRepository->findBy(['user' => $userId]);
+        $ads = $adRepository->findBy(['user' => $user]);
 
         // Si aucune annonce trouvée
         if (empty($ads)) {
-            return $this->json(['error' => 'No ads found for this user'], 404);
-        }   
+            return $this->json(['message' => 'No ads found for this user'], 200);
+        }
 
         // Retourner les annonces avec la sérialisation appropriée
         return $this->json($ads, 200, [], ['groups' => 'ad:read']);
     }
 
-    #[Route('/api/user/{userId}/events', name: 'app_user_events', methods: ['GET'])]
-    public function getUserEvents($userId, EventRepository $eventRepository): Response
+    #[Route('/api/user', name: 'get_user', methods: ['GET'])]
+    public function getUserById(Security $security): Response
     {
-        // Récupérer les événements en fonction de l'utilisateur
-        $events = $eventRepository->findBy(['user' => $userId]);
+        $user = $security->getUser();
 
-        // Si aucun événement trouvée
-        if (empty($events)) {
-            return $this->json(['error' => 'No ads found for this user'], 404);
-        }   
+        if (!$user) {
+            return $this->json(['error' => 'User not authenticated'], 401);
+        }
 
-        // Retourner les annonces avec la sérialisation appropriée
-        return $this->json($events, 200, [], ['groups' => 'event:read']);
+        return $this->json($user, 200, [], ['groups' => 'user:read']);
     }
 
     #[Route('/api/user/{userId}/approaches', name: 'app_user_approaches', methods: ['GET'])]
@@ -91,7 +107,14 @@ class UserController extends AbstractController
             return $this->json(['error' => 'Invalid JSON'], 400);
         }
 
-        // TODO: check that user (email) is unique -> return error 401 / 403 if not
+        if (!isset($data['email']) || !$data['email']) {
+            return $this->json(['error' => 'Email is required'], 400);
+        }
+
+        $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $data['email']]);
+        if ($existingUser) {
+            return $this->json(['error' => 'Email already in use'], 409);
+        }
 
         $user = new User();
         $user->setFirstName($data['firstName'] ?? null);
