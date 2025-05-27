@@ -79,6 +79,17 @@ Complete the last line with the passphrase you used to generate the key pair
 
 == Running
 
+=== Docker containerized application
+
+The full application can be run in a local environment via the established Docker container architecture.
+
+Run the following command in a terminal at the project root to build and launch the containerized application:
+
+[source, bash]
+----
+docker-compose up --build -d
+----
+
 === Docker database
 
 A `link:docker/Dockerfile[Dockerfile]` has been added to build and run a MySQL image to support a local database for the project. See the steps link:docker/README.adoc[here].
