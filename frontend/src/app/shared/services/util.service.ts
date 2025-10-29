@@ -16,15 +16,8 @@ export class UtilService {
 
   //region fields
 
-  //region API
-
   /** Application API URL. */
   protected readonly apiRootUrl = environment.apiUrl;
-
-  /** HTTP headers to use to call API routes. */
-  protected readonly apiAuthHeader!: HttpHeaders;
-
-  //endregion
 
   //endregion
 
@@ -35,14 +28,6 @@ export class UtilService {
   protected readonly http = inject(HttpClient);
 
   protected readonly alertService = inject(AlertService);
-
-  //endregion
-
-  //region constructors
-
-  constructor() {
-    this.apiAuthHeader = new HttpHeaders({Authorization: `Bearer ${this.getCurrentUserIdentity()?.token}`});
-  }
 
   //endregion
 
@@ -65,7 +50,7 @@ export class UtilService {
   /** @returns `true` if the current user identity is still valid, else `false`. */
   public async checkUserIdentityAsync(): Promise<boolean> {
     try {
-      await this.tryGetAsync(`${this.apiRootUrl}/user/${this.getCurrentUserIdentity()?.id}`, false);
+      await this.tryGetAsync(`${this.apiRootUrl}/user`, false);
       return true;
     } catch (e) {
       if (e instanceof HttpErrorResponse && (e.status == 401 || e.status == 403)) return false;
@@ -85,7 +70,7 @@ export class UtilService {
    */
   public async tryGetAsync(url: string, handleErrors = true): Promise<any> {
     try {
-      return await firstValueFrom(this.http.get(url, {headers: this.apiAuthHeader}));
+      return await firstValueFrom(this.http.get(url, {headers: this.getApiAuthHeader()}));
     } catch (e) {
       if (handleErrors) {
         this.alertService.pushAlert(
@@ -107,7 +92,7 @@ export class UtilService {
    */
   public async tryPostAsync(url: string, data: any, handleErrors = true): Promise<any> {
     try {
-      return await firstValueFrom(this.http.post(url, data, {headers: this.apiAuthHeader}));
+      return await firstValueFrom(this.http.post(url, data, {headers: this.getApiAuthHeader()}));
     } catch (e) {
       if (handleErrors) {
         this.alertService.pushAlert(
@@ -129,7 +114,7 @@ export class UtilService {
    */
   public async tryPutAsync(url: string, data: any, handleErrors): Promise<any> {
     try {
-      return await firstValueFrom(this.http.put(url, data, {headers: this.apiAuthHeader}));
+      return await firstValueFrom(this.http.put(url, data, {headers: this.getApiAuthHeader()}));
     } catch (e) {
       if (handleErrors) {
         this.alertService.pushAlert(
@@ -150,7 +135,7 @@ export class UtilService {
    */
   public async tryDeleteAsync(url: string, handleErrors = true): Promise<any> {
     try {
-      return await firstValueFrom(this.http.delete(url, {headers: this.apiAuthHeader}));
+      return await firstValueFrom(this.http.delete(url, {headers: this.getApiAuthHeader()}));
     } catch (e) {
       if (handleErrors) {
         this.alertService.pushAlert(
@@ -161,6 +146,11 @@ export class UtilService {
       }
       throw e;
     }
+  }
+
+  /** @returns The HTTP headers to use to call the API routes. */
+  public getApiAuthHeader(): HttpHeaders {
+    return new HttpHeaders({Authorization: `Bearer ${this.getCurrentUserIdentity()?.token}`});
   }
 
   //endregion

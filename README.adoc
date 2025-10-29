@@ -47,7 +47,7 @@ Install the following external dependencies:
 ==== Project dependencies
 
 . Clone this repo on your device
-. Add a `.env` file in the `link:backend/[]` directory with the following content:
+. Add a `.env.dev` file in the `link:backend/[]` directory with the following content:
 +
 [source, bash]
 ----
@@ -66,7 +66,7 @@ $env:DATABASE_URL="mysql://<user>:<password>@<host>:3306/<database>";
 ==== JWT RSA key pair
 
 . In the `link:backend/config/jwt/[]` folder, generate a public and private RSA key pair from a same passphrase (you can use https://www.openssl.org[OpenSSL])
-. In the previously created `.env` file, add the following lines:
+. In the previously created `.env.dev` file, add the following lines:
 +
 [source, bash]
 ----
