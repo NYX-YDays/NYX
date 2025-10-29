@@ -113,5 +113,22 @@
     "STATE_2": "In progress",
     "STATE_3": "Accepted",
     "STATE_4": "Rejected"
+  },
+  "USER": {
+    "PROFILE_PAGE": {
+      "LOADING": "Loading...",
+      "LOADING_PROFILE": "Loading profile...",
+      "LOADING_ERROR": "An error occurred while loading the profile.",
+      "EDIT_PROFILE": "Edit",
+      "PERSONAL_INFO": "Personal information",
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "BIRTHDAY_DATE": "Birthday date",
+      "SEX": "Sex",
+      "PHONE": "Phone",
+      "ADDRESS": "Address",
+      "BIO": "Biography",
+      "MISSING_INFO": "Not provided"
+    }
   }
 }

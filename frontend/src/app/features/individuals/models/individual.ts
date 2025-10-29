@@ -1,3 +1,5 @@
+import { File } from './file';
+
 /** Individual user. */
 export class Individual {
 
@@ -27,5 +29,11 @@ export class Individual {
 
   /** User phone number. */
   public phone = '';
+
+  /** User roles */
+  public roles: string[] = [];
+
+  /** User files (profile picture, banner, etc.). */
+  public files: File[] = [];
 
 }
