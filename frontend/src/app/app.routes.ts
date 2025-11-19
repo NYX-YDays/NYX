@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/components/home/home.component';
 import { IndividualProfileComponent } from './features/individuals/components/individual-profile/individual-profile.component';
+import { IndividualProfileEditComponent } from './features/individuals/components/individual-profile-edit/individual-profile-edit.component';
 import { IndividualEventsComponent } from './features/individuals/components/individual-events/individual-events.component';
 import { individualGuard } from './shared/guards/individual.guard';
 import { RouteSettings } from './shared/models/route-settings';
@@ -18,6 +19,11 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: IndividualProfileComponent,
+    canActivate: [individualGuard]
+  },
+  {
+    path: 'profile/edit',
+    component: IndividualProfileEditComponent,
     canActivate: [individualGuard]
   },
 

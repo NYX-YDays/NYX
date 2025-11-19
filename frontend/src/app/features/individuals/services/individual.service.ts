@@ -22,6 +22,16 @@ export class IndividualService extends UtilService {
     return this.tryGetAsync(`${this.apiUrl}`);
   }
 
+  /**
+   * Update the current individual's profile.
+   * @param userId The user ID.
+   * @param data The updated individual data.
+   * @returns The updated individual.
+   */
+  public updateIndividual(userId: number, data: any): Promise<Individual> {
+    return this.tryPutAsync(`${this.apiUrl}/${userId}`, data, true);
+  }
+
   //endregion
 
 }

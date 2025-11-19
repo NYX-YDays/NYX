@@ -3,6 +3,9 @@ import { IndividualService } from '../../services/individual.service';
 import { Individual } from '../../models/individual';
 import { File as UserFile } from '../../models/file';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { Constants } from '../../../../shared/constants';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +19,7 @@ export class IndividualProfileComponent implements OnInit {
   //region injections
 
   private readonly individualService = inject(IndividualService);
+  private readonly router = inject(Router);
 
   //endregion
 
@@ -32,6 +36,9 @@ export class IndividualProfileComponent implements OnInit {
 
   /** Error state. */
   public hasError = false;
+
+  /** Base URL for uploaded files. */
+  private readonly uploadsBaseUrl = `${environment.apiUrl.replace('/api', '')}/uploads/`;
 
   //endregion
 
@@ -55,7 +62,7 @@ export class IndividualProfileComponent implements OnInit {
       this.individual.lastName = data.lastName || '';
       this.individual.email = data.email || '';
       this.individual.address = data.address || '';
-      this.individual.gender = data.gender || '';
+      this.individual.sex = data.sex || '';
       this.individual.bio = data.bio || '';
       this.individual.phone = data.phone || '';
       
@@ -91,9 +98,7 @@ export class IndividualProfileComponent implements OnInit {
 
   /** Navigate to edit profile page. */
   public navigateToEdit(): void {
-    // TODO: Implement navigation to edit page
-    console.log('Navigate to edit profile');
-    // this.router.navigate(['/profile/edit']);
+    this.router.navigate(['/profile/edit']);
   }
 
   /** Get formatted full name. */
@@ -124,20 +129,22 @@ export class IndividualProfileComponent implements OnInit {
   public getBannerUrl(): string | null {
     if (!this.individual?.files) return null;
     
-    const bannerFile = this.individual.files.find(file => file.fileType === 'banner');
+    const bannerFile = this.individual.files.find(file => file.fileType === Constants.FILE_TYPE_BANNER);
     if (!bannerFile?.filePath) return null;
     
-    return bannerFile.filePath;
+    // Construire l'URL complète
+    return `${this.uploadsBaseUrl}${bannerFile.filePath}`;
   }
 
   /** Get the profile picture URL. */
   public getProfilePictureUrl(): string | null {
     if (!this.individual?.files) return null;
     
-    const profilePicture = this.individual.files.find(file => file.fileType === 'profile_picture');
+    const profilePicture = this.individual.files.find(file => file.fileType === Constants.FILE_TYPE_PROFILE_PICTURE);
     if (!profilePicture?.filePath) return null;
     
-    return profilePicture.filePath;
+    // Construire l'URL complète
+    return `${this.uploadsBaseUrl}${profilePicture.filePath}`;
   }
 
   /** Check if user has a banner. */
@@ -152,19 +159,19 @@ export class IndividualProfileComponent implements OnInit {
 
   /** Get translated role label. */
   public getRoleLabel(role: string): string {
-    if (role === 'ROLE_INDIVIDUAL') return 'Particulier';
-    if (role === 'ROLE_SERVICE_PROVIDER') return 'Professionnel';
+    if (role === Constants.ROLE_INDIVIDUAL) return 'Particulier';
+    if (role === Constants.ROLE_SERVICE_PROVIDER) return 'Professionnel';
     return role;
   }
 
   /** Check if user is individual. */
   public isIndividual(): boolean {
-    return this.roles.includes('ROLE_INDIVIDUAL');
+    return this.roles.includes(Constants.ROLE_INDIVIDUAL);
   }
 
   /** Check if user is service provider. */
   public isServiceProvider(): boolean {
-    return this.roles.includes('ROLE_SERVICE_PROVIDER');
+    return this.roles.includes(Constants.ROLE_SERVICE_PROVIDER);
   }
 
   //endregion

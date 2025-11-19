@@ -4,6 +4,8 @@
     "UPDATE": "Modifier",
     "DELETE": "Supprimer",
     "CANCEL": "Annuler",
+    "SAVE": "Enregistrer",
+    "SAVING": "Enregistrement...",
     "API": {
       "GET_ERROR": "Les données n'ont pas pu être récupérées.",
       "ADD_ERROR": "Les données n'ont pas pu être ajoutées.",
@@ -129,6 +131,38 @@
       "ADDRESS": "Adresse",
       "BIO": "Biographie",
       "MISSING_INFO": "Non renseigné"
+    },
+    "PROFILE_EDIT": {
+      "LOADING": "Chargement...",
+      "LOADING_PROFILE": "Chargement du profil...",
+      "LOADING_ERROR": "Une erreur est survenue lors du chargement du profil.",
+      "TITLE": "Modifier mon profil",
+      "IMAGES": "Photos",
+      "PROFILE_PICTURE": "Photo de profil",
+      "BANNER": "Bannière",
+      "PERSONAL_INFO": "Informations personnelles",
+      "FIRST_NAME": "Prénom",
+      "LAST_NAME": "Nom",
+      "EMAIL": "Email",
+      "PHONE": "Téléphone",
+      "BIRTHDAY_DATE": "Date de naissance",
+      "SEX": "Sexe",
+      "SELECT_SEX": "Sélectionnez votre sexe",
+      "ADDRESS": "Adresse",
+      "BIO": "Biographie",
+      "ROLE": "Rôle",
+      "SERVICE_PROVIDER": "Je suis prestataire de services",
+      "PROFILE_PICTURE_INFO": "Max 2MB - JPG, PNG, WEBP",
+      "BANNER_INFO": "Max 5MB - JPG, PNG, WEBP",
+      "PHONE_FORMAT_INFO": "Format: 10 chiffres (ex: 0612345678)",
+      "BIO_COUNTER": "caractères",
+      "SERVICE_PROVIDER_INFO": "Cochez cette case si vous proposez des services professionnels",
+      "PLACEHOLDER_FIRST_NAME": "Jean",
+      "PLACEHOLDER_LAST_NAME": "Dupont",
+      "PLACEHOLDER_EMAIL": "jean.dupont@example.com",
+      "PLACEHOLDER_PHONE": "0612345678",
+      "PLACEHOLDER_ADDRESS": "123 Rue de la Paix, 75001 Paris",
+      "PLACEHOLDER_BIO": "Parlez-nous de vous..."
     }
   }
 }

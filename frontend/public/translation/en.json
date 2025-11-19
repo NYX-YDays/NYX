@@ -4,6 +4,8 @@
     "UPDATE": "Edit",
     "DELETE": "Delete",
     "CANCEL": "Cancel",
+    "SAVE": "Save",
+    "SAVING": "Saving...",
     "API": {
       "GET_ERROR": "Failed retrieving data.",
       "ADD_ERROR": "Failed adding data.",
@@ -129,6 +131,38 @@
       "ADDRESS": "Address",
       "BIO": "Biography",
       "MISSING_INFO": "Not provided"
+    },
+    "PROFILE_EDIT": {
+      "LOADING": "Loading...",
+      "LOADING_PROFILE": "Loading profile...",
+      "LOADING_ERROR": "An error occurred while loading the profile.",
+      "TITLE": "Edit my profile",
+      "IMAGES": "Pictures",
+      "PROFILE_PICTURE": "Profile picture",
+      "BANNER": "Banner",
+      "PERSONAL_INFO": "Personal information",
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "EMAIL": "Email",
+      "PHONE": "Phone",
+      "BIRTHDAY_DATE": "Birthday date",
+      "SEX": "Sex",
+      "SELECT_SEX": "Select your sex",
+      "ADDRESS": "Address",
+      "BIO": "Biography",
+      "ROLE": "Role",
+      "SERVICE_PROVIDER": "I am a service provider",
+      "PROFILE_PICTURE_INFO": "Max 2MB - JPG, PNG, WEBP",
+      "BANNER_INFO": "Max 5MB - JPG, PNG, WEBP",
+      "PHONE_FORMAT_INFO": "Format: 10 digits (e.g. 0612345678)",
+      "BIO_COUNTER": "characters",
+      "SERVICE_PROVIDER_INFO": "Check this box if you offer professional services",
+      "PLACEHOLDER_FIRST_NAME": "John",
+      "PLACEHOLDER_LAST_NAME": "Doe",
+      "PLACEHOLDER_EMAIL": "john.doe@example.com",
+      "PLACEHOLDER_PHONE": "0612345678",
+      "PLACEHOLDER_ADDRESS": "123 Peace Street, 75001 Paris",
+      "PLACEHOLDER_BIO": "Tell us about yourself..."
     }
   }
 }

@@ -1,0 +1,353 @@
+<!-- Loading State -->
+@if (isLoading) {
+  <div class="loading-container">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">{{ 'USER.PROFILE_EDIT.LOADING' | translate }}</span>
+    </div>
+    <p class="mt-3 text-dark">{{ 'USER.PROFILE_EDIT.LOADING_PROFILE' | translate }}</p>
+  </div>
+}
+
+<!-- Error State -->
+@if (hasError && !isLoading) {
+  <div class="error-container">
+    <div class="alert alert-danger m-4" role="alert">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      {{ 'USER.PROFILE_EDIT.LOADING_ERROR' | translate }}
+    </div>
+  </div>
+}
+
+<!-- Edit Form -->
+@if (!isLoading && !hasError && individual) {
+  <div class="profile-edit-container">
+    
+    <!-- Header -->
+    <div class="edit-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex align-items-center justify-content-between">
+              <h1 class="page-title">
+                <i class="fas fa-user-edit me-3"></i>
+                {{ 'USER.PROFILE_EDIT.TITLE' | translate }}
+              </h1>
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary"
+                (click)="onCancel()"
+                [disabled]="isSaving">
+                <i class="fas fa-times me-2"></i>
+                {{ 'COMMON.CANCEL' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Content -->
+    <div class="container py-4">
+      <div class="row">
+        <div class="col-lg-10 col-xl-8 mx-auto">
+
+          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+            <!-- Images Upload Section -->
+            <div class="card mb-4 shadow-sm">
+              <div class="card-header">
+                <h5 class="mb-0">
+                  <i class="fas fa-images me-2"></i>
+                  {{ 'USER.PROFILE_EDIT.IMAGES' | translate }}
+                </h5>
+              </div>
+              <div class="card-body">
+                
+                <div class="row g-4">
+                  
+                  <!-- Profile Picture -->
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                      <i class="fas fa-user-circle me-2 text-primary"></i>
+                      {{ 'USER.PROFILE_EDIT.PROFILE_PICTURE' | translate }}
+                    </label>
+                    
+                    <div class="image-upload-container">
+                      @if (profilePicturePreview) {
+                        <div class="image-preview">
+                          <img [src]="profilePicturePreview" alt="Profile picture preview">
+                        </div>
+                      } @else {
+                        <div class="image-placeholder">
+                          <div class="profile-avatar-small">
+                            {{ getInitials() }}
+                          </div>
+                        </div>
+                      }
+                      
+                      <input 
+                        type="file" 
+                        class="form-control mt-3" 
+                        accept="image/jpeg,image/jpg,image/png,image/webp"
+                        (change)="onProfilePictureSelected($event)">
+                      <small class="text-muted d-block mt-2">
+                        <i class="fas fa-info-circle me-1"></i>
+                        {{ 'USER.PROFILE_EDIT.PROFILE_PICTURE_INFO' | translate }}
+                      </small>
+                    </div>
+                  </div>
+
+                  <!-- Banner -->
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                      <i class="fas fa-image me-2 text-primary"></i>
+                      {{ 'USER.PROFILE_EDIT.BANNER' | translate }}
+                    </label>
+                    
+                    <div class="image-upload-container">
+                      @if (bannerPreview) {
+                        <div class="banner-preview">
+                          <img [src]="bannerPreview" alt="Banner preview">
+                        </div>
+                      } @else {
+                        <div class="banner-placeholder">
+                          <i class="fas fa-image fa-3x text-muted"></i>
+                        </div>
+                      }
+                      
+                      <input 
+                        type="file" 
+                        class="form-control mt-3" 
+                        accept="image/jpeg,image/jpg,image/png,image/webp"
+                        (change)="onBannerSelected($event)">
+                      <small class="text-muted d-block mt-2">
+                        <i class="fas fa-info-circle me-1"></i>
+                        {{ 'USER.PROFILE_EDIT.BANNER_INFO' | translate }}
+                      </small>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Personal Information Section -->
+            <div class="card mb-4 shadow-sm">
+              <div class="card-header">
+                <h5 class="mb-0">
+                  <i class="fas fa-id-card me-2"></i>
+                  {{ 'USER.PROFILE_EDIT.PERSONAL_INFO' | translate }}
+                </h5>
+              </div>
+              <div class="card-body">
+                
+                <div class="row g-3">
+                  
+                  <!-- First Name -->
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                      <i class="fas fa-signature me-2 text-primary"></i>
+                      {{ 'USER.PROFILE_EDIT.FIRST_NAME' | translate }} *
+                    </label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      formControlName="firstName"
+                      [class.is-invalid]="hasFieldError('firstName')"
+                      [placeholder]="'USER.PROFILE_EDIT.PLACEHOLDER_FIRST_NAME' | translate">
+                    @if (hasFieldError('firstName')) {
+                      <div class="invalid-feedback">
+                        {{ getFieldErrorMessage('firstName') }}
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Last Name -->
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                      <i class="fas fa-user-tag me-2 text-primary"></i>
+                      {{ 'USER.PROFILE_EDIT.LAST_NAME' | translate }} *
+                    </label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      formControlName="lastName"
+                      [class.is-invalid]="hasFieldError('lastName')"
+                      [placeholder]="'USER.PROFILE_EDIT.PLACEHOLDER_LAST_NAME' | translate">
+                    @if (hasFieldError('lastName')) {
+                      <div class="invalid-feedback">
+                        {{ getFieldErrorMessage('lastName') }}
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Email -->
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                      <i class="fas fa-envelope me-2 text-primary"></i>
+                      {{ 'USER.PROFILE_EDIT.EMAIL' | translate }} *
+                    </label>
+                    <input 
+                      type="email" 
+                      class="form-control" 
+                      formControlName="email"
+                      [class.is-invalid]="hasFieldError('email')"
+                      [placeholder]="'USER.PROFILE_EDIT.PLACEHOLDER_EMAIL' | translate">
+                    @if (hasFieldError('email')) {
+                      <div class="invalid-feedback">
+                        {{ getFieldErrorMessage('email') }}
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Phone -->
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                      <i class="fas fa-mobile-alt me-2 text-primary"></i>
+                      {{ 'USER.PROFILE_EDIT.PHONE' | translate }}
+                    </label>
+                    <input 
+                      type="tel" 
+                      class="form-control" 
+                      formControlName="phone"
+                      [class.is-invalid]="hasFieldError('phone')"
+                      [placeholder]="'USER.PROFILE_EDIT.PLACEHOLDER_PHONE' | translate">
+                    @if (hasFieldError('phone')) {
+                      <div class="invalid-feedback">
+                        {{ getFieldErrorMessage('phone') }}
+                      </div>
+                    }
+                    <small class="text-muted">
+                      <i class="fas fa-info-circle me-1"></i>
+                      {{ 'USER.PROFILE_EDIT.PHONE_FORMAT_INFO' | translate }}
+                    </small>
+                  </div>
+
+                  <!-- Birthday Date -->
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                      <i class="fas fa-calendar-day me-2 text-primary"></i>
+                      {{ 'USER.PROFILE_EDIT.BIRTHDAY_DATE' | translate }}
+                    </label>
+                    <input 
+                      type="date" 
+                      class="form-control" 
+                      formControlName="birthdayDate">
+                  </div>
+
+                  <!-- Sex -->
+                  <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                      <i class="fas fa-venus-mars me-2 text-primary"></i>
+                      {{ 'USER.PROFILE_EDIT.SEX' | translate }}
+                    </label>
+                    <select class="form-select" formControlName="sex">
+                      <option value="" disabled selected>{{ 'USER.PROFILE_EDIT.SELECT_SEX' | translate }}</option>
+                      <option value="Homme">Homme</option>
+                      <option value="Femme">Femme</option>
+                      <option value="Autre">Autre</option>
+                    </select>
+                  </div>
+
+                  <!-- Address -->
+                  <div class="col-12">
+                    <label class="form-label fw-bold">
+                      <i class="fas fa-map-marker-alt me-2 text-primary"></i>
+                      {{ 'USER.PROFILE_EDIT.ADDRESS' | translate }}
+                    </label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      formControlName="address"
+                      [placeholder]="'USER.PROFILE_EDIT.PLACEHOLDER_ADDRESS' | translate">
+                  </div>
+
+                  <!-- Bio -->
+                  <div class="col-12">
+                    <label class="form-label fw-bold">
+                      <i class="fas fa-quote-left me-2 text-primary"></i>
+                      {{ 'USER.PROFILE_EDIT.BIO' | translate }}
+                    </label>
+                    <textarea 
+                      class="form-control" 
+                      formControlName="bio"
+                      [class.is-invalid]="hasFieldError('bio')"
+                      rows="4"
+                      [placeholder]="'USER.PROFILE_EDIT.PLACEHOLDER_BIO' | translate"></textarea>
+                    @if (hasFieldError('bio')) {
+                      <div class="invalid-feedback">
+                        {{ getFieldErrorMessage('bio') }}
+                      </div>
+                    }
+                    <small class="text-muted">
+                      {{ profileForm.get('bio')?.value?.length || 0 }} / 500 {{ 'USER.PROFILE_EDIT.BIO_COUNTER' | translate }}
+                    </small>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Role Section -->
+            <div class="card mb-4 shadow-sm">
+              <div class="card-header">
+                <h5 class="mb-0">
+                  <i class="fas fa-user-shield me-2"></i>
+                  {{ 'USER.PROFILE_EDIT.ROLE' | translate }}
+                </h5>
+              </div>
+              <div class="card-body">
+                
+                <div class="form-check form-switch">
+                  <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    id="isServiceProvider"
+                    formControlName="isServiceProvider">
+                  <label class="form-check-label fw-bold" for="isServiceProvider">
+                    <i class="fas fa-briefcase me-2 text-success"></i>
+                    {{ 'USER.PROFILE_EDIT.SERVICE_PROVIDER' | translate }}
+                  </label>
+                </div>
+                <small class="text-muted d-block mt-2">
+                  <i class="fas fa-info-circle me-1"></i>
+                  {{ 'USER.PROFILE_EDIT.SERVICE_PROVIDER_INFO' | translate }}
+                </small>
+
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex gap-3 justify-content-end">
+              <button 
+                type="button" 
+                class="btn btn-secondary btn-lg"
+                (click)="onCancel()"
+                [disabled]="isSaving">
+                <i class="fas fa-times me-2"></i>
+                {{ 'COMMON.CANCEL' | translate }}
+              </button>
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg"
+                [disabled]="profileForm.invalid || isSaving">
+                @if (isSaving) {
+                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                  {{ 'COMMON.SAVING' | translate }}
+                } @else {
+                  <i class="fas fa-save me-2"></i>
+                  {{ 'COMMON.SAVE' | translate }}
+                }
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+}
