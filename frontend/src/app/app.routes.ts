@@ -10,6 +10,9 @@ import { SignUpFormComponent } from './features/auth/components/forms/sign-up-fo
 import { AdListComponent } from './features/ads/components/ad-list/ad-list.component';
 import { AdDetailComponent } from './features/ads/components/ad-detail/ad-detail.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
+import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-dashboard.component';
+import { adminGuard } from './shared/guards/admin.guard';
+import { AdminUsersListComponent } from './features/admin/admin-users-list/admin-users-list.component';
 
 export const routes: Routes = [
 
@@ -26,6 +29,29 @@ export const routes: Routes = [
     component: IndividualProfileEditComponent,
     canActivate: [individualGuard]
   },
+
+  //endregion
+
+  //region admin
+
+  // Admin routes (protégées par adminGuard)
+  {
+    path: 'admin',
+    component: AdminDashboardComponent,
+    canActivate: [adminGuard],
+    data: {
+      showAppLayout: false
+    } as RouteSettings
+  },
+
+  {
+    path: 'admin/users',
+    component: AdminUsersListComponent,
+    canActivate: [adminGuard],
+    data: {
+      showAppLayout: false
+    } as RouteSettings
+  },  
 
   //endregion
 

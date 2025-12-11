@@ -8,6 +8,7 @@ import { AuthFormLayoutComponent } from '../../auth-form-layout/auth-form-layout
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AlertType } from '../../../../../core/alert-manager/enums/alert-type';
 import { AlertService } from '../../../../../shared/services/alert.service';
+import { UserRole } from '../../../../../shared/enums/user-role';
 import { Router } from '@angular/router';
 
 @Component({
@@ -69,14 +70,26 @@ export class SignInFormComponent {
       const cookie = new Cookies(null, {path: '/'});
       cookie.set(Constants.COOKIE_NAMES.userIdentity, userIdentity);
 
-      // Redirect to the application home page
-      await this.router.navigateByUrl('/');
+      // Check if user is admin
+      if (userIdentity.roles.includes(UserRole.ADMIN)) {
+        // Redirect to admin dashboard
+        await this.router.navigateByUrl('/admin');
+        
+        this.alertService.pushAlert(
+          AlertType.SUCCESS,
+          'Bienvenue dans l\'administration !',
+          5
+        );
+      } else {
+        // Redirect to the application home page for regular users
+        await this.router.navigateByUrl('/');
 
-      this.alertService.pushAlert(
-        AlertType.SUCCESS,
-        this.translateService.instant('AUTH.SIGN_IN.FORM_SUCCESS_TEXT'),
-        7
-      );
+        this.alertService.pushAlert(
+          AlertType.SUCCESS,
+          this.translateService.instant('AUTH.SIGN_IN.FORM_SUCCESS_TEXT'),
+          7
+        );
+      }
 
     } catch (e) {
 

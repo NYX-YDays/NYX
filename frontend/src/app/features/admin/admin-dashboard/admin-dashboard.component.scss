@@ -1,0 +1,152 @@
+.admin-dashboard {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.admin-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+
+    h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+}
+
+.admin-content {
+    padding: 2rem 0;
+}
+
+.welcome-section {
+    h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+    }
+}
+
+.stat-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+    }
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-icon {
+        font-size: 3rem;
+        opacity: 0.8;
+    }
+
+    .stat-details {
+        flex: 1;
+        text-align: center;
+    }
+
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        font-size: 1.1rem;
+        font-weight: 500;
+        opacity: 0.8;
+    }
+
+    .stat-arrow {
+        font-size: 1.5rem;
+        opacity: 0.5;
+        transition: all 0.3s ease;
+    }
+
+    &:hover .stat-arrow {
+        opacity: 1;
+        transform: translateX(5px);
+    }
+}
+
+.stat-card-users {
+    &::before {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .stat-icon,
+    .stat-value {
+        color: #667eea;
+    }
+}
+
+.stat-card-ads {
+    &::before {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .stat-icon,
+    .stat-value {
+        color: #f5576c;
+    }
+}
+
+.stat-card-events {
+    &::before {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .stat-icon,
+    .stat-value {
+        color: #00f2fe;
+    }
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    .card-header {
+        border-bottom: 1px solid #eee;
+        padding: 1.25rem 1.5rem;
+        border-radius: 15px 15px 0 0 !important;
+
+        h5 {
+            color: #333;
+            font-weight: 600;
+        }
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+}
+
+.admin-header {
+    .vr {
+        height: 30px;
+        opacity: 0.3;
+    }
+}
