@@ -24,6 +24,8 @@ export class AdminService extends UtilService {
         return this.tryGetAsync(`${this.apiUrl}/admin/stats`);
     }
 
+    // ==================== USERS ====================
+
     /**
      * Get all users.
      * @returns List of all users.
@@ -67,6 +69,61 @@ export class AdminService extends UtilService {
      */
     public async deleteUser(userId: number): Promise<void> {
       return this.tryDeleteAsync(`${this.apiRootUrl}/admin/users/${userId}`);
+    }
+
+    // ==================== ADS ====================
+
+    /**
+     * Get all ads.
+     * @returns List of all ads.
+     */
+    public async getAllAds(): Promise<any[]> {
+      return this.tryGetAsync(`${this.apiUrl}/admin/ads`);
+    }
+
+    /**
+     * Get a specific ad by ID.
+     * @param adId Ad ID
+     * @returns Ad details
+     */
+    public async getAd(adId: number): Promise<any> {
+      return this.tryGetAsync(`${this.apiUrl}/admin/ads/${adId}`);
+    }
+
+    /**
+     * Update ad information.
+     * @param adId Ad ID
+     * @param adData Ad data to update
+     * @returns Updated ad
+     */
+    public async updateAd(adId: number, adData: any): Promise<any> {
+      return this.tryPutAsync(`${this.apiRootUrl}/admin/ads/${adId}`, adData, true);
+    }
+
+    /**
+     * Toggle ad verification status.
+     * @param adId Ad ID
+     * @param isVerified Verification status
+     * @returns Updated ad
+     */
+    public async toggleAdVerification(adId: number, isVerified: boolean): Promise<any> {
+      return this.tryPutAsync(`${this.apiRootUrl}/admin/ads/${adId}/verify`, { isVerified }, true);
+    }
+
+    /**
+     * Delete an ad (admin only).
+     * @param adId Ad ID to delete
+     */
+    public async deleteAd(adId: number): Promise<void> {
+      return this.tryDeleteAsync(`${this.apiRootUrl}/admin/ads/${adId}`);
+    }
+
+    /**
+     * Get all categories.
+     * @returns List of all categories.
+     */
+    public async getAllCategories(): Promise<any[]> {
+      return this.tryGetAsync(`${this.apiUrl}/categories`);
     }
 
     //endregion

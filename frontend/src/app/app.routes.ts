@@ -13,6 +13,7 @@ import { NotFoundComponent } from './core/not-found/not-found.component';
 import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-dashboard.component';
 import { adminGuard } from './shared/guards/admin.guard';
 import { AdminUsersListComponent } from './features/admin/admin-users-list/admin-users-list.component';
+import { AdminAdsListComponent } from './features/admin/admin-ads-list/admin-ads-list.component';
 
 export const routes: Routes = [
 
@@ -51,7 +52,16 @@ export const routes: Routes = [
     data: {
       showAppLayout: false
     } as RouteSettings
-  },  
+  },
+
+  {
+    path: 'admin/ads',
+    component: AdminAdsListComponent,
+    canActivate: [adminGuard],
+    data: {
+      showAppLayout: false
+    } as RouteSettings
+  },
 
   //endregion
 

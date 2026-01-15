@@ -3,9 +3,11 @@
 namespace App\Controller\API;
 
 use App\Entity\User;
+use App\Entity\Ad;
 use App\Repository\UserRepository;
 use App\Repository\AdRepository;
 use App\Repository\EventRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -151,6 +153,112 @@ class AdminController extends AbstractController
         } catch (\Exception $e) {
             return new JsonResponse([
                 'error' => 'Une erreur est survenue lors de la suppression de l\'utilisateur.'
+            ], 500);
+        }
+    }
+
+    // ==================== ADS MANAGEMENT ====================
+
+    #[Route('/ads', name: 'api_admin_ads_list', methods: ['GET'])]
+    public function listAds(AdRepository $adRepository): JsonResponse
+    {
+        $ads = $adRepository->findAll();
+        return $this->json($ads, 200, [], ['groups' => ['ad:read']]);
+    }
+
+    #[Route('/ads/{id}', name: 'api_admin_ads_show', methods: ['GET'])]
+    public function showAd(Ad $ad): JsonResponse
+    {
+        return $this->json($ad, 200, [], ['groups' => 'ad:read']);
+    }
+
+    #[Route('/ads/{id}', name: 'api_admin_ads_update', methods: ['PUT'])]
+    public function updateAd(Ad $ad, Request $request, EntityManagerInterface $em, CategoryRepository $categoryRepository): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!$data) {
+            return new JsonResponse(['error' => 'Invalid JSON'], 400);
+        }
+
+        if (isset($data['title'])) {
+            $ad->setTitle($data['title']);
+        }
+
+        if (isset($data['description'])) {
+            $ad->setDescription($data['description']);
+        }
+
+        if (isset($data['price'])) {
+            $ad->setPrice((float) $data['price']);
+        }
+
+        if (isset($data['priceIndication'])) {
+            $ad->setPriceIndication($data['priceIndication']);
+        }
+
+        if (array_key_exists('isVerified', $data)) {
+            $ad->setIsVerified((bool) $data['isVerified']);
+        }
+
+        if (isset($data['datePublicationAd'])) {
+            try {
+                $datePublicationAd = new \DateTime($data['datePublicationAd']);
+                $ad->setDatePublicationAd($datePublicationAd);
+            } catch (\Exception $e) {
+                // Ignorer si la date est invalide
+            }
+        }
+
+        // Mise à jour des catégories
+        if (isset($data['categories']) && is_array($data['categories'])) {
+            // Supprimer les catégories existantes
+            foreach ($ad->getCategories() as $category) {
+                $ad->removeCategory($category);
+            }
+            // Ajouter les nouvelles catégories
+            foreach ($data['categories'] as $categoryId) {
+                $category = $categoryRepository->find($categoryId);
+                if ($category) {
+                    $ad->addCategory($category);
+                }
+            }
+        }
+
+        $em->flush();
+        return $this->json($ad, 200, [], ['groups' => 'ad:read']);
+    }
+
+    #[Route('/ads/{id}/verify', name: 'api_admin_ads_verify', methods: ['PUT'])]
+    public function toggleAdVerification(Ad $ad, Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!isset($data['isVerified'])) {
+            return new JsonResponse(['error' => 'isVerified field is required'], 400);
+        }
+
+        $ad->setIsVerified((bool) $data['isVerified']);
+        $em->flush();
+
+        return $this->json($ad, 200, [], ['groups' => 'ad:read']);
+    }
+
+    #[Route('/ads/{id}', name: 'api_admin_ads_delete', methods: ['DELETE'])]
+    public function deleteAd(Ad $ad, EntityManagerInterface $em): JsonResponse
+    {
+        try {
+            $em->remove($ad);
+            $em->flush();
+
+            return new JsonResponse(['message' => 'Annonce supprimée avec succès'], 200);
+        } catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $e) {
+            return new JsonResponse([
+                'error' => 'Impossible de supprimer cette annonce. Elle est liée à d\'autres données.'
+            ], 409);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'error' => 'Une erreur est survenue lors de la suppression de l\'annonce.'
             ], 500);
         }
     }

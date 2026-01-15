@@ -231,6 +231,45 @@
       "FEMALE": "Female",
       "OTHER": "Other",
       "SELECT_SEX": "Select"
+    },
+    "ADS": {
+      "ADS": "Ads",
+      "MANAGE_ADS": "Manage ads",
+      "RESEARCH_BY": "Search by title, description or author...",
+      "FILTER_STATUS": "Filter by status",
+      "ALL": "All",
+      "VERIFIED_ONLY": "Verified only",
+      "UNVERIFIED_ONLY": "Unverified only",
+      "ADS_FOUND": "ad(s) found",
+      "ID": "ID",
+      "TITLE": "Title",
+      "AUTHOR": "Author",
+      "PRICE": "Price",
+      "STATUS": "Status",
+      "DATE": "Date",
+      "PUBLISHED": "Published",
+      "CLICK_TO_TOGGLE": "Click to toggle status",
+      "NO_ADS_FOUND": "No ads found",
+      "CONFIRM_DELETE": "Confirm deletion",
+      "CONFIRM_DELETE_MESSAGE": "Are you sure you want to delete the following ad?",
+      "BY": "By"
+    },
+    "EDIT_ADS": {
+      "UPDATE": "Edit ad",
+      "AD_INFO": "Ad information",
+      "TITLE": "Title",
+      "DESCRIPTION": "Description",
+      "PRICE": "Price",
+      "PRICE_INDICATION": "Price indication",
+      "SELECT_INDICATION": "Select an indication",
+      "PUBLICATION_DATE": "Publication date",
+      "CATEGORIES": "Categories",
+      "STATUS": "Verification status",
+      "VERIFIED": "Verified ad",
+      "VERIFIED_INFO": "The ad will be publicly visible and marked as verified",
+      "AUTHOR": "Ad author",
+      "CHARACTERS": " characters",
+      "SAVING": "Saving..."
     }
   }
 }

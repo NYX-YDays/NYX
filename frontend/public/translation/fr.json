@@ -231,6 +231,45 @@
       "FEMALE": "Femme",
       "OTHER": "Autre",
       "SELECT_SEX": "Sélectionnez"
+    },
+    "ADS": {
+      "ADS": "Annonces",
+      "MANAGE_ADS": "Gestion des annonces",
+      "RESEARCH_BY": "Rechercher par titre, description ou auteur...",
+      "FILTER_STATUS": "Filtrer par statut",
+      "ALL": "Tous",
+      "VERIFIED_ONLY": "Vérifiées uniquement",
+      "UNVERIFIED_ONLY": "Non vérifiées uniquement",
+      "ADS_FOUND": "annonce(s) trouvée(s)",
+      "ID": "ID",
+      "TITLE": "Titre",
+      "AUTHOR": "Auteur",
+      "PRICE": "Prix",
+      "STATUS": "Statut",
+      "DATE": "Date",
+      "PUBLISHED": "Publiée",
+      "CLICK_TO_TOGGLE": "Cliquez pour modifier le statut",
+      "NO_ADS_FOUND": "Aucune annonce trouvée",
+      "CONFIRM_DELETE": "Confirmer la suppression",
+      "CONFIRM_DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer l'annonce suivante ?",
+      "BY": "Par"
+    },
+    "EDIT_ADS": {
+      "UPDATE": "Modifier l'annonce",
+      "AD_INFO": "Informations de l'annonce",
+      "TITLE": "Titre",
+      "DESCRIPTION": "Description",
+      "PRICE": "Prix",
+      "PRICE_INDICATION": "Indication de prix",
+      "SELECT_INDICATION": "Sélectionnez une indication",
+      "PUBLICATION_DATE": "Date de publication",
+      "CATEGORIES": "Catégories",
+      "STATUS": "Statut de vérification",
+      "VERIFIED": "Annonce vérifiée",
+      "VERIFIED_INFO": "L'annonce sera visible publiquement et marquée comme vérifiée",
+      "AUTHOR": "Auteur de l'annonce",
+      "CHARACTERS": " caractères",
+      "SAVING": "Enregistrement..."
     }
   }
 }
