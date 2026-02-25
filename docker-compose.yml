@@ -23,6 +23,8 @@ services:
       dockerfile: docker/php/Dockerfile
     environment:
       DATABASE_URL: ${DATABASE_URL}
+      APP_ENV: ${APP_ENV}
+      APP_SECRET: ${APP_SECRET}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
       JWT_PASSPHRASE: ${JWT_PASSPHRASE}
