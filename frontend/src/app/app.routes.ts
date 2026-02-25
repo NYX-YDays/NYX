@@ -14,6 +14,7 @@ import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-
 import { adminGuard } from './shared/guards/admin.guard';
 import { AdminUsersListComponent } from './features/admin/admin-users-list/admin-users-list.component';
 import { AdminAdsListComponent } from './features/admin/admin-ads-list/admin-ads-list.component';
+import { AdminEventsListComponent } from './features/admin/admin-events-list/admin-events-list.component';
 
 export const routes: Routes = [
 
@@ -57,6 +58,15 @@ export const routes: Routes = [
   {
     path: 'admin/ads',
     component: AdminAdsListComponent,
+    canActivate: [adminGuard],
+    data: {
+      showAppLayout: false
+    } as RouteSettings
+  },
+
+  {
+    path: 'admin/events',
+    component: AdminEventsListComponent,
     canActivate: [adminGuard],
     data: {
       showAppLayout: false

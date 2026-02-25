@@ -270,6 +270,33 @@
       "AUTHOR": "Ad author",
       "CHARACTERS": " characters",
       "SAVING": "Saving..."
+    },
+    "EVENTS": {
+      "EVENTS": "Events",
+      "MANAGE_EVENTS": "Manage events",
+      "RESEARCH_BY": "Search by title, description or creator...",
+      "EVENTS_FOUND": "event(s) found",
+      "ID": "ID",
+      "TITLE": "Title",
+      "CREATOR": "Creator",
+      "DATE": "Date",
+      "APPROACHES": "Approaches",
+      "NO_EVENTS_FOUND": "No events found",
+      "CONFIRM_DELETE": "Confirm deletion",
+      "CONFIRM_DELETE_MESSAGE": "Are you sure you want to delete the following event?",
+      "BY": "By"
+    },
+    "EDIT_EVENTS": {
+      "UPDATE": "Edit event",
+      "EVENT_INFO": "Event information",
+      "TITLE": "Title",
+      "DESCRIPTION": "Description",
+      "DATE": "Date and time",
+      "CREATOR": "Event creator",
+      "APPROACHES_INFO": "Associated approaches",
+      "TOTAL_APPROACHES": "Total approaches",
+      "CHARACTERS": " characters",
+      "SAVING": "Saving..."
     }
   }
 }

@@ -31,7 +31,7 @@ class Event
     private ?\DateTimeInterface $dateEvent = null;
 
     #[ORM\ManyToOne(inversedBy: 'events')]
-    #[Groups(['approach:read'])]
+    #[Groups(['event:read', 'approach:read'])]
     private ?User $user = null;
 
     #[ORM\OneToMany(targetEntity: Approach::class, mappedBy: 'event')]

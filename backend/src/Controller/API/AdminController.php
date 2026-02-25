@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\Entity\User;
 use App\Entity\Ad;
+use App\Entity\Event;
 use App\Repository\UserRepository;
 use App\Repository\AdRepository;
 use App\Repository\EventRepository;
@@ -259,6 +260,75 @@ class AdminController extends AbstractController
         } catch (\Exception $e) {
             return new JsonResponse([
                 'error' => 'Une erreur est survenue lors de la suppression de l\'annonce.'
+            ], 500);
+        }
+    }
+
+    // ==================== EVENTS MANAGEMENT ====================
+
+    #[Route('/events', name: 'api_admin_events_list', methods: ['GET'])]
+    public function listEvents(EventRepository $eventRepository): JsonResponse
+    {
+        $events = $eventRepository->findAll();
+        return $this->json($events, 200, [], ['groups' => ['event:read', 'user:read']]);
+    }
+
+    #[Route('/events/{id}', name: 'api_admin_events_show', methods: ['GET'])]
+    public function showEvent(Event $event): JsonResponse
+    {
+        return $this->json($event, 200, [], ['groups' => ['event:read', 'user:read']]);
+    }
+
+    #[Route('/events/{id}', name: 'api_admin_events_update', methods: ['PUT'])]
+    public function updateEvent(Event $event, Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!$data) {
+            return new JsonResponse(['error' => 'Invalid JSON'], 400);
+        }
+
+        if (isset($data['title'])) {
+            $event->setTitle($data['title']);
+        }
+
+        if (isset($data['description'])) {
+            $event->setDescription($data['description']);
+        }
+
+        if (isset($data['dateEvent'])) {
+            try {
+                $dateEvent = new \DateTime($data['dateEvent']);
+                $event->setDateEvent($dateEvent);
+            } catch (\Exception $e) {
+                // Ignorer si la date est invalide
+            }
+        }
+
+        $em->flush();
+        return $this->json($event, 200, [], ['groups' => ['event:read', 'user:read']]);
+    }
+
+    #[Route('/events/{id}', name: 'api_admin_events_delete', methods: ['DELETE'])]
+    public function deleteEvent(Event $event, EntityManagerInterface $em): JsonResponse
+    {
+        try {
+            // Supprimer d'abord les approches liées à l'événement
+            foreach ($event->getApproaches() as $approach) {
+                $em->remove($approach);
+            }
+            
+            $em->remove($event);
+            $em->flush();
+
+            return new JsonResponse(['message' => 'Événement supprimé avec succès'], 200);
+        } catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $e) {
+            return new JsonResponse([
+                'error' => 'Impossible de supprimer cet événement. Il est lié à d\'autres données.'
+            ], 409);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'error' => 'Une erreur est survenue lors de la suppression de l\'événement.'
             ], 500);
         }
     }

@@ -270,6 +270,33 @@
       "AUTHOR": "Auteur de l'annonce",
       "CHARACTERS": " caractères",
       "SAVING": "Enregistrement..."
+    },
+    "EVENTS": {
+      "EVENTS": "Événements",
+      "MANAGE_EVENTS": "Gestion des événements",
+      "RESEARCH_BY": "Rechercher par titre, description ou créateur...",
+      "EVENTS_FOUND": "événement(s) trouvé(s)",
+      "ID": "ID",
+      "TITLE": "Titre",
+      "CREATOR": "Créateur",
+      "DATE": "Date",
+      "APPROACHES": "Approches",
+      "NO_EVENTS_FOUND": "Aucun événement trouvé",
+      "CONFIRM_DELETE": "Confirmer la suppression",
+      "CONFIRM_DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer l'événement suivant ?",
+      "BY": "Par"
+    },
+    "EDIT_EVENTS": {
+      "UPDATE": "Modifier l'événement",
+      "EVENT_INFO": "Informations de l'événement",
+      "TITLE": "Titre",
+      "DESCRIPTION": "Description",
+      "DATE": "Date et heure",
+      "CREATOR": "Créateur de l'événement",
+      "APPROACHES_INFO": "Approches associées",
+      "TOTAL_APPROACHES": "Nombre total d'approches",
+      "CHARACTERS": " caractères",
+      "SAVING": "Enregistrement..."
     }
   }
 }

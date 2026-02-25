@@ -126,5 +126,42 @@ export class AdminService extends UtilService {
       return this.tryGetAsync(`${this.apiUrl}/categories`);
     }
 
+    // ==================== EVENTS ====================
+
+    /**
+     * Get all events.
+     * @returns List of all events.
+     */
+    public async getAllEvents(): Promise<any[]> {
+      return this.tryGetAsync(`${this.apiUrl}/admin/events`);
+    }
+
+    /**
+     * Get a specific event by ID.
+     * @param eventId Event ID
+     * @returns Event details
+     */
+    public async getEvent(eventId: number): Promise<any> {
+      return this.tryGetAsync(`${this.apiUrl}/admin/events/${eventId}`);
+    }
+
+    /**
+     * Update event information.
+     * @param eventId Event ID
+     * @param eventData Event data to update
+     * @returns Updated event
+     */
+    public async updateEvent(eventId: number, eventData: any): Promise<any> {
+      return this.tryPutAsync(`${this.apiRootUrl}/admin/events/${eventId}`, eventData, true);
+    }
+
+    /**
+     * Delete an event (admin only).
+     * @param eventId Event ID to delete
+     */
+    public async deleteEvent(eventId: number): Promise<void> {
+      return this.tryDeleteAsync(`${this.apiRootUrl}/admin/events/${eventId}`);
+    }
+
     //endregion
 }
