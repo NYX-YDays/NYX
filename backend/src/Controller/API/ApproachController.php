@@ -22,13 +22,13 @@ class ApproachController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         // Trouver l'événement
-        $event = $eventRepository->find($data['event']);
+        $event = $eventRepository->find($data['eventId']);
         if (!$event) {
             return $this->json(['error' => 'Event not found'], 404);
         }
 
         // Trouver l'annonce
-        $ad = $adRepository->find($data['ad']);
+        $ad = $adRepository->find($data['adId']);
         if (!$ad) {
             return $this->json(['error' => 'Ad not found'], 404);
         }
@@ -103,4 +103,5 @@ class ApproachController extends AbstractController
 
         return $this->json($approach, 200, [], ['groups' => ['approach:read']]);
     }
+
 }

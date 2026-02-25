@@ -1,4 +1,4 @@
-<div class="z-3 position-absolute top-0 end-0 mt-4 mx-4">
+<div class="position-absolute top-0 end-0 mt-4 mx-4" style="z-index: 9999">
   @for (alert of alerts.slice(0, 10); track alert.id) {
     <app-alert-item [alert]="alert" (onDismiss)="deleteAlert(alert.id)"/>
   }

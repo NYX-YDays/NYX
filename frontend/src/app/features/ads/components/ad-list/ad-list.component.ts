@@ -13,49 +13,48 @@ import { RouterModule } from '@angular/router';
   selector: 'app-ad-list',
   templateUrl: './ad-list.component.html',
   styleUrl: './ad-list.component.scss',
-  imports: [DatePipe, FormsModule, TranslatePipe, RouterModule], 
-  standalone: true 
+  imports: [DatePipe, FormsModule, TranslatePipe, RouterModule],
+  standalone: true
 })
-
 export class AdListComponent implements OnInit {
-  ads: Ad[] = []; 
+
+  ads: Ad[] = [];
+
   categories: Category[] = [];
-  selectedCategoryId: number | null = null;
-  isLoading = false; 
+
+  selectedCategoryId = NaN;
+
+  isLoading = true;
+
+  protected readonly NaN = NaN;
 
   private alertService = inject(AlertService);
+
   private translateService = inject(TranslateService);
 
-  constructor(private adService: AdService) { } 
-
-  ngOnInit(): void {
-      this.adService.getAllCategories().subscribe({
-        next: (categories: Category[]) => {
-          this.categories = categories;
-          this.loadAds(); 
-        },
-        error: () => {
-          this.alertService.pushAlert(AlertType.ERROR, this.translateService.instant("ADS.LISTING_PAGE.CATEGORIES_ERROR"), 2);
-          this.isLoading = false;
-        }
-      });
+  constructor(private adService: AdService) {
   }
 
-  loadAds(categoryId: number | null = null): void {
+  async ngOnInit() {
+    try {
+      this.categories = await this.adService.getAllCategories();
+      await this.loadAds();
+    } catch (e) {
+      this.alertService.pushAlert(AlertType.ERROR, this.translateService.instant("ADS.LISTING_PAGE.CATEGORIES_ERROR"), 2);
+      this.isLoading = false;
+    }
+  }
+
+  async loadAds(categoryId = NaN) {
     this.isLoading = true;
 
-    const params = categoryId ? { category: categoryId } : {};
-
-    this.adService.getAds(params).subscribe({
-      next: (ads: Ad[]) => {
-        this.ads = ads; 
-        this.isLoading = false;
-      },
-      error: () => {
-        this.alertService.pushAlert(AlertType.ERROR, this.translateService.instant("ADS.LISTING_PAGE.ADS_ERROR"), 2);
-        this.isLoading = false; 
-      }
-    });
+    try {
+      this.ads = await this.adService.getAds(categoryId);
+      this.isLoading = false;
+    } catch (e) {
+      this.alertService.pushAlert(AlertType.ERROR, this.translateService.instant("ADS.LISTING_PAGE.ADS_ERROR"), 2);
+      this.isLoading = false;
+    }
   }
 
   formatDate(date: string): string {
@@ -67,4 +66,5 @@ export class AdListComponent implements OnInit {
     // Recharger les annonces en fonction de la catégorie sélectionnée
     this.loadAds(this.selectedCategoryId);
   }
+
 }

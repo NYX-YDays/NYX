@@ -2,25 +2,27 @@
 
 namespace App\Controller\API;
 
-use App\Entity\User;
 use App\Constants\AppConstants;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\User;
 use App\Repository\AdRepository;
 use App\Repository\ApproachRepository;
 use App\Repository\EventRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
-use Symfony\Component\HttpFoundation\Response;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use DateTime;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
 
-    public function __construct(private Security $security) {}
+    public function __construct(private Security $security)
+    {
+    }
 
     #[Route('/api/user/events', name: 'app_user_events', methods: ['GET'])]
     public function getUserEvents(EventRepository $eventRepository, Security $security): Response
@@ -29,7 +31,7 @@ class UserController extends AbstractController
         $user = $security->getUser();
 
         // Si l'utilisateur n'est pas connecté
-        if(!$user) {
+        if (!$user) {
             return $this->json(['error' => 'User not authenticated'], 404);
         }
 
@@ -45,6 +47,46 @@ class UserController extends AbstractController
         return $this->json($events, 200, [], ['groups' => 'event:read']);
     }
 
+    #[Route('/api/user/event/{eventId}', name: 'app_user_event', methods: ['GET'])]
+    public function getUserEvent(int $eventId, EventRepository $eventRepository, Security $security): Response
+    {
+        // Récupérer l'utilisateur connecté
+        $user = $security->getUser();
+
+        // Si l'utilisateur n'est pas connecté
+        if (!$user) {
+            return $this->json(['error' => 'User not authenticated'], 404);
+        }
+
+        // Récupérer les événements en fonction de l'utilisateur
+        $event = $eventRepository->findOneBy(['id' => $eventId, 'user' => $user]);
+
+        // Si aucun événement trouvée
+        if (is_null($event)) {
+            return $this->json(['message' => 'The event was\'n found for this user'], 200);
+        }
+
+        return $this->json($event, 200, [], ['groups' => 'event:read']);
+    }
+
+    #[Route('/api/user/events/notLinkedToAd/{adId}', name: 'app_user_events_not_linked_to_ad', methods: ['GET'])]
+    public function getUserEventsNotLinkedToAd(int $adId, EventRepository $eventRepository, Security $security): Response
+    {
+        // Récupérer l'utilisateur connecté
+        $user = $security->getUser();
+
+        // Si l'utilisateur n'est pas connecté
+        if (!$user) {
+            return $this->json(['error' => 'User not authenticated'], 404);
+        }
+
+        // Récupérer les événements en fonction de l'utilisateur
+        $events = $eventRepository->findByNotLinkedToAd($user->getId(), $adId);
+
+        // Retourner les annonces avec la sérialisation appropriée
+        return $this->json($events, 200, [], ['groups' => 'event:read']);
+    }
+
     #[Route('/api/user/ads', name: 'app_user_ads', methods: ['GET'])]
     public function getUserAds(AdRepository $adRepository, Security $security): Response
     {
@@ -52,9 +94,9 @@ class UserController extends AbstractController
         $user = $security->getUser();
 
         // Si l'utilisateur n'est pas connecté
-        if(!$user) {
+        if (!$user) {
             return $this->json(['error' => 'User not authenticated'], 404);
-        } 
+        }
 
         // Récupérer les annonces en fonction de l'utilisateur
         $ads = $adRepository->findBy(['user' => $user]);
@@ -80,27 +122,70 @@ class UserController extends AbstractController
         return $this->json($user, 200, [], ['groups' => 'user:read']);
     }
 
-    #[Route('/api/user/{userId}/approaches', name: 'app_user_approaches', methods: ['GET'])]
-    public function getUserApproaches($userId, ApproachRepository $approachRepository, UserRepository $userRepository): Response
+    #[Route('/api/user/approaches', name: 'app_user_approaches', methods: ['GET'])]
+    public function getUserApproaches(ApproachRepository $approachRepository, Security $security): Response
     {
-        $user = $userRepository->find($userId);
+        $user = $security->getUser();
 
         if (!$user) {
-            return $this->json(['error' => 'User not found'], 404);
+            return $this->json(['error' => 'User not authenticated'], 401);
         }
 
         $approaches = $approachRepository->createQueryBuilder('a')
             ->join('a.ad', 'ad')
             ->where('ad.user = :userId')
-            ->setParameter('userId', $userId)
+            ->setParameter('userId', $user->getId())
             ->getQuery()
             ->getResult();
-        
+
         return $this->json($approaches, 200, [], ['groups' => 'approach:read']);
     }
 
+    #[Route('/api/user/approaches/{approachId}', name: 'app_user_approach', methods: ['GET'])]
+    public function getUserApproach(int $approachId, ApproachRepository $approachRepository, Security $security): Response
+    {
+        $user = $security->getUser();
+
+        if (!$user) {
+            return $this->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $approach = $approachRepository->createQueryBuilder('a')
+            ->join('a.event', 'e')
+            ->where('e.user = :userId')
+            ->andWhere('a.id = :approachId')
+            ->setParameter('userId', $user->getId())
+            ->setParameter('approachId', $approachId)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $this->json($approach, 200, [], ['groups' => 'approach:read']);
+    }
+
+    #[Route('/api/user/approaches/pending/count', name: 'app_user_approach_pending_count', methods: ['GET'])]
+    public function getUserPendingApproachCount(ApproachRepository $approachRepository, Security $security): Response
+    {
+        $user = $security->getUser();
+
+        if (!$user) {
+            return $this->json(['error' => 'User not authenticated'], 401);
+        }
+
+        $approachCount = $approachRepository->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->join('a.ad', 'ad')
+            ->where('ad.user = :userId')
+            ->setParameter('userId', $user->getId())
+            ->andWhere('a.state = 0')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $this->json($approachCount, 200, [], ['groups' => 'approach:read']);
+    }
+
     #[Route('/api/user', name: 'add_user', methods: ['POST'])]
-    public function addUser(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response {
+    public function addUser(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    {
         $data = json_decode($request->getContent(), true);
 
         if (!$data) {
@@ -150,7 +235,8 @@ class UserController extends AbstractController
     }
 
     #[Route('/api/user/{userId}', name: 'update_user', methods: ['PUT'])]
-    public function updateUser(int $userId, Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response {
+    public function updateUser(int $userId, Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    {
         $user = $userRepository->find($userId);
 
         if (!$user) {
@@ -171,7 +257,7 @@ class UserController extends AbstractController
         $user->setBio($data['bio'] ?? $user->getBio());
         $user->setPhone($data['phone'] ?? $user->getPhone());
         $user->setRoles($data['roles'] ?? [AppConstants::ROLE_INDIVIDUAL]);
-        
+
         if (isset($data['birthdayDate']) && $data['birthdayDate']) {
             $birthdayDate = DateTime::createFromFormat('Y-m-d', $data['birthdayDate']);
             if (!$birthdayDate) {

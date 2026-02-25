@@ -1,0 +1,17 @@
+.paragraph-truncate {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  line-height: initial;
+}
+
+@each $n in (1, 2, 3, 4, 5) {
+  .truncate-line-#{$n} {
+    -webkit-line-clamp: $n;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

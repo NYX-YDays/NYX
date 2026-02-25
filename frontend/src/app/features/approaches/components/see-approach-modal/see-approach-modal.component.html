@@ -1,0 +1,45 @@
+<button #modalOpeningButton type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#seeApproachModal">
+</button>
+
+<div id="seeApproachModal" class="modal fade p-2" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        @if (!isLoading()) {
+          <app-approach-state [approachState]="approach()!.state"/>
+          @if (approach()?.state == ApproachState.PENDING || approach()?.state == ApproachState.APPROVED) {
+            <div (click)="cancelApproachAsync()" class="cancel-approach-btn small text-muted ms-3 cursor-pointer">
+              <i class="bi bi-x-lg"></i> {{ 'APPROACH.SEE_MODAL.CANCEL_BUTTON_TEXT' | translate }}
+            </div>
+          }
+        }
+        <button type="button" data-bs-dismiss="modal" class="btn-close"></button>
+      </div>
+      <div class="modal-body">
+        @if (isLoading()) {
+          <div class="d-flex justify-content-center align-items-center" style="min-height: 100px">
+            <span class="spinner-grow spinner-grow-sm text-primary"></span>
+          </div>
+        } @else {
+          <div class="d-flex flex-column gap-3">
+            <div>
+              <div class="small text-muted">{{ 'APPROACH.SEE_MODAL.AD_INFO_LABEL_TEXT' | translate }}</div>
+              <a [routerLink]="`/ad/${approach()?.ad?.id}`"><b>{{ approach()?.ad?.title }}</b> </a>
+              <div class="small">
+                {{ 'APPROACH.SEE_MODAL.AD_USER_TEXT' | translate: {user: approach()?.ad?.user?.firstName + ' ' + approach()?.ad?.user?.lastName} }}
+              </div>
+            </div>
+            <div>
+              <small class="text-muted">{{ 'APPROACH.SEE_MODAL.DATE_INFO_LABEL_TEXT' | translate }}</small>
+              <div>{{ approach()?.dateNotif | date: ('COMMON.DATETIME_FORMAT' | translate) }}</div>
+            </div>
+            <div>
+              <small class="text-muted">{{ 'APPROACH.SEE_MODAL.MESSAGE_INFO_LABEL_TEXT' | translate }}</small>
+              <div class="bg-body-secondary p-2 rounded mt-1 text-muted small"> {{ approach()?.message }}</div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,8 +5,13 @@
     <a class="navbar-brand fw-bold" routerLink="/">{{ appName }}</a>
 
     <!-- Mobile mode menu button -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -15,15 +20,23 @@
       <!-- Navigation links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/ads">{{ 'HEADER.ADS_LINK_TEXT' | translate}}</a>
+          <a class="nav-link active" routerLink="/ads">{{ 'HEADER.ADS_LINK_TEXT' | translate }}</a>
         </li>
       </ul>
 
       <!-- Right side content -->
       <div class="d-flex gap-3">
 
+        <!-- Service provider notification button -->
         @if (currentUserIdentity?.roles?.includes(UserRole.SERVICE_PROVIDER)) {
-          <button class="btn btn-secondary"><i class="bi bi-bell-fill"></i></button>
+          <button class="btn btn-secondary position-relative" routerLink="/approaches">
+            <i class="bi bi-bell-fill"></i>
+            @if (pendingApproachCount() > 0) {
+              <div class="approach-count position-absolute top-0 end-0 badge rounded-pill text-bg-danger">
+                {{ pendingApproachCount() }}
+              </div>
+            }
+          </button>
         }
 
         <!-- Sign in button -->
@@ -61,7 +74,7 @@
                   <hr class="dropdown-divider">
                 </li>
                 <li>
-                  <button (click)="confirmModal.openModal()" class="dropdown-item text-danger">
+                  <button (click)="signOutAsync()" class="dropdown-item text-danger">
                     {{ 'HEADER.SIGN_OUT_BTN_TEXT' | translate }}
                   </button>
                 </li>
@@ -76,7 +89,3 @@
 
   </div>
 </nav>
-
-<app-confirm-modal #confirmModal
-                   (onConfirm)="signOut()"
-                   [message]="'HEADER.CONFIRM_SIGN_OUT_MESSAGE' | translate"/>

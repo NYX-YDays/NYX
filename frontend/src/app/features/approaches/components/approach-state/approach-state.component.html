@@ -1,0 +1,22 @@
+@switch (approachState()) {
+  @case (ApproachState.PENDING) {
+    <div class="small bg-info-subtle text-info rounded p-2 text-nowrap" style="width: fit-content">
+      <i class="bi bi-hourglass-split"></i> {{ 'APPROACH.PENDING' | translate }}
+    </div>
+  }
+  @case (ApproachState.REFUSED) {
+    <div class="small bg-danger-subtle text-danger rounded p-2 text-nowrap" style="width: fit-content">
+      <i class="bi bi-x-lg"></i> {{ 'APPROACH.REFUSED' | translate }}
+    </div>
+  }
+  @case (ApproachState.APPROVED) {
+    <div class="small bg-success-subtle text-success rounded p-2 text-nowrap" style="width: fit-content">
+      <i class="bi bi-check2"></i> {{ 'APPROACH.APPROVED' | translate }}
+    </div>
+  }
+  @case (ApproachState.CANCELLED) {
+    <div class="small bg-body-secondary text-muted rounded p-2 text-nowrap" style="width: fit-content">
+      <i class="bi bi-x-lg"></i> {{ 'APPROACH.CANCELLED' | translate }}
+    </div>
+  }
+}

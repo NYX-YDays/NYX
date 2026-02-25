@@ -4,6 +4,9 @@
     "UPDATE": "Modifier",
     "DELETE": "Supprimer",
     "CANCEL": "Annuler",
+    "SAVE": "Enregistrer",
+    "DATE_FORMAT": "dd/MM/yyyy",
+    "DATETIME_FORMAT": "dd/MM/yyyy HH:mm",
     "API": {
       "GET_ERROR": "Les données n'ont pas pu être récupérées.",
       "ADD_ERROR": "Les données n'ont pas pu être ajoutées.",
@@ -85,7 +88,9 @@
       "CONTACT": "Contact",
       "NO_INFORMATION": "Pas d'informations disponibles",
       "NO_ID_ADS": "Aucun ID d'annonce spécifié",
-      "ADS_ERROR": "Erreur lors du chargement de l'annonce"
+      "ADS_ERROR": "Erreur lors du chargement de l'annonce",
+      "ADD_APPROACH_BUTTON_TEXT": "Commander cette prestation",
+      "SIGN_IN_ADD_APPROACH_LINK_TEXT": "Se connecter pour commander cette prestation"
     },
     "AD_STATUS": {
       "VERIFIED": "Vérifié",
@@ -94,24 +99,71 @@
     "SPINNER_TEXT": "Chargement..."
   },
   "EVENT": {
-    "MY_EVENTS": "Mes événements",
-    "ADD_EVENT": "Ajouter un événement",
-    "EDIT_EVENT": "Modifier l'événement",
-    "TITLE": "Titre",
-    "TITLE_REQUIRED": "Le titre est requis",
-    "DESCRIPTION": "Description",
-    "DESCRIPTION_REQUIRED": "La description est requise",
-    "NO_EVENTS": "Vous n'avez pas encore d'événements",
-    "ADD_SUCCESS": "Événement ajouté avec succès",
-    "UPDATE_SUCCESS": "Événement mis à jour avec succès",
-    "DELETE_SUCCESS": "Événement supprimé avec succès",
-    "CONFIRM_DELETE": "Êtes-vous sûr de vouloir supprimer cet événement ?",
-    "APPROACHES": "Approches",
-    "FROM": "De",
-    "ABOUT_AD": "Concernant l'annonce",
-    "STATE_1": "En attente",
-    "STATE_2": "En cours",
-    "STATE_3": "Accepté",
-    "STATE_4": "Refusé"
+    "EDIT_FORM": {
+      "FORM_TITLE_INPUT_TEXT": "Titre",
+      "FORM_INVALID_TITLE_TEXT": "Un titre doit être renseigné",
+      "FORM_DATE_INPUT_TEXT": "Date",
+      "FORM_INVALID_DATE_TEXT": "Une date doit être renseignée",
+      "FORM_DESCRIPTION_INPUT_TEXT": "Description",
+      "SAVE_SUCCESS_MESSAGE": "Évènement enregistré."
+    },
+    "LISTING_PAGE": {
+      "TITLE": "Mes évènements",
+      "EVENT_COUNT": "{{count}} évènement(s)",
+      "ADD_EVENT_BUTTON_TEXT": "Créer un évènement"
+    },
+    "DETAIL_PAGE": {
+      "EVENTS_LINK_TEXT": "Retourner aux évènements",
+      "EVENT_ADS_TITLE": "Annonce(s) associée(s) à l'évènement",
+      "ADD_APPROACH_BUTTON_TEXT": "Voir les annonces",
+      "APPROACH_SENT_TEXT": "Envoyé le {{date}}",
+      "DELETE_CONFIRM_MESSAGE": "Supprimer cet évènement de manière permanente ?",
+      "DELETE_SUCCESS_MESSAGE": "Évènement supprimé."
+    },
+    "ADD_PAGE": {
+      "TITLE": "Créer un évènement",
+      "EVENTS_LINK_TEXT": "Retourner aux évènements"
+    }
+  },
+  "APPROACH": {
+    "PENDING": "En attente",
+    "APPROVED": "Approuvée",
+    "REFUSED": "Refusée",
+    "CANCELLED": "Annulée",
+    "ADD_MODAL": {
+      "IMPORTANT_SERVICE_CONDITIONS_TITLE": "Conditions du service",
+      "CONTACT_SERVICE_PROVIDER_TITLE": "Contacter {{name}}",
+      "EVENT_SELECT_TEXT": "Pour quel évènement voulez-vous commander cette prestation ?",
+      "DEFAULT_SELECTED_EVENT_TEXT": "Choisir un évènement",
+      "COMMENT_INPUT_TEXT": "Laissez un mot au prestataire du service",
+      "COMMENT_INPUT_PLACEHOLDER": "Bonjour {{name}},",
+      "SUBMIT_BUTTON_TEXT": "Commander cette prestation",
+      "CREATE_EVENT_TO_BOOK_LINK_TEXT": "Créer un évènement pour commander cette prestation",
+      "ADD_SUCCESS_TEXT": "Demande envoyée au prestataire."
+    },
+    "SEE_MODAL": {
+      "CANCEL_BUTTON_TEXT": "Annuler la demande",
+      "CANCEL_CONFIRM_MESSAGE": "Annuler cette demande ?",
+      "CANCEL_SUCCESS_MESSAGE": "Demande annulée.",
+      "AD_INFO_LABEL_TEXT": "Annonce",
+      "AD_USER_TEXT": "Par {{user}}",
+      "DATE_INFO_LABEL_TEXT": "Envoyé le",
+      "MESSAGE_INFO_LABEL_TEXT": "Message"
+    },
+    "LISTING_PAGE": {
+      "TITLE": "Demandes de service",
+      "APPROACH_COUNT": "{{count}} demande(s)",
+      "APPROACH_REQUESTED_BY": "Demandé par {{user}} le {{date}}",
+      "APPROACH_AD_TEXT": "Annonce",
+      "APPROACH_AD_USER_TEXT": "Par {{user}}",
+      "APPROACH_MESSAGE_TEXT": "Message",
+      "APPROACH_APPROVE_BTN_TEXT": "Approuver",
+      "APPROACH_REFUSE_BTN_TEXT": "Refuser",
+      "APPROACH_CANCEL_BTN_TEXT": "Annuler la demande",
+      "APPROVE_APPROACH_CONFIRM_MESSAGE": "Approuver cette demande ?",
+      "REFUSE_APPROACH_CONFIRM_MESSAGE": "Refuser cette demande ?",
+      "CANCEL_APPROACH_CONFIRM_MESSAGE": "Annuler cette demande ?",
+      "APPROACH_STATE_CHANGE_SUCCESS_MESSAGE": "Statut de la demande changé."
+    }
   }
 }

@@ -1,0 +1,74 @@
+@if (isLoading()) {
+  <div class="d-flex w-100 h-100 justify-content-center align-items-center">
+    <div class="spinner-grow text-primary"></div>
+  </div>
+} @else {
+
+  <a class="btn btn-outline-primary mb-3" routerLink="/events">
+    <i class="bi bi-arrow-left"></i> {{ 'EVENT.DETAIL_PAGE.EVENTS_LINK_TEXT' | translate }}
+  </a>
+
+  <!-- Event info -->
+  <div class="card w-100">
+    <div class="card-body">
+      @if (showEditForm()) {
+        <app-event-editing-form [event]="event()"
+                                (onCancel)="showEditForm.set(false)"
+                                (onSave)="ngOnInit()"/>
+      } @else {
+        <div class="card-title fw-bold mb-0">{{ event().title }}</div>
+        <div class="small text-muted text-nowrap flex-grow-0 my-3">
+          <i class="bi bi-calendar-week me-1"></i>
+          {{ event().dateEvent | date: ('COMMON.DATETIME_FORMAT' | translate) }}
+        </div>
+        @if (event().description) {
+          <div class="small text-muted bg-body-secondary rounded p-2" style="width: fit-content">
+            {{ event().description }}
+          </div>
+        }
+        <div class="d-flex gap-3 mt-3">
+          <button (click)="showEditForm.set(true)" class="btn btn-primary">
+            <i class="bi bi-pencil"></i> {{ 'COMMON.UPDATE' | translate }}
+          </button>
+          <button (click)="confirmEventDeletionAsync()" class="btn btn-danger">
+            <i class="bi bi-trash"></i> {{ 'COMMON.DELETE' | translate }}
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Ads approached for the event -->
+  <h5 class="mt-4 mb-3">{{ 'EVENT.DETAIL_PAGE.EVENT_ADS_TITLE' | translate }}</h5>
+  <div class="row ms-0 w-100 flex-nowrap flex-grow-1 gap-md-4 gap-3 overflow-x-auto"
+       style="min-height: 200px; max-height: 225px">
+
+    <!-- Approach -->
+    @for (approach of event().approaches; track approach.id) {
+      <div (click)="seeApproachModal.openModalAsync(approach.id)"
+           class="approach-card card col cursor-pointer"
+           style="min-width: 180px; max-width: 200px">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+          <div class="card-title text-center small fw-bold paragraph-truncate truncate-line-2 mb-0">
+            {{ approach.ad?.title }}
+          </div>
+          <div class="small text-muted text-center my-3">
+            {{ 'EVENT.DETAIL_PAGE.APPROACH_SENT_TEXT' | translate: {date: (approach.dateNotif | date: ('COMMON.DATETIME_FORMAT' | translate))} }}
+          </div>
+          <app-approach-state [approachState]="approach.state"/>
+        </div>
+      </div>
+    }
+
+    <div routerLink="/ads"
+         class="col d-flex flex-column justify-content-center align-items-center border border-primary text-primary rounded cursor-pointer"
+         style="min-width: 180px; max-width: 200px">
+      {{ 'EVENT.DETAIL_PAGE.ADD_APPROACH_BUTTON_TEXT' | translate }}
+      <i class="bi bi-plus-circle"></i>
+    </div>
+
+  </div>
+
+}
+
+<app-see-approach-modal #seeApproachModal (onStateChanged)="ngOnInit()"/>

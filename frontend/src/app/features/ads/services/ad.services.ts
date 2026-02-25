@@ -1,33 +1,34 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Ad } from '../models/ad';
 import { Category } from '../models/category';
 import { environment } from '../../../../environments/environment';
+import { UtilService } from '../../../shared/services/util.service';
 
 @Injectable({
   providedIn: 'root'
 })
+export class AdService extends UtilService {
 
-export class AdService {
-    private apiUrlAds = `${environment.apiUrl}/ads`;
-    private apiUrlAd = `${environment.apiUrl}/ad`;
+  //region fields
 
-    constructor(private http: HttpClient) {}
+  private apiUrl = environment.apiUrl;
 
-    getAds(params: {category?: number} = {}): Observable<Ad[]> {
-        let httpParams = new HttpParams();
-        if (params.category) {
-            httpParams = httpParams.set('category', params.category.toString());
-        }
-        return this.http.get<Ad[]>(this.apiUrlAds, { params: httpParams });
-    }
-    
-    getAdById(id: number): Observable<Ad> {
-        return this.http.get<Ad>(`${this.apiUrlAd}/${id}`);
-    }
+  //endregion
 
-    getAllCategories(): Observable<Category[]> {
-        return this.http.get<Category[]>(`${this.apiUrlAds.replace('/ads', '/categories')}`);
-    }
+  //region methods
+
+  getAds(categoryId = NaN): Promise<Ad[]> {
+    return this.tryGetAsync<Ad[]>(`${this.apiUrl}/ads${!isNaN(categoryId) ? `?category=${categoryId}` : ''}`);
+  }
+
+  getAdById(id: number): Promise<Ad> {
+    return this.tryGetAsync<Ad>(`${this.apiUrl}/ad/${id}`);
+  }
+
+  getAllCategories(): Promise<Category[]> {
+    return this.tryGetAsync<Category[]>(`${this.apiUrl}/categories`);
+  }
+
+  //endregion
+
 }

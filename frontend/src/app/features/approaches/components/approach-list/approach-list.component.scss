@@ -1,0 +1,13 @@
+.accordion-button {
+  outline: none;
+  box-shadow: none;
+}
+
+.accordion-button:hover, .accordion-button:not(.collapsed) {
+  background-color: rgba(var(--bs-primary-rgb), 0.05);
+}
+
+.accordion-item:hover, .accordion-item:has(.accordion-button:not(.collapsed)) {
+  border: 1px solid var(--bs-primary) !important;
+  transition-duration: 0.2s;
+}
