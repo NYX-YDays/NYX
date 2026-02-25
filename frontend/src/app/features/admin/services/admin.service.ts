@@ -18,9 +18,9 @@ export class AdminService extends UtilService {
 
     /**
      * Get admin dashboard statistics.
-     * @returns Dashboard statistics (userCount, adCount, eventCount)
+     * @returns Dashboard statistics (userCount, adCount, eventCount, categoryCount)
      */
-    public async getStatistics(): Promise<{ userCount: number; adCount: number; eventCount: number }> {
+    public async getStatistics(): Promise<{ userCount: number; adCount: number; eventCount: number; categoryCount: number }> {
         return this.tryGetAsync(`${this.apiUrl}/admin/stats`);
     }
 
@@ -161,6 +161,52 @@ export class AdminService extends UtilService {
      */
     public async deleteEvent(eventId: number): Promise<void> {
       return this.tryDeleteAsync(`${this.apiRootUrl}/admin/events/${eventId}`);
+    }
+
+    // ==================== CATEGORIES ====================
+
+    /**
+     * Get all categories (admin).
+     * @returns List of all categories.
+     */
+    public async getAdminCategories(): Promise<any[]> {
+      return this.tryGetAsync(`${this.apiUrl}/admin/categories`);
+    }
+
+    /**
+     * Get a specific category by ID.
+     * @param categoryId Category ID
+     * @returns Category details
+     */
+    public async getCategory(categoryId: number): Promise<any> {
+      return this.tryGetAsync(`${this.apiUrl}/admin/categories/${categoryId}`);
+    }
+
+    /**
+     * Create a new category.
+     * @param categoryData Category data
+     * @returns Created category
+     */
+    public async createCategory(categoryData: any): Promise<any> {
+      return this.tryPostAsync(`${this.apiRootUrl}/admin/categories`, categoryData, true);
+    }
+
+    /**
+     * Update category information.
+     * @param categoryId Category ID
+     * @param categoryData Category data to update
+     * @returns Updated category
+     */
+    public async updateCategory(categoryId: number, categoryData: any): Promise<any> {
+      return this.tryPutAsync(`${this.apiRootUrl}/admin/categories/${categoryId}`, categoryData, true);
+    }
+
+    /**
+     * Delete a category (admin only).
+     * @param categoryId Category ID to delete
+     */
+    public async deleteCategory(categoryId: number): Promise<void> {
+      return this.tryDeleteAsync(`${this.apiRootUrl}/admin/categories/${categoryId}`);
     }
 
     //endregion

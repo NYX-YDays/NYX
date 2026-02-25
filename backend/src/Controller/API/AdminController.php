@@ -5,6 +5,7 @@ namespace App\Controller\API;
 use App\Entity\User;
 use App\Entity\Ad;
 use App\Entity\Event;
+use App\Entity\Category;
 use App\Repository\UserRepository;
 use App\Repository\AdRepository;
 use App\Repository\EventRepository;
@@ -22,12 +23,14 @@ class AdminController extends AbstractController
     public function getStats(
         UserRepository $userRepository,
         AdRepository $adRepository,
-        EventRepository $eventRepository
+        EventRepository $eventRepository,
+        CategoryRepository $categoryRepository
     ): JsonResponse {
         return new JsonResponse([
             'userCount' => $userRepository->count([]),
             'adCount' => $adRepository->count([]),
-            'eventCount' => $eventRepository->count([])
+            'eventCount' => $eventRepository->count([]),
+            'categoryCount' => $categoryRepository->count([])
         ]);
     }
 
@@ -329,6 +332,81 @@ class AdminController extends AbstractController
         } catch (\Exception $e) {
             return new JsonResponse([
                 'error' => 'Une erreur est survenue lors de la suppression de l\'événement.'
+            ], 500);
+        }
+    }
+
+    // ==================== CATEGORIES MANAGEMENT ====================
+
+    #[Route('/categories', name: 'api_admin_categories_list', methods: ['GET'])]
+    public function listCategories(CategoryRepository $categoryRepository): JsonResponse
+    {
+        $categories = $categoryRepository->findAll();
+        return $this->json($categories, 200, [], ['groups' => ['category:read']]);
+    }
+
+    #[Route('/categories/{id}', name: 'api_admin_categories_show', methods: ['GET'])]
+    public function showCategory(Category $category): JsonResponse
+    {
+        return $this->json($category, 200, [], ['groups' => ['category:read']]);
+    }
+
+    #[Route('/categories', name: 'api_admin_categories_create', methods: ['POST'])]
+    public function createCategory(Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!$data || !isset($data['title']) || empty(trim($data['title']))) {
+            return new JsonResponse(['error' => 'Le titre est requis'], 400);
+        }
+
+        $category = new Category();
+        $category->setTitle(trim($data['title']));
+
+        $em->persist($category);
+        $em->flush();
+
+        return $this->json($category, 201, [], ['groups' => ['category:read']]);
+    }
+
+    #[Route('/categories/{id}', name: 'api_admin_categories_update', methods: ['PUT'])]
+    public function updateCategory(Category $category, Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!$data) {
+            return new JsonResponse(['error' => 'Invalid JSON'], 400);
+        }
+
+        if (isset($data['title'])) {
+            if (empty(trim($data['title']))) {
+                return new JsonResponse(['error' => 'Le titre ne peut pas être vide'], 400);
+            }
+            $category->setTitle(trim($data['title']));
+        }
+
+        $em->flush();
+        return $this->json($category, 200, [], ['groups' => ['category:read']]);
+    }
+
+    #[Route('/categories/{id}', name: 'api_admin_categories_delete', methods: ['DELETE'])]
+    public function deleteCategory(Category $category, EntityManagerInterface $em): JsonResponse
+    {
+        try {
+            // Vérifier si la catégorie est utilisée par des annonces
+            if ($category->getAds()->count() > 0) {
+                return new JsonResponse([
+                    'error' => 'Impossible de supprimer cette catégorie. Elle est utilisée par ' . $category->getAds()->count() . ' annonce(s).'
+                ], 409);
+            }
+
+            $em->remove($category);
+            $em->flush();
+
+            return new JsonResponse(['message' => 'Catégorie supprimée avec succès'], 200);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'error' => 'Une erreur est survenue lors de la suppression de la catégorie.'
             ], 500);
         }
     }

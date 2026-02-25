@@ -173,6 +173,7 @@
       "MANAGE_USERS": "Manage users",
       "MANAGE_ADS": "Manage ads",
       "MANAGE_EVENTS": "Manage events",
+      "MANAGE_CATEGORIES": "Manage categories",
       "BACK_TO_NYX": "Back to NYX",
       "DISCONNECT": "Disconnect",
       "LOADING": "Loading...",
@@ -180,6 +181,7 @@
       "USERS": "Users",
       "ADS": "Ads",
       "EVENTS": "Events",
+      "CATEGORIES": "Categories",
       "QUICK_ACTIONS": "Quick actions"
     },
     "LIST": {
@@ -296,6 +298,37 @@
       "APPROACHES_INFO": "Associated approaches",
       "TOTAL_APPROACHES": "Total approaches",
       "CHARACTERS": " characters",
+      "SAVING": "Saving..."
+    },
+    "CATEGORIES": {
+      "TITLE": "Categories",
+      "MANAGE_CATEGORIES": "Manage categories",
+      "SEARCH_PLACEHOLDER": "Search by title...",
+      "ADD_CATEGORY": "Add category",
+      "LOADING": "Loading...",
+      "TABLE": {
+        "ID": "ID",
+        "TITLE": "Title",
+        "ACTIONS": "Actions"
+      },
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "NO_CATEGORIES": "No categories found",
+      "SHOWING": "Showing",
+      "OF": "of",
+      "ITEMS_PER_PAGE": "Per page",
+      "DELETE_CONFIRM_TITLE": "Confirm deletion",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete the category",
+      "DELETE_WARNING": "This action is irreversible. Associated ads will not be deleted.",
+      "CANCEL": "Cancel"
+    },
+    "EDIT_CATEGORY": {
+      "CREATE_TITLE": "New category",
+      "EDIT_TITLE": "Edit category",
+      "TITLE_LABEL": "Title",
+      "TITLE_PLACEHOLDER": "Enter category title",
+      "CANCEL": "Cancel",
+      "SAVE": "Save",
       "SAVING": "Saving..."
     }
   }

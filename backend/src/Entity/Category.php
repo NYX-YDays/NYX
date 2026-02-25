@@ -14,11 +14,11 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['ad:read'])]
+    #[Groups(['ad:read', 'category:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['ad:read'])]
+    #[Groups(['ad:read', 'category:read'])]
     private ?string $title = null;
 
     #[ORM\Column(nullable: true)]

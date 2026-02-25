@@ -119,7 +119,18 @@
 
     .stat-icon,
     .stat-value {
-        color: #00f2fe;
+        color: #4facfe;
+    }
+}
+
+.stat-card-categories {
+    &::before {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .stat-icon,
+    .stat-value {
+        color: #fa709a;
     }
 }
 

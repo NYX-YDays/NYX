@@ -29,7 +29,8 @@ export class AdminDashboardComponent implements OnInit {
   public stats = {
     userCount: 0,
     adCount: 0,
-    eventCount: 0
+    eventCount: 0,
+    categoryCount: 0
   };
 
   /** Current admin user */
@@ -60,7 +61,8 @@ export class AdminDashboardComponent implements OnInit {
       this.stats = {
         userCount: 0,
         adCount: 0,
-        eventCount: 0
+        eventCount: 0,
+        categoryCount: 0
       };
     } finally {
       this.isLoading = false;
@@ -80,6 +82,11 @@ export class AdminDashboardComponent implements OnInit {
   /** Navigate to events management. */
   public navigateToEvents(): void {
     this.router.navigate(['/admin/events']);
+  }
+
+  /** Navigate to categories management. */
+  public navigateToCategories(): void {
+    this.router.navigate(['/admin/categories']);
   }
 
   //endregion

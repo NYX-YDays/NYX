@@ -173,6 +173,7 @@
       "MANAGE_USERS": "Gérer les utilisateurs",
       "MANAGE_ADS": "Gérer les annonces",
       "MANAGE_EVENTS": "Gérer les événements",
+      "MANAGE_CATEGORIES": "Gérer les catégories",
       "BACK_TO_NYX": "Retour sur NYX",
       "DISCONNECT": "Déconnexion",
       "LOADING": "Chargement...",
@@ -180,6 +181,7 @@
       "USERS": "Utilisateurs",
       "ADS": "Annonces",
       "EVENTS": "Événements",
+      "CATEGORIES": "Catégories",
       "QUICK_ACTIONS": "Actions rapides"
     },
     "LIST": {
@@ -296,6 +298,37 @@
       "APPROACHES_INFO": "Approches associées",
       "TOTAL_APPROACHES": "Nombre total d'approches",
       "CHARACTERS": " caractères",
+      "SAVING": "Enregistrement..."
+    },
+    "CATEGORIES": {
+      "TITLE": "Catégories",
+      "MANAGE_CATEGORIES": "Gestion des catégories",
+      "SEARCH_PLACEHOLDER": "Rechercher par titre...",
+      "ADD_CATEGORY": "Ajouter une catégorie",
+      "LOADING": "Chargement...",
+      "TABLE": {
+        "ID": "ID",
+        "TITLE": "Titre",
+        "ACTIONS": "Actions"
+      },
+      "EDIT": "Modifier",
+      "DELETE": "Supprimer",
+      "NO_CATEGORIES": "Aucune catégorie trouvée",
+      "SHOWING": "Affichage",
+      "OF": "sur",
+      "ITEMS_PER_PAGE": "Par page",
+      "DELETE_CONFIRM_TITLE": "Confirmer la suppression",
+      "DELETE_CONFIRM_MESSAGE": "Êtes-vous sûr de vouloir supprimer la catégorie",
+      "DELETE_WARNING": "Cette action est irréversible. Les annonces associées ne seront pas supprimées.",
+      "CANCEL": "Annuler"
+    },
+    "EDIT_CATEGORY": {
+      "CREATE_TITLE": "Nouvelle catégorie",
+      "EDIT_TITLE": "Modifier la catégorie",
+      "TITLE_LABEL": "Titre",
+      "TITLE_PLACEHOLDER": "Entrez le titre de la catégorie",
+      "CANCEL": "Annuler",
+      "SAVE": "Enregistrer",
       "SAVING": "Enregistrement..."
     }
   }
