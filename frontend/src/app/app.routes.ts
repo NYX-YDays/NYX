@@ -16,6 +16,7 @@ import { AdminUsersListComponent } from './features/admin/admin-users-list/admin
 import { AdminAdsListComponent } from './features/admin/admin-ads-list/admin-ads-list.component';
 import { AdminEventsListComponent } from './features/admin/admin-events-list/admin-events-list.component';
 import { AdminCategoriesListComponent } from './features/admin/admin-categories-list/admin-categories-list.component';
+import { AdminApproachesListComponent } from './features/admin/admin-approaches-list/admin-approaches-list.component';
 
 export const routes: Routes = [
 
@@ -77,6 +78,15 @@ export const routes: Routes = [
   {
     path: 'admin/categories',
     component: AdminCategoriesListComponent,
+    canActivate: [adminGuard],
+    data: {
+      showAppLayout: false
+    } as RouteSettings
+  },
+
+  {
+    path: 'admin/approaches',
+    loadComponent: () => import('./features/admin/admin-approaches-list/admin-approaches-list.component').then(m => m.AdminApproachesListComponent),
     canActivate: [adminGuard],
     data: {
       showAppLayout: false

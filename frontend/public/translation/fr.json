@@ -330,6 +330,29 @@
       "CANCEL": "Annuler",
       "SAVE": "Enregistrer",
       "SAVING": "Enregistrement..."
+    },
+    "APPROACHES": {
+      "APPROACHES": "Approches",
+      "MANAGE_APPROACHES": "Gestion des approches",
+      "RESEARCH_BY": "Rechercher par annonce ou événement...",
+      "APPROACHES_FOUND": "approche(s) trouvée(s)",
+      "ID": "ID",
+      "TITLE": "Titre",
+      "AD": "Annonce",
+      "EVENT": "Événement",
+      "STATE": "État",
+      "DATE": "Date",
+      "ACTIONS": "Actions",
+      "MESSAGE": "Message",
+      "NO_APPROACHES_FOUND": "Aucune approche trouvée",
+      "CONFIRM_DELETE": "Confirmer la suppression",
+      "CONFIRM_DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer l'approche suivante ?",
+      "BY": "Par",
+      "EDIT": {
+        "MODAL_TITLE": "Modifier l'approche",
+        "TITLE": "Titre de l'approche",
+        "MESSAGE": "Message de l'approche"
+      }
     }
   }
 }

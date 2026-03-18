@@ -18,9 +18,9 @@ export class AdminService extends UtilService {
 
     /**
      * Get admin dashboard statistics.
-     * @returns Dashboard statistics (userCount, adCount, eventCount, categoryCount)
+     * @returns Dashboard statistics (userCount, adCount, eventCount, categoryCount, approachCount)
      */
-    public async getStatistics(): Promise<{ userCount: number; adCount: number; eventCount: number; categoryCount: number }> {
+    public async getStatistics(): Promise<{ userCount: number; adCount: number; eventCount: number; categoryCount: number; approachCount: number }> {
         return this.tryGetAsync(`${this.apiUrl}/admin/stats`);
     }
 
@@ -207,6 +207,34 @@ export class AdminService extends UtilService {
      */
     public async deleteCategory(categoryId: number): Promise<void> {
       return this.tryDeleteAsync(`${this.apiRootUrl}/admin/categories/${categoryId}`);
+    }
+
+    // ==================== APPROACHES ====================
+
+    /**
+     * Get all approaches (admin).
+     * @returns List of all approaches.
+     */
+    public async getAllApproaches(): Promise<any[]> {
+      return this.tryGetAsync(`${this.apiUrl}/admin/approaches`);
+    }
+
+    /**
+     * Update an approach (admin only).
+     * @param approachId Approach ID
+     * @param data Approach data to update
+     * @returns Updated approach
+     */
+    public async updateApproach(approachId: number, data: any): Promise<any> {
+      return this.tryPutAsync(`${this.apiRootUrl}/admin/approaches/${approachId}`, data, true);
+    }
+
+    /**
+     * Delete an approach (admin only).
+     * @param approachId Approach ID to delete
+     */
+    public async deleteApproach(approachId: number): Promise<void> {
+      return this.tryDeleteAsync(`${this.apiRootUrl}/admin/approaches/${approachId}`);
     }
 
     //endregion

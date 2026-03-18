@@ -330,6 +330,29 @@
       "CANCEL": "Cancel",
       "SAVE": "Save",
       "SAVING": "Saving..."
+    },
+    "APPROACHES": {
+      "APPROACHES": "Approaches",
+      "MANAGE_APPROACHES": "Manage approaches",
+      "RESEARCH_BY": "Search by ad or event...",
+      "APPROACHES_FOUND": "approach(es) found",
+      "ID": "ID",
+      "TITLE": "Title",
+      "AD": "Ad",
+      "EVENT": "Event",
+      "STATE": "State",
+      "DATE": "Date",
+      "ACTIONS": "Actions",
+      "MESSAGE": "Message",
+      "NO_APPROACHES_FOUND": "No approaches found",
+      "CONFIRM_DELETE": "Confirm deletion",
+      "CONFIRM_DELETE_MESSAGE": "Are you sure you want to delete the following approach?",
+      "BY": "By",
+      "EDIT": {
+        "MODAL_TITLE": "Edit approach",
+        "TITLE": "Approach title",
+        "MESSAGE": "Approach message"
+      }
     }
   }
 }

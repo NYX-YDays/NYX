@@ -1,0 +1,54 @@
+@if (approach) {
+  <div class="modal-backdrop fade show"></div>
+  <div class="modal fade show d-block" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="bi bi-pencil-square me-2"></i>
+            {{ 'ADMIN.APPROACHES.EDIT.MODAL_TITLE' | translate }}
+          </h5>
+          <button type="button" class="btn-close" (click)="cancel()" [disabled]="isSaving"></button>
+        </div>
+
+        <form (ngSubmit)="save()">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">{{ 'ADMIN.APPROACHES.AD' | translate }}</label>
+              <p class="form-control-plaintext">{{ approach.ad?.title }}</p>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">{{ 'ADMIN.APPROACHES.EVENT' | translate }}</label>
+              <p class="form-control-plaintext">{{ approach.event?.title }}</p>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">{{ 'ADMIN.APPROACHES.STATE' | translate }}</label>
+              <input type="number" class="form-control" [(ngModel)]="approach.state" name="state">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">{{ 'ADMIN.APPROACHES.EDIT.MESSAGE' | translate }}</label>
+              <textarea class="form-control" [(ngModel)]="approach.message" name="message" rows="4"></textarea>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="isSaving">
+              {{ 'COMMON.CANCEL' | translate }}
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="isSaving">
+              @if (isSaving) {
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ 'COMMON.SAVING' | translate }}
+              } @else {
+                {{ 'COMMON.SAVE' | translate }}
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,167 @@
+<div class="admin-approaches-page">
+  <!-- Header -->
+  <app-admin-header></app-admin-header>
+
+  <div class="container-fluid">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/admin" class="text-decoration-none">
+            <i class="bi bi-house-door me-1"></i>
+            {{ 'ADMIN.LIST.DASHBOARD' | translate }}
+          </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          <i class="bi bi-people me-1"></i>
+          {{ 'ADMIN.APPROACHES.APPROACHES' | translate }}
+        </li>
+      </ol>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+      <h2 class="mb-0">
+        <i class="bi bi-people me-3"></i>
+        {{ 'ADMIN.APPROACHES.MANAGE_APPROACHES' | translate }}
+      </h2>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row align-items-end">
+          <div class="col-md-8">
+            <label class="form-label fw-semibold">{{ 'ADMIN.LIST.RESEARCH' | translate }}</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-search"></i>
+              </span>
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="{{ 'ADMIN.APPROACHES.RESEARCH_BY' | translate }}"
+                [(ngModel)]="searchQuery"
+                (input)="onSearch()">
+              @if (searchQuery) {
+                <button class="btn btn-outline-secondary" (click)="searchQuery = ''; onSearch()">
+                  <i class="bi bi-x"></i>
+                </button>
+              }
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">{{ 'ADMIN.LIST.PAGE_RESULTS' | translate }}</label>
+            <select class="form-select" [(ngModel)]="itemsPerPage" (change)="changeItemsPerPage(itemsPerPage)">
+              <option [value]="5">5</option>
+              <option [value]="10">10</option>
+              <option [value]="25">25</option>
+              <option [value]="50">50</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-2 text-muted">
+          <i class="bi bi-info-circle me-1"></i>
+          {{ filteredApproaches.length }} {{ 'ADMIN.APPROACHES.APPROACHES_FOUND' | translate }}
+        </div>
+      </div>
+    </div>
+
+    @if (isLoading) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">{{ 'ADMIN.DASHBOARD.LOADING' | translate }}</span>
+        </div>
+      </div>
+    } @else {
+      <!-- Approaches Table -->
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">{{ 'ADMIN.APPROACHES.AD' | translate }}</th>
+                  <th scope="col">{{ 'ADMIN.APPROACHES.EVENT' | translate }}</th>
+                  <th scope="col">{{ 'ADMIN.APPROACHES.STATE' | translate }}</th>
+                  <th scope="col">{{ 'ADMIN.APPROACHES.DATE' | translate }}</th>
+                  <th scope="col">{{ 'ADMIN.APPROACHES.MESSAGE' | translate }}</th>
+                  <th scope="col">{{ 'ADMIN.APPROACHES.ACTIONS' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (approach of paginatedApproaches; track approach.id) {
+                  <tr>
+                    <td>{{ approach.id }}</td>
+                    <td>{{ approach.ad?.title }}</td>
+                    <td>{{ approach.event?.title }}</td>
+                    <td>{{ approach.state }}</td>
+                    <td>{{ approach.dateNotif | date:'short' }}</td>
+                    <td>{{ approach.message }}</td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary me-2" (click)="openEditModal(approach)">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger" (click)="confirmDelete(approach)">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Edit Approach Modal -->
+  @if (approachBeingEdited) {
+    <app-admin-approach-edit 
+      [approach]="approachBeingEdited"
+      (closed)="closeEditModal()"
+      (saved)="onApproachSaved($event)">
+    </app-admin-approach-edit>
+  }
+
+  <!-- Delete Confirmation Modal -->
+  @if (approachToDelete) {
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal fade show d-block" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              {{ 'ADMIN.APPROACHES.CONFIRM_DELETE' | translate }}
+            </h5>
+            <button type="button" class="btn-close btn-close-white" (click)="cancelDelete()"></button>
+          </div>
+          <div class="modal-body">
+            <p>{{ 'ADMIN.APPROACHES.CONFIRM_DELETE_MESSAGE' | translate }}</p>
+            <div class="alert alert-danger">
+              <strong>{{ 'ADMIN.APPROACHES.AD' | translate }}:</strong> {{ approachToDelete?.ad?.title }}<br>
+              <strong>{{ 'ADMIN.APPROACHES.EVENT' | translate }}:</strong> {{ approachToDelete?.event?.title }}<br>
+              <small class="text-muted">{{ approachToDelete.dateNotif | date:'short' }}</small>
+            </div>
+            <p class="text-muted mb-0">
+              <i class="bi bi-info-circle me-2"></i>
+              {{ 'ADMIN.LIST.IRREVERSIBLE_ACTION' | translate }}
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="cancelDelete()">
+              {{ 'COMMON.CANCEL' | translate }}
+            </button>
+            <button type="button" class="btn btn-danger" (click)="deleteApproach()">
+              <i class="bi bi-trash me-2"></i>
+              {{ 'ADMIN.LIST.DELETE_PERMANENTLY' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

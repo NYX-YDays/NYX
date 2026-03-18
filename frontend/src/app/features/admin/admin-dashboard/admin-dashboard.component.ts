@@ -14,6 +14,10 @@ import { AdminHeaderComponent } from '../shared/admin-header/admin-header.compon
   styleUrl: './admin-dashboard.component.scss'
 })
 export class AdminDashboardComponent implements OnInit {
+  /** Navigate to approaches management. */
+  public navigateToApproaches(): void {
+    this.router.navigate(['/admin/approaches']);
+  }
 
   //region injections
 
@@ -30,7 +34,8 @@ export class AdminDashboardComponent implements OnInit {
     userCount: 0,
     adCount: 0,
     eventCount: 0,
-    categoryCount: 0
+    categoryCount: 0,
+    approachCount: 0
   };
 
   /** Current admin user */
@@ -53,7 +58,9 @@ export class AdminDashboardComponent implements OnInit {
       this.isLoading = true;
       
       // Appeler la route API dédiée aux stats
-      this.stats = await this.adminService.getStatistics();
+      const stats = await this.adminService.getStatistics();
+      // approachCount est déjà inclus dans stats depuis le backend
+      this.stats = stats;
       
     } catch (error) {
       console.error('Error loading statistics:', error);
@@ -62,31 +69,17 @@ export class AdminDashboardComponent implements OnInit {
         userCount: 0,
         adCount: 0,
         eventCount: 0,
-        categoryCount: 0
+        categoryCount: 0,
+        approachCount: 0
       };
     } finally {
       this.isLoading = false;
     }
   }
 
-  /** Navigate to users management. */
-  public navigateToUsers(): void {
-    this.router.navigate(['/admin/users']);
-  }
-
-  /** Navigate to ads management. */
-  public navigateToAds(): void {
-    this.router.navigate(['/admin/ads']);
-  }
-
-  /** Navigate to events management. */
-  public navigateToEvents(): void {
-    this.router.navigate(['/admin/events']);
-  }
-
-  /** Navigate to categories management. */
-  public navigateToCategories(): void {
-    this.router.navigate(['/admin/categories']);
+  /** Central navigation for admin sections. */
+  public navigateTo(section: 'users' | 'ads' | 'events' | 'approaches' | 'categories'): void {
+    this.router.navigate([`/admin/${section}`]);
   }
 
   //endregion

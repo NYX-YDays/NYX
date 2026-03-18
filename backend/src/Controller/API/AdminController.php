@@ -24,13 +24,19 @@ class AdminController extends AbstractController
         UserRepository $userRepository,
         AdRepository $adRepository,
         EventRepository $eventRepository,
-        CategoryRepository $categoryRepository
+        CategoryRepository $categoryRepository,
+        EntityManagerInterface $entityManager
     ): JsonResponse {
+        // Ajout du compteur d'approches avec EntityManager
+        $approachCount = $entityManager
+            ->getRepository(\App\Entity\Approach::class)
+            ->count([]);
         return new JsonResponse([
             'userCount' => $userRepository->count([]),
             'adCount' => $adRepository->count([]),
             'eventCount' => $eventRepository->count([]),
-            'categoryCount' => $categoryRepository->count([])
+            'categoryCount' => $categoryRepository->count([]),
+            'approachCount' => $approachCount
         ]);
     }
 
@@ -316,9 +322,11 @@ class AdminController extends AbstractController
     public function deleteEvent(Event $event, EntityManagerInterface $em): JsonResponse
     {
         try {
-            // Supprimer d'abord les approches liées à l'événement
-            foreach ($event->getApproaches() as $approach) {
-                $em->remove($approach);
+            // Vérifier si l'événement a des approches liées
+            if ($event->getApproaches()->count() > 0) {
+                return new JsonResponse([
+                    'error' => 'Impossible de supprimer cet événement. Il est lié à des approches.'
+                ], 409);
             }
             
             $em->remove($event);
@@ -407,6 +415,79 @@ class AdminController extends AbstractController
         } catch (\Exception $e) {
             return new JsonResponse([
                 'error' => 'Une erreur est survenue lors de la suppression de la catégorie.'
+            ], 500);
+        }
+    }
+
+    // ==================== APPROACHES MANAGEMENT ====================
+
+    #[Route('/approaches', name: 'api_admin_approaches_list', methods: ['GET'])]
+    public function listApproaches(EntityManagerInterface $entityManager): JsonResponse
+    {
+        $approaches = $entityManager->getRepository(\App\Entity\Approach::class)->findAll();
+        return $this->json(
+            $approaches,
+            200,
+            [],
+            [
+                'groups' => ['approach:read', 'ad:read', 'event:read', 'user:read'],
+                'circular_reference_handler' => function ($object) {
+                    return $object->getId();
+                }
+            ]
+        );
+    }
+
+    #[Route('/approaches/{id}', name: 'api_admin_approaches_update', methods: ['PUT'])]
+    public function updateApproach(\App\Entity\Approach $approach, Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        try {
+            $data = json_decode($request->getContent(), true);
+            
+            if (!is_array($data)) {
+                return new JsonResponse([
+                    'error' => 'Contenu JSON invalide.'
+                ], 400);
+            }
+            
+            if (isset($data['message']) && is_string($data['message'])) {
+                $approach->setMessage($data['message']);
+            }
+            
+            if (isset($data['state']) && is_numeric($data['state'])) {
+                $approach->setState((int)$data['state']);
+            }
+            
+            $em->flush();
+            
+            return $this->json($approach, 200, [], [
+                'groups' => ['approach:read', 'ad:read', 'event:read', 'user:read'],
+                'circular_reference_handler' => function ($object) {
+                    return $object->getId();
+                }
+            ]);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'error' => 'Une erreur est survenue lors de la mise à jour de l\'approche : ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    #[Route('/approaches/{id}', name: 'api_admin_approaches_delete', methods: ['DELETE'])]
+    public function deleteApproach(\App\Entity\Approach $approach, EntityManagerInterface $em): JsonResponse
+    {
+        try {
+            $em->remove($approach);
+            $em->flush();
+
+            return new JsonResponse(['message' => 'Approche supprimée avec succès'], 200);
+        } catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $e) {
+            return new JsonResponse([
+                'error' => 'Impossible de supprimer cette approche. Elle est liée à d\'autres données.'
+            ], 409);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'error' => 'Une erreur est survenue lors de la suppression de l\'approche.'
             ], 500);
         }
     }

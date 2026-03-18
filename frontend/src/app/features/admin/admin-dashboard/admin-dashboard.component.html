@@ -21,9 +21,9 @@
             </div>
 
             <!-- Statistics Cards -->
-            <div class="row mb-4">
-                <div class="col-md-3">
-                    <div class="stat-card stat-card-users" (click)="navigateToUsers()">
+            <div class="row mb-4 cards-container">
+                <div class="stat-col">
+                    <div class="stat-card stat-card-users" (click)="navigateTo('users')">
                         <div class="stat-icon">
                             <i class="bi bi-people"></i>
                         </div>
@@ -31,12 +31,11 @@
                             <div class="stat-value">{{ stats.userCount }}</div>
                             <div class="stat-label">{{ 'ADMIN.DASHBOARD.USERS' | translate }}</div>
                         </div>
-                    <i class="bi bi-arrow-right stat-arrow"></i>
+                        <i class="bi bi-arrow-right stat-arrow"></i>
                     </div>
                 </div>
-
-                <div class="col-md-3">
-                    <div class="stat-card stat-card-ads" (click)="navigateToAds()">
+                <div class="stat-col">
+                    <div class="stat-card stat-card-ads" (click)="navigateTo('ads')">
                         <div class="stat-icon">
                             <i class="bi bi-megaphone"></i>
                         </div>
@@ -47,9 +46,8 @@
                         <i class="bi bi-arrow-right stat-arrow"></i>
                     </div>
                 </div>
-
-                <div class="col-md-3">
-                    <div class="stat-card stat-card-events" (click)="navigateToEvents()">
+                <div class="stat-col">
+                    <div class="stat-card stat-card-events" (click)="navigateTo('events')">
                         <div class="stat-icon">
                             <i class="bi bi-calendar-event"></i>
                         </div>
@@ -60,9 +58,20 @@
                         <i class="bi bi-arrow-right stat-arrow"></i>
                     </div>
                 </div>
-
-                <div class="col-md-3">
-                    <div class="stat-card stat-card-categories" (click)="navigateToCategories()">
+                <div class="stat-col">
+                    <div class="stat-card stat-card-approaches" (click)="navigateTo('approaches')">
+                        <div class="stat-icon">
+                            <i class="bi bi-signpost"></i>
+                        </div>
+                        <div class="stat-details">
+                            <div class="stat-value">{{ stats.approachCount }}</div>
+                            <div class="stat-label">Approches</div>
+                        </div>
+                        <i class="bi bi-arrow-right stat-arrow"></i>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="stat-card stat-card-categories" (click)="navigateTo('categories')">
                         <div class="stat-icon">
                             <i class="bi bi-tags"></i>
                         </div>
