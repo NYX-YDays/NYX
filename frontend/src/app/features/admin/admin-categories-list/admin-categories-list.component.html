@@ -1,0 +1,157 @@
+<app-admin-header [title]="'ADMIN.CATEGORIES.TITLE'" (back)="goBack()"></app-admin-header>
+
+<div class="admin-categories-container">
+  <!-- Search & Add Section -->
+  <div class="search-add-section">
+    <div class="search-box">
+      <i class="bi bi-search search-icon"></i>
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
+        (input)="onSearch()"
+        [placeholder]="'ADMIN.CATEGORIES.SEARCH_PLACEHOLDER' | translate"
+        class="search-input">
+    </div>
+    
+    <button class="btn-add" (click)="openCreateModal()">
+      <i class="bi bi-plus-lg"></i>
+      {{ 'ADMIN.CATEGORIES.ADD_CATEGORY' | translate }}
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  @if (isLoading) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>{{ 'ADMIN.CATEGORIES.LOADING' | translate }}</p>
+    </div>
+  }
+
+  <!-- Categories Table -->
+  @if (!isLoading) {
+    <div class="table-container">
+      <table class="categories-table">
+        <thead>
+          <tr>
+            <th>{{ 'ADMIN.CATEGORIES.TABLE.ID' | translate }}</th>
+            <th>{{ 'ADMIN.CATEGORIES.TABLE.TITLE' | translate }}</th>
+            <th>{{ 'ADMIN.CATEGORIES.TABLE.ACTIONS' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (category of paginatedCategories; track category.id) {
+            <tr>
+              <td class="id-column">{{ category.id }}</td>
+              <td class="title-column">{{ category.title }}</td>
+              <td class="actions-column">
+                <button class="btn-icon btn-edit" (click)="openEditModal(category)" [title]="'ADMIN.CATEGORIES.EDIT' | translate">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn-icon btn-delete" (click)="confirmDelete(category)" [title]="'ADMIN.CATEGORIES.DELETE' | translate">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="3" class="empty-message">
+                {{ 'ADMIN.CATEGORIES.NO_CATEGORIES' | translate }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    @if (filteredCategories.length > 0) {
+      <div class="pagination-container">
+        <div class="pagination-info">
+          {{ 'ADMIN.CATEGORIES.SHOWING' | translate }} 
+          {{ ((currentPage - 1) * itemsPerPage) + 1 }} - 
+          {{ currentPage * itemsPerPage > filteredCategories.length ? filteredCategories.length : currentPage * itemsPerPage }}
+          {{ 'ADMIN.CATEGORIES.OF' | translate }} {{ filteredCategories.length }}
+        </div>
+        
+        <nav class="pagination-nav">
+          <ul class="pagination">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <button class="page-link" (click)="previousPage()" [disabled]="currentPage === 1">
+                <i class="bi bi-chevron-left"></i>
+              </button>
+            </li>
+            
+            @for (page of getPageNumbers(); track $index) {
+              @if (page === -1) {
+                <li class="page-item disabled">
+                  <span class="page-link">...</span>
+                </li>
+              } @else {
+                <li class="page-item" [class.active]="page === currentPage">
+                  <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
+                </li>
+              }
+            }
+            
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <button class="page-link" (click)="nextPage()" [disabled]="currentPage === totalPages">
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </li>
+          </ul>
+        </nav>
+        
+        <div class="items-per-page">
+          <label>{{ 'ADMIN.CATEGORIES.ITEMS_PER_PAGE' | translate }}</label>
+          <select (change)="changeItemsPerPage(+$any($event.target).value)">
+            <option [value]="10" [selected]="itemsPerPage === 10">10</option>
+            <option [value]="25" [selected]="itemsPerPage === 25">25</option>
+            <option [value]="50" [selected]="itemsPerPage === 50">50</option>
+          </select>
+        </div>
+      </div>
+    }
+  }
+</div>
+
+<!-- Delete Confirmation Modal -->
+@if (categoryToDelete) {
+  <div class="modal-backdrop" (click)="cancelDelete()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ 'ADMIN.CATEGORIES.DELETE_CONFIRM_TITLE' | translate }}</h3>
+        <button class="btn-close" (click)="cancelDelete()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ 'ADMIN.CATEGORIES.DELETE_CONFIRM_MESSAGE' | translate }} <strong>{{ categoryToDelete.title }}</strong> ?</p>
+        <p class="warning-text">{{ 'ADMIN.CATEGORIES.DELETE_WARNING' | translate }}</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="cancelDelete()">{{ 'ADMIN.CATEGORIES.CANCEL' | translate }}</button>
+        <button class="btn-confirm-delete" (click)="deleteCategory()">{{ 'ADMIN.CATEGORIES.DELETE' | translate }}</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Edit Modal -->
+@if (categoryBeingEdited) {
+  <app-admin-category-edit
+    [category]="categoryBeingEdited"
+    [isCreateMode]="false"
+    (close)="closeEditModal()"
+    (saved)="onCategorySaved($event)">
+  </app-admin-category-edit>
+}
+
+<!-- Create Modal -->
+@if (showCreateModal) {
+  <app-admin-category-edit
+    [category]="null"
+    [isCreateMode]="true"
+    (close)="closeCreateModal()"
+    (saved)="onCategoryCreated($event)">
+  </app-admin-category-edit>
+}

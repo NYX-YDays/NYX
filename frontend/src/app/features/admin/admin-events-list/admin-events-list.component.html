@@ -1,0 +1,259 @@
+<div class="admin-events-page">
+  <!-- Header -->
+  <app-admin-header></app-admin-header>
+
+  <div class="container-fluid">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/admin" class="text-decoration-none">
+            <i class="bi bi-house-door me-1"></i>
+            {{ 'ADMIN.LIST.DASHBOARD' | translate }}
+          </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          <i class="bi bi-calendar-event me-1"></i>
+          {{ 'ADMIN.EVENTS.EVENTS' | translate }}
+        </li>
+      </ol>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+      <h2 class="mb-0">
+        <i class="bi bi-calendar-event me-3"></i>
+        {{ 'ADMIN.EVENTS.MANAGE_EVENTS' | translate }}
+      </h2>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row align-items-end">
+          <div class="col-md-8">
+            <label class="form-label fw-semibold">{{ 'ADMIN.LIST.RESEARCH' | translate }}</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-search"></i>
+              </span>
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="{{ 'ADMIN.EVENTS.RESEARCH_BY' | translate }}"
+                [(ngModel)]="searchQuery"
+                (input)="onSearch()">
+              @if (searchQuery) {
+                <button class="btn btn-outline-secondary" (click)="searchQuery = ''; onSearch()">
+                  <i class="bi bi-x"></i>
+                </button>
+              }
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">{{ 'ADMIN.LIST.PAGE_RESULTS' | translate }}</label>
+            <select class="form-select" [(ngModel)]="itemsPerPage" (change)="changeItemsPerPage(itemsPerPage)">
+              <option [value]="5">5</option>
+              <option [value]="10">10</option>
+              <option [value]="25">25</option>
+              <option [value]="50">50</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-2 text-muted">
+          <i class="bi bi-info-circle me-1"></i>
+          {{ filteredEvents.length }} {{ 'ADMIN.EVENTS.EVENTS_FOUND' | translate }}
+        </div>
+      </div>
+    </div>
+
+    @if (isLoading) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">{{ 'ADMIN.DASHBOARD.LOADING' | translate }}</span>
+        </div>
+      </div>
+    } @else {
+      
+      <!-- Events Table -->
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>{{ 'ADMIN.EVENTS.ID' | translate }}</th>
+                  <th>{{ 'ADMIN.EVENTS.TITLE' | translate }}</th>
+                  <th>{{ 'ADMIN.EVENTS.CREATOR' | translate }}</th>
+                  <th>{{ 'ADMIN.EVENTS.DATE' | translate }}</th>
+                  <th>{{ 'ADMIN.EVENTS.APPROACHES' | translate }}</th>
+                  <th class="text-end">{{ 'ADMIN.LIST.ACTIONS' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (event of paginatedEvents; track event.id) {
+                  <tr>
+                    <td class="fw-bold">#{{ event.id }}</td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="event-icon me-2">
+                          <i class="bi bi-calendar-event"></i>
+                        </div>
+                        <div>
+                          <div class="fw-semibold text-truncate" style="max-width: 200px;" title="{{ event.title }}">
+                            {{ event.title }}
+                          </div>
+                          <small class="text-muted text-truncate d-block" style="max-width: 200px;">
+                            {{ event.description }}
+                          </small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      @if (event.user) {
+                        <div class="d-flex align-items-center">
+                          <div class="user-avatar-small me-2">
+                            {{ event.user.firstName?.charAt(0) }}{{ event.user.lastName?.charAt(0) }}
+                          </div>
+                          <div>
+                            <div class="fw-semibold small">{{ event.user.firstName }} {{ event.user.lastName }}</div>
+                            <small class="text-muted">{{ event.user.email }}</small>
+                          </div>
+                        </div>
+                      } @else {
+                        <span class="text-muted">-</span>
+                      }
+                    </td>
+                    <td>
+                      <div>{{ event.dateEvent | date:'dd/MM/yyyy' }}</div>
+                      <small class="text-muted">{{ event.dateEvent | date:'HH:mm' }}</small>
+                    </td>
+                    <td>
+                      <span class="badge bg-info">
+                        <i class="bi bi-chat-dots me-1"></i>
+                        {{ getApproachesCount(event) }}
+                      </span>
+                    </td>
+                    <td class="text-end">
+                      <div class="btn-group">
+                        <button 
+                          class="btn btn-sm btn-outline-info"
+                          (click)="openEditModal(event)"
+                          title="{{ 'ADMIN.LIST.UPDATE' | translate }}">
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                        <button 
+                          class="btn btn-sm btn-outline-danger"
+                          (click)="confirmDelete(event)"
+                          title="{{ 'ADMIN.LIST.DELETE' | translate }}">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="6" class="text-center text-muted py-5">
+                      <i class="bi bi-inbox fs-1 mb-3 d-block"></i>
+                      {{ 'ADMIN.EVENTS.NO_EVENTS_FOUND' | translate }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        @if (totalPages > 1) {
+          <div class="card-footer bg-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="text-muted">
+                Page {{ currentPage }} sur {{ totalPages }}
+              </div>
+              <nav aria-label="Page navigation">
+                <ul class="pagination mb-0">
+                  <li class="page-item" [class.disabled]="currentPage === 1">
+                    <button class="page-link" (click)="previousPage()" [disabled]="currentPage === 1">
+                      <i class="bi bi-chevron-left"></i>
+                    </button>
+                  </li>
+                  
+                  @for (page of getPageNumbers(); track page) {
+                    @if (page === -1) {
+                      <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                      </li>
+                    } @else {
+                      <li class="page-item" [class.active]="currentPage === page">
+                        <button class="page-link" (click)="goToPage(page)">
+                          {{ page }}
+                        </button>
+                      </li>
+                    }
+                  }
+                  
+                  <li class="page-item" [class.disabled]="currentPage === totalPages">
+                    <button class="page-link" (click)="nextPage()" [disabled]="currentPage === totalPages">
+                      <i class="bi bi-chevron-right"></i>
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        }
+      </div>
+
+    }
+  </div>
+
+  <!-- Edit Event Modal -->
+  @if (eventBeingEdited) {
+    <app-admin-event-edit 
+      [event]="eventBeingEdited"
+      (closed)="closeEditModal()"
+      (saved)="onEventSaved($event)">
+    </app-admin-event-edit>
+  }
+
+  <!-- Delete Confirmation Modal -->
+  @if (eventToDelete) {
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal fade show d-block" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              {{ 'ADMIN.EVENTS.CONFIRM_DELETE' | translate }}
+            </h5>
+            <button type="button" class="btn-close btn-close-white" (click)="cancelDelete()"></button>
+          </div>
+          <div class="modal-body">
+            <p>{{ 'ADMIN.EVENTS.CONFIRM_DELETE_MESSAGE' | translate }}</p>
+            <div class="alert alert-danger">
+              <strong>{{ eventToDelete.title }}</strong><br>
+              <small>{{ 'ADMIN.EVENTS.BY' | translate }} {{ eventToDelete.user?.firstName }} {{ eventToDelete.user?.lastName }}</small><br>
+              <small class="text-muted">{{ eventToDelete.dateEvent | date:'dd/MM/yyyy HH:mm' }}</small>
+            </div>
+            <p class="text-muted mb-0">
+              <i class="bi bi-info-circle me-2"></i>
+              {{ 'ADMIN.LIST.IRREVERSIBLE_ACTION' | translate }}
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="cancelDelete()">
+              {{ 'COMMON.CANCEL' | translate }}
+            </button>
+            <button type="button" class="btn btn-danger" (click)="deleteEvent()">
+              <i class="bi bi-trash me-2"></i>
+              {{ 'ADMIN.LIST.DELETE_PERMANENTLY' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>

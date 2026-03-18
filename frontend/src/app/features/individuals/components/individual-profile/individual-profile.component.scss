@@ -1,0 +1,357 @@
+// Import Poppins Font
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+// Profile Container - FOND BLANC/CLAIR
+.profile-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Poppins', sans-serif;
+}
+
+// Loading & Error containers
+.loading-container,
+.error-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #212529;
+}
+
+// Banner Section
+.banner-section {
+  position: relative;
+  height: 300px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  .banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+  }
+}
+
+// Profile Header Section
+.profile-header-section {
+  position: relative;
+  margin-top: -80px;
+  z-index: 5;
+  padding: 0 1rem;
+
+  .container {
+    max-width: 1200px;
+  }
+}
+
+// Profile Main Header (Picture + Name + Tags + Contact + Edit)
+.profile-main-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+// Profile Picture
+.profile-picture-wrapper {
+  flex-shrink: 0;
+}
+
+.profile-picture {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 5px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  background-color: white;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.profile-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 5px solid #ffffff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+// Profile Info Section (Name + Tags + Address + Email)
+.profile-info-section {
+  flex: 1;
+  min-width: 0;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 992px) {
+    width: 100%;
+  }
+
+  // Name + Tags Row
+  .name-tags-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+
+  .profile-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #212529;
+    margin: 0;
+    line-height: 1.2;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+
+  // Role Tags (à côté du nom)
+  .role-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    .role-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+
+      i {
+        font-size: 0.85rem;
+      }
+    }
+
+    .role-tag-individual {
+      background-color: #1e40af;
+      color: white;
+    }
+
+    .role-tag-provider {
+      background-color: #059669;
+      color: white;
+    }
+  }
+
+  // Contact Info Row
+  .profile-contact-row {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      color: #6c757d;
+      font-size: 1rem;
+
+      i {
+        color: #667eea;
+      }
+
+      span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+
+// Profile Actions Section (Edit Button)
+.profile-actions-section {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 2rem;
+
+  @media (max-width: 992px) {
+    width: 100%;
+    justify-content: center;
+    padding-top: 0;
+  }
+
+  .btn-edit-profile {
+    padding: 0.75rem 1.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+
+    i {
+      font-size: 0.9rem;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 0.75rem 1.5rem;
+    }
+  }
+}
+
+// Info Card
+.info-card {
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+
+  .info-card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 1.25rem;
+    border-bottom: none;
+
+    h5 {
+      color: #ffffff;
+      font-weight: 600;
+      margin: 0;
+
+      i {
+        color: #ffffff;
+      }
+    }
+  }
+
+  .info-card-body {
+    padding: 2rem;
+  }
+}
+
+// Info Items
+.info-item {
+  margin-bottom: 1.5rem;
+
+  .info-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+
+    i {
+      color: #667eea;
+    }
+  }
+
+  .info-value {
+    font-size: 1rem;
+    color: #212529;
+    padding: 0.75rem 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    border-left: 3px solid #667eea;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #e9ecef;
+    }
+
+    i {
+      flex-shrink: 0;
+    }
+  }
+
+  .bio-text {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    min-height: 80px;
+    line-height: 1.6;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .banner-section {
+    height: 200px;
+  }
+
+  .profile-header-section {
+    margin-top: -60px;
+  }
+
+  .profile-picture,
+  .profile-avatar {
+    width: 120px;
+    height: 120px;
+    font-size: 2.5rem;
+  }
+
+  .info-item {
+    margin-bottom: 1rem;
+  }
+}
+
+// Spinner styling
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+// Alert styling
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+  color: #842029;
+}

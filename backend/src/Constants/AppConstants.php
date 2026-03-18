@@ -4,6 +4,7 @@ namespace App\Constants;
 
 class AppConstants
 {
+    // Rôles utilisateur
     public const PUBLIC_ACCESS = 'PUBLIC_ACCESS';
     public const ROLE_INDIVIDUAL = 'ROLE_INDIVIDUAL';
     public const ROLE_SERVICE_PROVIDER = 'ROLE_SERVICE_PROVIDER';

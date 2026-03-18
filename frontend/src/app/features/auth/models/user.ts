@@ -27,8 +27,8 @@ export class User {
   /** User address. */
   public address = '';
 
-  /** User gender. */
-  public gender = '';
+  /** User sex. */
+  public sex = '';
 
   /** User bio. */
   public bio = '';

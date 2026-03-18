@@ -1,0 +1,80 @@
+<div class="admin-dashboard">
+    <!-- Header -->
+    <app-admin-header></app-admin-header>
+
+    <!-- Main Content -->
+    <div class="admin-content">
+        <div class="container-fluid">
+        
+        @if (isLoading) {
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">{{ 'ADMIN.DASHBOARD.LOADING' | translate }}</span>
+                </div>
+            </div>
+        } @else {
+            
+            <!-- Welcome Section -->
+            <div class="welcome-section mb-4">
+                <h2>{{ 'ADMIN.DASHBOARD.WELCOME_MESSAGE' | translate }} {{ currentUser?.firstName }} !</h2>
+                <p class="text-muted">{{ 'ADMIN.DASHBOARD.PREVIEW' | translate }}</p>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card stat-card-users" (click)="navigateToUsers()">
+                        <div class="stat-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="stat-details">
+                            <div class="stat-value">{{ stats.userCount }}</div>
+                            <div class="stat-label">{{ 'ADMIN.DASHBOARD.USERS' | translate }}</div>
+                        </div>
+                    <i class="bi bi-arrow-right stat-arrow"></i>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="stat-card stat-card-ads" (click)="navigateToAds()">
+                        <div class="stat-icon">
+                            <i class="bi bi-megaphone"></i>
+                        </div>
+                        <div class="stat-details">
+                            <div class="stat-value">{{ stats.adCount }}</div>
+                            <div class="stat-label">{{ 'ADMIN.DASHBOARD.ADS' | translate }}</div>
+                        </div>
+                        <i class="bi bi-arrow-right stat-arrow"></i>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="stat-card stat-card-events" (click)="navigateToEvents()">
+                        <div class="stat-icon">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+                        <div class="stat-details">
+                            <div class="stat-value">{{ stats.eventCount }}</div>
+                            <div class="stat-label">{{ 'ADMIN.DASHBOARD.EVENTS' | translate }}</div>
+                        </div>
+                        <i class="bi bi-arrow-right stat-arrow"></i>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="stat-card stat-card-categories" (click)="navigateToCategories()">
+                        <div class="stat-icon">
+                            <i class="bi bi-tags"></i>
+                        </div>
+                        <div class="stat-details">
+                            <div class="stat-value">{{ stats.categoryCount }}</div>
+                            <div class="stat-label">{{ 'ADMIN.DASHBOARD.CATEGORIES' | translate }}</div>
+                        </div>
+                        <i class="bi bi-arrow-right stat-arrow"></i>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    </div>
+</div>

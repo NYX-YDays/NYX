@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/components/home/home.component';
-import {
-  IndividualProfileComponent
-} from './features/individuals/components/individual-profile/individual-profile.component';
+import { IndividualProfileComponent } from './features/individuals/components/individual-profile/individual-profile.component';
+import { IndividualProfileEditComponent } from './features/individuals/components/individual-profile-edit/individual-profile-edit.component';
+import { IndividualEventsComponent } from './features/individuals/components/individual-events/individual-events.component';
 import { EventListComponent } from './features/events/components/event-list/event-list.component';
 import { individualGuard } from './shared/guards/individual.guard';
 import { RouteSettings } from './shared/models/route-settings';
@@ -11,6 +11,12 @@ import { SignUpFormComponent } from './features/auth/components/forms/sign-up-fo
 import { AdListComponent } from './features/ads/components/ad-list/ad-list.component';
 import { AdDetailComponent } from './features/ads/components/ad-detail/ad-detail.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
+import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-dashboard.component';
+import { adminGuard } from './shared/guards/admin.guard';
+import { AdminUsersListComponent } from './features/admin/admin-users-list/admin-users-list.component';
+import { AdminAdsListComponent } from './features/admin/admin-ads-list/admin-ads-list.component';
+import { AdminEventsListComponent } from './features/admin/admin-events-list/admin-events-list.component';
+import { AdminCategoriesListComponent } from './features/admin/admin-categories-list/admin-categories-list.component';
 import { EventDetailComponent } from './features/events/components/event-detail/event-detail.component';
 import { AddEventComponent } from './features/events/components/add-event/add-event.component';
 import { ApproachListComponent } from './features/approaches/components/approach-list/approach-list.component';
@@ -25,6 +31,61 @@ export const routes: Routes = [
     path: 'profile',
     component: IndividualProfileComponent,
     canActivate: [individualGuard]
+  },
+  {
+    path: 'profile/edit',
+    component: IndividualProfileEditComponent,
+    canActivate: [individualGuard]
+  },
+
+  //endregion
+
+  //region admin
+
+  // Admin routes (protégées par adminGuard)
+  {
+    path: 'admin',
+    component: AdminDashboardComponent,
+    canActivate: [adminGuard],
+    data: {
+      showAppLayout: false
+    } as RouteSettings
+  },
+
+  {
+    path: 'admin/users',
+    component: AdminUsersListComponent,
+    canActivate: [adminGuard],
+    data: {
+      showAppLayout: false
+    } as RouteSettings
+  },
+
+  {
+    path: 'admin/ads',
+    component: AdminAdsListComponent,
+    canActivate: [adminGuard],
+    data: {
+      showAppLayout: false
+    } as RouteSettings
+  },
+
+  {
+    path: 'admin/events',
+    component: AdminEventsListComponent,
+    canActivate: [adminGuard],
+    data: {
+      showAppLayout: false
+    } as RouteSettings
+  },
+
+  {
+    path: 'admin/categories',
+    component: AdminCategoriesListComponent,
+    canActivate: [adminGuard],
+    data: {
+      showAppLayout: false
+    } as RouteSettings
   },
 
   //endregion

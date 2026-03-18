@@ -1,0 +1,127 @@
+@if (event) {
+  <div class="modal-backdrop fade show"></div>
+  <div class="modal fade show d-block" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="bi bi-pencil-square me-2"></i>
+            {{ 'ADMIN.EDIT_EVENTS.UPDATE' | translate }} {{ event.title }}
+          </h5>
+          <button type="button" class="btn-close" (click)="close()" [disabled]="isSaving"></button>
+        </div>
+
+        <form [formGroup]="eventForm" (ngSubmit)="save()">
+          <div class="modal-body">
+            
+            <!-- Informations de l'événement -->
+            <h6 class="mb-3">
+              <i class="bi bi-calendar-event me-2"></i>
+              {{ 'ADMIN.EDIT_EVENTS.EVENT_INFO' | translate }}
+            </h6>
+
+            <div class="mb-3">
+              <label class="form-label">{{ 'ADMIN.EDIT_EVENTS.TITLE' | translate }} *</label>
+              <input 
+                type="text" 
+                class="form-control"
+                [class.is-invalid]="hasError('title')"
+                formControlName="title"
+                placeholder="Titre de l'événement">
+              @if (hasError('title')) {
+                <div class="invalid-feedback">{{ getErrorMessage('title') }}</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">{{ 'ADMIN.EDIT_EVENTS.DESCRIPTION' | translate }} *</label>
+              <textarea 
+                class="form-control"
+                [class.is-invalid]="hasError('description')"
+                formControlName="description"
+                rows="3"
+                placeholder="Description de l'événement"></textarea>
+              @if (hasError('description')) {
+                <div class="invalid-feedback">{{ getErrorMessage('description') }}</div>
+              }
+              <small class="text-muted">
+                {{ eventForm.get('description')?.value?.length || 0 }}/500 {{ 'ADMIN.EDIT_EVENTS.CHARACTERS' | translate }}
+              </small>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">{{ 'ADMIN.EDIT_EVENTS.DATE' | translate }} *</label>
+              <input 
+                type="datetime-local" 
+                class="form-control"
+                [class.is-invalid]="hasError('dateEvent')"
+                formControlName="dateEvent">
+              @if (hasError('dateEvent')) {
+                <div class="invalid-feedback">{{ getErrorMessage('dateEvent') }}</div>
+              }
+            </div>
+
+            <!-- Informations sur le créateur (lecture seule) -->
+            @if (event.user) {
+              <h6 class="mb-3 mt-4">
+                <i class="bi bi-person me-2"></i>
+                {{ 'ADMIN.EDIT_EVENTS.CREATOR' | translate }}
+              </h6>
+              
+              <div class="creator-info p-3 rounded">
+                <div class="d-flex align-items-center">
+                  <div class="creator-avatar me-3">
+                    {{ event.user.firstName?.charAt(0) }}{{ event.user.lastName?.charAt(0) }}
+                  </div>
+                  <div>
+                    <div class="fw-semibold">{{ event.user.firstName }} {{ event.user.lastName }}</div>
+                    <small class="text-muted">{{ event.user.email }}</small>
+                  </div>
+                </div>
+              </div>
+            }
+
+            <!-- Statistiques des approches (lecture seule) -->
+            @if (event.approaches && event.approaches.length > 0) {
+              <h6 class="mb-3 mt-4">
+                <i class="bi bi-chat-dots me-2"></i>
+                {{ 'ADMIN.EDIT_EVENTS.APPROACHES_INFO' | translate }}
+              </h6>
+              
+              <div class="approaches-summary p-3 rounded">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span>{{ 'ADMIN.EDIT_EVENTS.TOTAL_APPROACHES' | translate }}</span>
+                  <span class="badge bg-info fs-6">{{ event.approaches.length }}</span>
+                </div>
+              </div>
+            }
+
+          </div>
+
+          <div class="modal-footer">
+            <button 
+              type="button" 
+              class="btn btn-secondary" 
+              (click)="close()"
+              [disabled]="isSaving">
+              {{ 'COMMON.CANCEL' | translate }}
+            </button>
+            <button 
+              type="submit" 
+              class="btn btn-primary"
+              [disabled]="isSaving || eventForm.invalid">
+              @if (isSaving) {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                {{ 'ADMIN.EDIT_EVENTS.SAVING' | translate }}
+              } @else {
+                <i class="bi bi-save me-2"></i>
+                {{ 'COMMON.SAVE' | translate }}
+              }
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+}

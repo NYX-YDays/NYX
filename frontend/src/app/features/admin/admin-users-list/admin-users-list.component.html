@@ -1,0 +1,312 @@
+<div class="admin-users-page">
+  <!-- Header -->
+  <app-admin-header></app-admin-header>
+
+  <div class="container-fluid">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/admin" class="text-decoration-none">
+            <i class="bi bi-house-door me-1"></i>
+            {{ 'ADMIN.LIST.DASHBOARD' | translate }}
+          </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          <i class="bi bi-people me-1"></i>
+          {{ 'ADMIN.LIST.USERS' | translate }}
+        </li>
+      </ol>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+      <h2 class="mb-0">
+        <i class="bi bi-people me-3"></i>
+        {{ 'ADMIN.LIST.MANAGE_USERS' | translate }}
+      </h2>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row align-items-end">
+          <div class="col-md-8">
+            <label class="form-label fw-semibold">{{ 'ADMIN.LIST.RESEARCH' | translate }}</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-search"></i>
+              </span>
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="{{ 'ADMIN.LIST.RESEARCH_BY' | translate }}"
+                [(ngModel)]="searchQuery"
+                (input)="onSearch()">
+              @if (searchQuery) {
+                <button class="btn btn-outline-secondary" (click)="searchQuery = ''; onSearch()">
+                  <i class="bi bi-x"></i>
+                </button>
+              }
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">{{ 'ADMIN.LIST.PAGE_RESULTS' | translate }}</label>
+            <select class="form-select" [(ngModel)]="itemsPerPage" (change)="changeItemsPerPage(itemsPerPage)">
+              <option [value]="5">5</option>
+              <option [value]="10">10</option>
+              <option [value]="25">25</option>
+              <option [value]="50">50</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-2 text-muted">
+          <i class="bi bi-info-circle me-1"></i>
+          {{ filteredUsers.length }} {{ 'ADMIN.LIST.USERS_FOUND' | translate }}
+        </div>
+      </div>
+    </div>
+
+    @if (isLoading) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">{{ 'ADMIN.DASHBOARD.LOADING' | translate }}</span>
+        </div>
+      </div>
+    } @else {
+      
+      <!-- Users Table -->
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>{{ 'ADMIN.LIST.ID' | translate }}</th>
+                  <th>{{ 'ADMIN.LIST.NAME' | translate }}</th>
+                  <th>{{ 'ADMIN.LIST.EMAIL' | translate }}</th>
+                  <th>{{ 'ADMIN.LIST.PHONE' | translate }}</th>
+                  <th>{{ 'ADMIN.LIST.ROLES' | translate }}</th>
+                  <th>{{ 'ADMIN.LIST.BIRTHDAY_DATE' | translate }}</th>
+                  <th class="text-end">{{ 'ADMIN.LIST.ACTIONS' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (user of paginatedUsers; track user.id) {
+                  <tr>
+                    <td class="fw-bold">#{{ user.id }}</td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="user-avatar me-2">
+                          {{ user.firstName?.charAt(0) }}{{ user.lastName?.charAt(0) }}
+                        </div>
+                        <div>
+                          <div class="fw-semibold">{{ user.firstName }} {{ user.lastName }}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.phone || '-' }}</td>
+                    <td>
+                      @for (role of user.roles; track role) {
+                        <span class="badge {{ getRoleBadgeClass(role) }} me-1">
+                          {{ getRoleLabel(role) }}
+                        </span>
+                      }
+                    </td>
+                    <td>{{ user.birthdayDate ? (user.birthdayDate | date:'dd/MM/yyyy') : '-' }}</td>
+                    <td class="text-end">
+                      <div class="btn-group">
+                        <button 
+                          class="btn btn-sm btn-outline-info"
+                          (click)="openEditModal(user)"
+                          title="{{ 'ADMIN.LIST.UPDATE' | translate }}">
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                        <button 
+                          class="btn btn-sm btn-outline-primary"
+                          (click)="openRoleModal(user)"
+                          title="{{ 'ADMIN.LIST.UPDATE_ROLES' | translate }}">
+                          <i class="bi bi-person-badge"></i>
+                        </button>
+                        <button 
+                          class="btn btn-sm btn-outline-danger"
+                          (click)="confirmDelete(user)"
+                          title="{{ 'ADMIN.LIST.DELETE' | translate }}">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="7" class="text-center text-muted py-5">
+                      <i class="bi bi-inbox fs-1 mb-3 d-block"></i>
+                      {{ 'ADMIN.LIST.NO_USERS_FOUND' | translate }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        @if (totalPages > 1) {
+          <div class="card-footer bg-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="text-muted">
+                Page {{ currentPage }} sur {{ totalPages }}
+              </div>
+              <nav aria-label="Page navigation">
+                <ul class="pagination mb-0">
+                  <li class="page-item" [class.disabled]="currentPage === 1">
+                    <button class="page-link" (click)="previousPage()" [disabled]="currentPage === 1">
+                      <i class="bi bi-chevron-left"></i>
+                    </button>
+                  </li>
+                  
+                  @for (page of getPageNumbers(); track page) {
+                    @if (page === -1) {
+                      <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                      </li>
+                    } @else {
+                      <li class="page-item" [class.active]="currentPage === page">
+                        <button class="page-link" (click)="goToPage(page)">
+                          {{ page }}
+                        </button>
+                      </li>
+                    }
+                  }
+                  
+                  <li class="page-item" [class.disabled]="currentPage === totalPages">
+                    <button class="page-link" (click)="nextPage()" [disabled]="currentPage === totalPages">
+                      <i class="bi bi-chevron-right"></i>
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        }
+      </div>
+
+    }
+  </div>
+
+  <!-- Edit User Modal -->
+  @if (userBeingEdited) {
+    <app-admin-user-edit 
+      [user]="userBeingEdited"
+      (closed)="closeEditModal()"
+      (saved)="onUserSaved($event)">
+    </app-admin-user-edit>
+  }
+
+  <!-- Role Edit Modal -->
+  @if (selectedUser) {
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal fade show d-block" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="bi bi-person-badge me-2"></i>
+                {{ 'ADMIN.LIST.UPDATE_ROLES' | translate }} de {{ selectedUser.firstName }} {{ selectedUser.lastName }}
+            </h5>
+            <button type="button" class="btn-close" (click)="closeRoleModal()"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-check mb-3">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                id="roleIndividual"
+                [checked]="hasRole('ROLE_INDIVIDUAL')"
+                disabled>
+              <label class="form-check-label" for="roleIndividual">
+                <strong>{{ 'ADMIN.LIST.PRIVATE_INDIVIDUAL' | translate }}</strong>
+                <small class="d-block text-muted">{{ 'ADMIN.LIST.MANDATORY_ROLE' | translate }}</small>
+              </label>
+            </div>
+            
+            <div class="form-check mb-3">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                id="roleServiceProvider"
+                [checked]="hasRole('ROLE_SERVICE_PROVIDER')"
+                (change)="toggleRole('ROLE_SERVICE_PROVIDER')">
+              <label class="form-check-label" for="roleServiceProvider">
+                <strong>{{ 'ADMIN.LIST.SERVICE_PROVIDER' | translate }}</strong>
+                <small class="d-block text-muted">{{ 'ADMIN.LIST.SERVICE_PROVIDER_INFO' | translate }}</small>
+              </label>
+            </div>
+            
+            <div class="form-check">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                id="roleAdmin"
+                [checked]="hasRole('ROLE_ADMIN')"
+                (change)="toggleRole('ROLE_ADMIN')">
+              <label class="form-check-label" for="roleAdmin">
+                <strong>{{ 'ADMIN.LIST.ADMIN' | translate }}</strong>
+                <small class="d-block text-muted">{{ 'ADMIN.LIST.ADMIN_INFO' | translate }}</small>
+              </label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeRoleModal()">
+              {{ 'COMMON.CANCEL' | translate }}
+            </button>
+            <button type="button" class="btn btn-primary" (click)="saveRoles()">
+              <i class="bi bi-save me-2"></i>
+              {{ 'COMMON.SAVE' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Delete Confirmation Modal -->
+  @if (userToDelete) {
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal fade show d-block" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              {{ 'ADMIN.LIST.CONFIRM_DELETE_USER' | translate }}
+            </h5>
+            <button type="button" class="btn-close btn-close-white" (click)="cancelDelete()"></button>
+          </div>
+          <div class="modal-body">
+            <p>{{ 'ADMIN.LIST.CONFIRM_DELETE_USER_MESSAGE' | translate }}</p>
+            <div class="alert alert-danger">
+              <strong>{{ userToDelete.firstName }} {{ userToDelete.lastName }}</strong><br>
+              <small>{{ userToDelete.email }}</small>
+            </div>
+            <p class="text-muted mb-0">
+              <i class="bi bi-info-circle me-2"></i>
+              {{ 'ADMIN.LIST.IRREVERSIBLE_ACTION' | translate }}
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="cancelDelete()">
+              Annuler
+            </button>
+            <button type="button" class="btn btn-danger" (click)="deleteUser()">
+              <i class="bi bi-trash me-2"></i>
+              {{ 'ADMIN.LIST.DELETE_PERMANENTLY' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>
