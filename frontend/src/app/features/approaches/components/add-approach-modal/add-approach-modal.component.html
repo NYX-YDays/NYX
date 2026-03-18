@@ -1,0 +1,88 @@
+<button #modalOpeningButton type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#addApproachModal">
+</button>
+
+<div id="addApproachModal" class="modal fade p-2" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 1000px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button #modalClosingButton type="button" data-bs-dismiss="modal" class="btn-close"></button>
+      </div>
+      <div class="modal-body overflow-auto" style="max-height: 75vh">
+
+        <h6>{{ 'APPROACH.ADD_MODAL.IMPORTANT_SERVICE_CONDITIONS_TITLE' | translate }}</h6>
+        <div class="small text-muted text-justify overflow-auto" style="max-height: 200px">
+          <!-- TODO: display important service conditions here -->
+        </div>
+
+        <hr/>
+
+        <!-- Service provider contact info -->
+        @if (ad()?.user) {
+          <h6>{{ 'APPROACH.ADD_MODAL.CONTACT_SERVICE_PROVIDER_TITLE' | translate: {name: ad()?.user?.firstName + ' ' + ad()?.user?.lastName} }}</h6>
+          @if (ad()?.user?.email) {
+            <div>
+              <i class="bi bi-envelope me-2"></i>
+              <a [href]="`mailto:${ad()?.user?.email}`">{{ ad()?.user?.email }}</a>
+            </div>
+          }
+          @if (ad()?.user?.phoneNumber) {
+            <div>
+              <i class="bi bi-telephone me-2"></i>
+              <a [href]="`tel:${ad()?.user?.phoneNumber}`">{{ ad()?.user?.phoneNumber }}</a>
+            </div>
+          }
+          <hr/>
+        }
+
+        <div class="mt-4">
+          @if (loadingState() == LoadingState.INITIALIZING) {
+            <span class="spinner-grow spinner-grow-sm text-primary"></span>
+          } @else {
+            @if (userEvents().length) {
+              <form #addApproachForm="ngForm" (submit)="addApproachAsync()">
+
+                <!-- Event Selection -->
+                <h6 class="text-primary">{{ 'APPROACH.ADD_MODAL.EVENT_SELECT_TEXT' | translate }}</h6>
+                <select [(ngModel)]="approach().eventId"
+                        name="eventId"
+                        required
+                        class="form-select mb-4"
+                        style="max-width: min(100%, 500px)">
+                  @for (event of userEvents(); track event.id) {
+                    <option [value]="event.id" class="text-truncate w-100">{{ event.title }}</option>
+                  }
+                  <option [value]="undefined"
+                          disabled>{{ 'APPROACH.ADD_MODAL.DEFAULT_SELECTED_EVENT_TEXT' | translate }}
+                  </option>
+                </select>
+
+                <!-- Comment to service provider -->
+                <h6 class="text-primary">{{ 'APPROACH.ADD_MODAL.COMMENT_INPUT_TEXT' | translate }}</h6>
+                <textarea [(ngModel)]="approach().message"
+                          name="message"
+                          required
+                          class="form-control mb-4"
+                          style="max-width: min(100%, 700px)"
+                          [placeholder]="'APPROACH.ADD_MODAL.COMMENT_INPUT_PLACEHOLDER' | translate: {name: ad()?.user?.firstName + ' ' + ad()?.user?.lastName}"></textarea>
+
+                <button type="submit"
+                        [disabled]="loadingState() != LoadingState.READY || addApproachForm.invalid"
+                        class="btn btn-primary">
+                  @if (loadingState() == LoadingState.SENDING) {
+                    <span class="spinner-grow spinner-grow-sm"></span>
+                  }
+                  {{ 'APPROACH.ADD_MODAL.SUBMIT_BUTTON_TEXT' | translate }}
+                </button>
+
+              </form>
+            } @else {
+              <a routerLink="/events"
+                 (click)="closeModal()">{{ 'APPROACH.ADD_MODAL.CREATE_EVENT_TO_BOOK_LINK_TEXT' | translate }}</a>
+            }
+          }
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

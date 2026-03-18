@@ -3,6 +3,7 @@ import { HomeComponent } from './features/home/components/home/home.component';
 import { IndividualProfileComponent } from './features/individuals/components/individual-profile/individual-profile.component';
 import { IndividualProfileEditComponent } from './features/individuals/components/individual-profile-edit/individual-profile-edit.component';
 import { IndividualEventsComponent } from './features/individuals/components/individual-events/individual-events.component';
+import { EventListComponent } from './features/events/components/event-list/event-list.component';
 import { individualGuard } from './shared/guards/individual.guard';
 import { RouteSettings } from './shared/models/route-settings';
 import { SignInFormComponent } from './features/auth/components/forms/sign-in-form/sign-in-form.component';
@@ -16,6 +17,10 @@ import { AdminUsersListComponent } from './features/admin/admin-users-list/admin
 import { AdminAdsListComponent } from './features/admin/admin-ads-list/admin-ads-list.component';
 import { AdminEventsListComponent } from './features/admin/admin-events-list/admin-events-list.component';
 import { AdminCategoriesListComponent } from './features/admin/admin-categories-list/admin-categories-list.component';
+import { EventDetailComponent } from './features/events/components/event-detail/event-detail.component';
+import { AddEventComponent } from './features/events/components/add-event/add-event.component';
+import { ApproachListComponent } from './features/approaches/components/approach-list/approach-list.component';
+import { serviceProviderGuard } from './shared/guards/service-provider.guard';
 
 export const routes: Routes = [
 
@@ -89,8 +94,20 @@ export const routes: Routes = [
 
   {
     path: 'events',
-    component: IndividualEventsComponent,
-    canActivate: [individualGuard],
+    component: EventListComponent,
+    canActivate: [individualGuard]
+  },
+
+  {
+    path: 'event/add',
+    component: AddEventComponent,
+    canActivate: [individualGuard]
+  },
+
+  {
+    path: 'event/:id',
+    component: EventDetailComponent,
+    canActivate: [individualGuard]
   },
 
   //endregion
@@ -100,10 +117,7 @@ export const routes: Routes = [
   // Ads list
   {
     path: 'ads',
-    component: AdListComponent,
-    data: {
-      showAppLayout: true
-    } as RouteSettings
+    component: AdListComponent
   },
 
   // Ad detail
@@ -114,7 +128,13 @@ export const routes: Routes = [
 
   //endregion
 
-  //region service providers
+  //region approaches
+
+  {
+    path: 'approaches',
+    component: ApproachListComponent,
+    canActivate: [serviceProviderGuard]
+  },
 
   //endregion
 

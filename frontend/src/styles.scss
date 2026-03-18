@@ -4,11 +4,14 @@
 @import "bootstrap/scss/mixins";
 @import "bootstrap-icons";
 
+@import "styles/classes";
 @import "styles/colors";
 @import "styles/fonts";
 
 @import "styles/components/form/input";
 @import "styles/components/form/check";
+@import "styles/components/form/select";
 @import "styles/components/dropdown";
+@import "styles/components/button";
 
 @import "bootstrap/scss/bootstrap";

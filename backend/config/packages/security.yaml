@@ -43,15 +43,20 @@ security:
         - { path: ^/api/admin, roles: [ROLE_ADMIN] }
 
         # Ads
+        - { path: ^/api/categories, methods: [GET], roles: [PUBLIC_ACCESS] }
         - { path: ^/api/ads, methods: [GET], roles: [PUBLIC_ACCESS] }
         - { path: ^/api/ad/\d+, methods: [GET], roles: [PUBLIC_ACCESS] }
         - { path: ^/api/ad/\d+, methods: [PUT, DELETE], roles: [ROLE_SERVICE_PROVIDER] }
         - { path: ^/api/ad, methods: [POST], roles: [ROLE_SERVICE_PROVIDER] }
 
-        # Users (and their datas)
+        # Users (and their data)
         - { path: ^/api/user/ads, methods: [GET], roles: [ROLE_SERVICE_PROVIDER] }
-        - { path: ^/api/user/\d+/approaches, methods: [GET], roles: [ROLE_SERVICE_PROVIDER] }
+        - { path: ^/api/user/approaches, methods: [GET], roles: [ROLE_SERVICE_PROVIDER] }
+        - { path: ^/api/user/approaches/\d+, methods: [GET], roles: [ROLE_INDIVIDUAL] }
+        - { path: ^/api/user/approaches/pending/count, methods: [ GET ], roles: [ ROLE_SERVICE_PROVIDER ] }
         - { path: ^/api/user/events, methods: [GET], roles: [ROLE_INDIVIDUAL] }
+        - { path: ^/api/user/events/\d+, methods: [GET], roles: [ROLE_INDIVIDUAL] }
+        - { path: ^/api/user/events/notLinkedToAd/\d+, methods: [GET], roles: [ROLE_INDIVIDUAL] }
         - { path: ^/api/user, methods: [POST], roles: [PUBLIC_ACCESS] }
         - { path: ^/api/user, methods: [GET], roles: [PUBLIC_ACCESS] }
         - { path: ^/api/user/\d+, methods: [PUT, DELETE], roles: [ROLE_INDIVIDUAL] }

@@ -1,0 +1,27 @@
+<button #modalOpeningButton type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#confirmModal">
+</button>
+
+<div id="confirmModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'COMMON.CONFIRM_MODAL.MODAL_TITLE' | translate }}</h5>
+        <button #modalClosingButton
+                type="button"
+                [attr.data-bs-dismiss]="!currentModalId() ? 'modal' : null"
+                [attr.data-bs-toggle]="currentModalId() ? 'modal' : null"
+                [attr.data-bs-target]="currentModalId() ? `#${currentModalId()}` : null"
+                class="btn-close"></button>
+      </div>
+      <div class="modal-body">{{ confirmationMessage() }}</div>
+      <div class="modal-footer">
+        <button (click)="closeModal()" class="btn btn-outline-primary">
+          {{ 'COMMON.CONFIRM_MODAL.DISMISS_BTN_TEXT' | translate }}
+        </button>
+        <button (click)="confirm()" class="btn btn-primary">
+          {{ 'COMMON.CONFIRM_MODAL.CONFIRM_BTN_TEXT' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

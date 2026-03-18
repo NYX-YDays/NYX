@@ -6,6 +6,8 @@
     "CANCEL": "Cancel",
     "SAVE": "Save",
     "SAVING": "Saving...",
+    "DATE_FORMAT": "yyyy-MM-dd",
+    "DATETIME_FORMAT": "yyyy-MM-dd hh:mm a",
     "API": {
       "GET_ERROR": "Failed retrieving data.",
       "ADD_ERROR": "Failed adding data.",
@@ -88,7 +90,9 @@
       "CONTACT": "Contact",
       "NO_INFORMATION": "No informations available",
       "NO_ID_ADS": "No ad ID specified",
-      "ADS_ERROR": "Error loading ads"
+      "ADS_ERROR": "Error loading ads",
+      "ADD_APPROACH_BUTTON_TEXT": "Book this service",
+      "SIGN_IN_ADD_APPROACH_LINK_TEXT": "Sign in to book this approach"
     },
     "AD_STATUS": {
       "VERIFIED": "Verified",
@@ -97,25 +101,72 @@
     "SPINNER_TEXT": "Loading..."
   },
   "EVENT": {
-    "MY_EVENTS": "My events",
-    "ADD_EVENT": "Add event",
-    "EDIT_EVENT": "Modify event",
-    "TITLE": "Title",
-    "TITLE_REQUIRED": "Title is required",
-    "DESCRIPTION": "Description",
-    "DESCRIPTION_REQUIRED": "Description is required",
-    "NO_EVENTS": "You don't have any events yet",
-    "ADD_SUCCESS": "Event added successfully",
-    "UPDATE_SUCCESS": "Event updated successfully",
-    "DELETE_SUCCESS": "Event deleted successfully",
-    "CONFIRM_DELETE": "Are you sure you want to delete this event?",
-    "APPROACHES": "Approaches",
-    "FROM": "From",
-    "ABOUT_AD": "Concerning the announcement",
-    "STATE_1": "Waiting",
-    "STATE_2": "In progress",
-    "STATE_3": "Accepted",
-    "STATE_4": "Rejected"
+    "EDIT_FORM": {
+      "FORM_TITLE_INPUT_TEXT": "Title",
+      "FORM_INVALID_TITLE_TEXT": "A title is required",
+      "FORM_DATE_INPUT_TEXT": "Date",
+      "FORM_INVALID_DATE_TEXT": "A date is required",
+      "FORM_DESCRIPTION_INPUT_TEXT": "Description",
+      "SAVE_SUCCESS_MESSAGE": "Event saved successfully."
+    },
+    "LISTING_PAGE": {
+      "TITLE": "My events",
+      "EVENT_COUNT": "{{count}} event(s)",
+      "ADD_EVENT_BUTTON_TEXT": "Create an event"
+    },
+    "DETAIL_PAGE": {
+      "EVENTS_LINK_TEXT": "Go back to events",
+      "EVENT_ADS_TITLE": "Ad(s) linked to this event",
+      "ADD_APPROACH_BUTTON_TEXT": "Browse ads",
+      "APPROACH_SENT_TEXT": "Sent {{date}}",
+      "DELETE_CONFIRM_MESSAGE": "Delete this event permanently?",
+      "DELETE_SUCCESS_MESSAGE": "Event deleted successfully."
+    },
+    "ADD_PAGE": {
+      "TITLE": "Create an event",
+      "EVENTS_LINK_TEXT": "Go back to events"
+    }
+  },
+  "APPROACH": {
+    "PENDING": "Pending",
+    "APPROVED": "Approved",
+    "REFUSED": "Refused",
+    "CANCELLED": "Cancelled",
+    "ADD_MODAL": {
+      "IMPORTANT_SERVICE_CONDITIONS_TITLE": "Important service conditions",
+      "CONTACT_SERVICE_PROVIDER_TITLE": "Contact {{name}}",
+      "EVENT_SELECT_TEXT": "For which of your events would you like to book this service?",
+      "DEFAULT_SELECTED_EVENT_TEXT": "Choose an event",
+      "COMMENT_INPUT_TEXT": "Write to the service provider",
+      "COMMENT_INPUT_PLACEHOLDER": "Hello {{name}},",
+      "SUBMIT_BUTTON_TEXT": "Book this service",
+      "CREATE_EVENT_TO_BOOK_LINK_TEXT": "Create an event to book a service",
+      "ADD_SUCCESS_TEXT": "Request sent to the service provider."
+    },
+    "SEE_MODAL": {
+      "CANCEL_BUTTON_TEXT": "Cancel request",
+      "CANCEL_CONFIRM_MESSAGE": "Cancel this request?",
+      "CANCEL_SUCCESS_MESSAGE": "Request cancelled.",
+      "AD_INFO_LABEL_TEXT": "Ad",
+      "AD_USER_TEXT": "By {{user}}",
+      "DATE_INFO_LABEL_TEXT": "Sent",
+      "MESSAGE_INFO_LABEL_TEXT": "Message"
+    },
+    "LISTING_PAGE": {
+      "TITLE": "Service requests",
+      "APPROACH_COUNT": "{{count}} request(s)",
+      "APPROACH_REQUESTED_BY": "Requested by {{user}} the {{date}}",
+      "APPROACH_AD_TEXT": "Ad",
+      "APPROACH_AD_USER_TEXT": "By {{user}}",
+      "APPROACH_MESSAGE_TEXT": "Message",
+      "APPROACH_APPROVE_BTN_TEXT": "Approve",
+      "APPROACH_REFUSE_BTN_TEXT": "Refuse",
+      "APPROACH_CANCEL_BTN_TEXT": "Cancel request",
+      "APPROVE_APPROACH_CONFIRM_MESSAGE": "Approve this request?",
+      "REFUSE_APPROACH_CONFIRM_MESSAGE": "Refuse this request?",
+      "CANCEL_APPROACH_CONFIRM_MESSAGE": "Cancel this request?",
+      "APPROACH_STATE_CHANGE_SUCCESS_MESSAGE": "Approach state changed."
+    }
   },
   "USER": {
     "PROFILE_PAGE": {

@@ -10,7 +10,7 @@
         <div class="col-md-4">
             <label for="categoryFilter" class="form-label">{{"ADS.LISTING_PAGE.FILTER_TITLE" | translate}}</label>
             <select id="categoryFilter" class="form-select" [(ngModel)]="selectedCategoryId" (change)="onCategoryChange()">
-                <option [ngValue]="null">{{"ADS.LISTING_PAGE.DEFAULT_OPTION" | translate}}</option>
+                <option [ngValue]="NaN">{{"ADS.LISTING_PAGE.DEFAULT_OPTION" | translate}}</option>
                 @for(category of categories; track category.id) {
                     <option [ngValue]="category.id">
                         {{ category.title }}
@@ -19,7 +19,7 @@
             </select>
         </div>
     </div>
-  
+
     <!-- Loading state -->
     @if(isLoading) {
         <div class="d-flex justify-content-center">
@@ -28,14 +28,14 @@
             </div>
         </div>
     }
-  
+
     <!-- No ads state -->
     @if(!isLoading && ads.length === 0) {
         <div class="alert alert-info" role="alert">
             {{"ADS.LISTING_PAGE.NO_ADS_TEXT" | translate}}
         </div>
     }
-  
+
     <!-- Ad list -->
     @if(!isLoading && ads.length > 0) {
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -53,11 +53,11 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ ad.title }}</h5>
                             <p class="card-text">{{ ad.description }}</p>
-                            
+
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                 <span class="fw-bold text-primary">{{ ad.priceIndication }}</span>
                             </div>
-                            
+
                             @if(ad.categories.length) {
                                 <div class="mt-3">
                                     @for(category of ad.categories; track category.id) {

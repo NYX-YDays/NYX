@@ -7,6 +7,7 @@ use App\Repository\EventRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,19 +16,29 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class EventController extends AbstractController
 {
     #[Route('/api/event', name: 'add_event', methods: ['POST'])]
-    public function addEvent(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, UserRepository $userRepository): Response
+    public function addEvent(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, Security $security): Response
     {
         $data = json_decode($request->getContent(), true);
 
-        $user = $userRepository->find($data['user']);
+        $user = $security->getUser();
         if (!$user) {
             return $this->json(['message' => 'User not found'], 404);
         }
 
         $event = new Event();
-        $event->setTitle($data['title']);
-        $event->setDateEvent(new \DateTime());
-        $event->setDescription($data['description']);
+
+        if (isset($data['title'])) {
+            $event->setTitle($data['title']);
+        }
+
+        if (isset($data['dateEvent'])) {
+            $event->setDateEvent(new \DateTime($data['dateEvent']));
+        }
+
+        if (isset($data['description'])) {
+            $event->setDescription($data['description']);
+        }
+
         $event->setUser($user);
 
         $errors = $validator->validate($event);
@@ -59,8 +70,9 @@ class EventController extends AbstractController
             $event->setDescription($data['description']);
         }
 
-        // Mettre à jour la date de l'événement
-        $event->setDateEvent(new \DateTime());
+        if(isset($data['dateEvent'])) {
+            $event->setDateEvent(new \DateTime($data['dateEvent']));
+        }
 
         $errors = $validator->validate($event);
         if (count($errors) > 0) {

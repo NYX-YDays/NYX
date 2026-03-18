@@ -16,10 +16,14 @@ export const serviceProviderGuard: CanActivateFn = async (
   const router = inject(Router);
   const utilService = inject(UtilService);
 
-  // Check if current user is a "service provider"
-  const isServiceProvider = utilService.getCurrentUserIdentity()?.roles.includes(UserRole.SERVICE_PROVIDER) ?? false;
+  // Check if current user is authenticated as a "service provider"
+  const isValid = await utilService.checkUserIdentityAsync(UserRole.SERVICE_PROVIDER);
 
-  // Redirect to the auth form if the user isn't an "individual"
-  if (!isServiceProvider) await router.navigateByUrl('/auth');
-  return isServiceProvider;
+  // Redirect to the auth form if the user session isn't valid
+  if (!isValid) {
+    utilService.removeCurrentUserIdentity();
+    await router.navigateByUrl('/sign-in');
+  }
+
+  return isValid;
 };

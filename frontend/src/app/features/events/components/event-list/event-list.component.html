@@ -1,0 +1,38 @@
+<div class="d-flex flex-column w-100 h-100 overflow-hidden">
+
+  <div class="d-flex justify-content-between align-items-center mb-md-4 mb-3">
+    <h1 class="m-0">{{ 'EVENT.LISTING_PAGE.TITLE' | translate }}</h1>
+    <div class="d-flex align-items-center gap-3">
+      <div>{{ 'EVENT.LISTING_PAGE.EVENT_COUNT' | translate: {count: events().length} }}</div>
+      <button routerLink="/event/add" class="btn btn-primary">
+        <i class="bi bi-calendar-plus"></i> {{ 'EVENT.LISTING_PAGE.ADD_EVENT_BUTTON_TEXT' | translate }}
+      </button>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="d-flex h-100 justify-content-center align-items-center">
+      <div class="spinner-grow text-primary"></div>
+    </div>
+  } @else {
+    <div class="overflow-auto">
+      <div class="d-flex flex-column gap-3">
+        @for (event of events(); track event.id) {
+          <div class="event-card card cursor-pointer" [routerLink]="`/event/${event.id}`">
+            <div class="card-body d-flex gap-3">
+              <div class="flex-grow-1">
+                <div class="card-title fw-bold paragraph-truncate truncate-line-1 flex-grow-1">{{ event.title }}</div>
+                <div class="card-text small paragraph-truncate truncate-line-2">{{ event.description }}</div>
+              </div>
+              <div class="small text-muted text-nowrap flex-grow-0">
+                <i class="bi bi-calendar-week"></i>
+                {{ event.dateEvent | date: ('COMMON.DATETIME_FORMAT' | translate) }}
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+</div>
