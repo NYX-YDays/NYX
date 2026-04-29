@@ -10,12 +10,12 @@ import { Constants } from '../../../../shared/constants';
 import { environment } from '../../../../../environments/environment';
 import { AlertService } from '../../../../shared/services/alert.service';
 import { AlertType } from '../../../../core/alert-manager/enums/alert-type';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-individual-profile-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, TranslateModule, CommonModule],
+  imports: [ReactiveFormsModule, TranslateModule],
   templateUrl: './individual-profile-edit.component.html',
   styleUrl: './individual-profile-edit.component.scss'
 })

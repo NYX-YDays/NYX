@@ -5,11 +5,11 @@ import { AdminService } from '../services/admin.service';
 import { AlertService } from '../../../shared/services/alert.service';
 import { AlertType } from '../../../core/alert-manager/enums/alert-type';
 import { Constants } from '../../../shared/constants';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-admin-user-edit',
-  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
+  imports: [ReactiveFormsModule, TranslatePipe],
   templateUrl: './admin-user-edit.component.html',
   styleUrl: './admin-user-edit.component.scss'
 })

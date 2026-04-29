@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UtilService } from '../../../../shared/services/util.service';
@@ -7,7 +7,7 @@ import { UtilService } from '../../../../shared/services/util.service';
 @Component({
   selector: 'app-admin-header',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, RouterLink],
+  imports: [TranslatePipe, RouterLink],
   templateUrl: './admin-header.component.html',
   styleUrl: './admin-header.component.scss'
 })

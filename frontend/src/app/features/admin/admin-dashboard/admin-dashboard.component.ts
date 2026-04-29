@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { UtilService } from '../../../shared/services/util.service';
@@ -9,7 +9,7 @@ import { AdminHeaderComponent } from '../shared/admin-header/admin-header.compon
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, AdminHeaderComponent],
+  imports: [TranslatePipe, AdminHeaderComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss'
 })

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +12,7 @@ import { AdminHeaderComponent } from '../shared/admin-header/admin-header.compon
 @Component({
   selector: 'app-admin-categories-list',
   standalone: true,
-  imports: [CommonModule, TranslateModule, RouterLink, FormsModule, AdminCategoryEditComponent, AdminHeaderComponent],
+  imports: [TranslateModule, RouterLink, FormsModule, AdminCategoryEditComponent, AdminHeaderComponent],
   templateUrl: './admin-categories-list.component.html',
   styleUrl: './admin-categories-list.component.scss'
 })

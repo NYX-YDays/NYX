@@ -4,11 +4,11 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { AdminService } from '../services/admin.service';
 import { AlertService } from '../../../shared/services/alert.service';
 import { AlertType } from '../../../core/alert-manager/enums/alert-type';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-admin-event-edit',
-  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
+  imports: [ReactiveFormsModule, TranslatePipe],
   templateUrl: './admin-event-edit.component.html',
   styleUrl: './admin-event-edit.component.scss'
 })
