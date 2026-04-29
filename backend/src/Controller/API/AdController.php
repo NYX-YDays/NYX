@@ -86,8 +86,13 @@ class AdController extends AbstractController
     }
 
     #[Route('/api/ad/{adId}', name: 'update_ad', methods: ['PUT'])]
-    public function updateAd($adId, Request $request, EntityManagerInterface $entityManager, AdRepository $adRepository, ValidatorInterface $validator)
+    public function updateAd($adId, Request $request, EntityManagerInterface $entityManager, AdRepository $adRepository, ValidatorInterface $validator, CategoryRepository $categoryRepository, Security $security)
     {
+        $user = $security->getUser();
+        if (!$user) {
+            return $this->json(['message' => 'User not found'], 404);
+        }
+
         $ad = $adRepository->find($adId);
         if (!$ad) {
             return $this->json(['error' => 'Ad not found'], 404);
@@ -110,6 +115,12 @@ class AdController extends AbstractController
         // Reset verification
         if(isset($data['isVerified']))
             $ad->setIsVerified(false);
+
+        $ad->clearCategories();
+        foreach ($data['categories'] as $cat) {
+            $category = $categoryRepository->find($cat['id']);
+            $ad->addCategory($category);
+        }
 
         // Mettre à jour automatiquement la date de l'ad
         $ad->setDateAd(new \DateTime());

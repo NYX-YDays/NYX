@@ -185,4 +185,10 @@ class Ad
         return $this;
     }
 
+    public function clearCategories(): static
+    {
+        $this->categories->clear();
+        return $this;
+    }
+
 }

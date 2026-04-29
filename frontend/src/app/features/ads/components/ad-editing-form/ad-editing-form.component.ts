@@ -91,23 +91,25 @@ export class AdEditingFormComponent {
     this.alertService.showConfirmation(
       async () => {
         this.isSaving.set(true);
+        try {
 
-        // Update existing ad
-        if (this.ad()) await this.adService.updateAdAsync(this.editedAd()!);
+          // Update existing ad
+          if (this.ad()) await this.adService.updateAdAsync(this.editedAd()!);
 
-        // Add new ad
-        else {
-          const adId = (await this.adService.addAdAsync(this.editedAd()!)).id;
-          await this.router.navigateByUrl(`/my-ads/${adId}`);
-        }
+          // Add new ad
+          else {
+            const adId = (await this.adService.addAdAsync(this.editedAd()!)).id;
+            await this.router.navigateByUrl(`/my-ads/${adId}`);
+          }
 
-        this.alertService.pushAlert(
-          AlertType.SUCCESS,
-          this.translateService.instant('ADS.EDITING_FORM.SAVE_SUCCESS_MESSAGE'),
-          7
-        );
-        this.onSave.emit();
+          this.alertService.pushAlert(
+            AlertType.SUCCESS,
+            this.translateService.instant('ADS.EDITING_FORM.SAVE_SUCCESS_MESSAGE'),
+            7
+          );
+          this.onSave.emit();
 
+        } catch (e) { }
         this.isSaving.set(false);
       },
       this.translateService.instant('ADS.EDITING_FORM.SAVE_CONFIRM_MESSAGE')
