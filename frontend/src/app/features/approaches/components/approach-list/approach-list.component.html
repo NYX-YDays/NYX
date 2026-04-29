@@ -26,7 +26,7 @@
                   <div class="d-flex flex-column">
                     <div class="small text-muted text-nowrap flex-grow-0">
                       <i class="bi bi-calendar-week"></i>
-                      {{ '2026-05-02T22:00' | date: ('COMMON.DATETIME_FORMAT' | translate) }}
+                      {{ approach.event?.dateEvent | date: ('COMMON.DATETIME_FORMAT' | translate) }}
                     </div>
                     <div class="card-title paragraph-truncate truncate-line-1 flex-grow-1 mt-2">
                       <b>{{ approach.event?.title }}</b>

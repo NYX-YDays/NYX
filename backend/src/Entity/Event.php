@@ -27,7 +27,7 @@ class Event
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'approach:read'])]
     private ?\DateTimeInterface $dateEvent = null;
 
     #[ORM\ManyToOne(inversedBy: 'events')]

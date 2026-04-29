@@ -28,7 +28,7 @@ export class ApproachListComponent implements OnInit {
   protected isLoading = signal(true);
 
   /** Current user approaches. */
-  protected approches = signal<Approach[]>([]);
+  protected approches = signal(new Array<Approach>());
 
   protected readonly ApproachState = ApproachState;
 
