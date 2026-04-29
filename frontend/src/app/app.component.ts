@@ -5,12 +5,11 @@ import { RouteSettings } from './shared/models/route-settings';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertStackComponent } from './core/alert-manager/components/alert-stack/alert-stack.component';
 import { UtilService } from './shared/services/util.service';
-import Cookies from 'universal-cookie';
-import { Constants } from './shared/constants';
+import { ConfirmationModalComponent } from './core/confirmation-modal/components/confirmation-modal.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, AlertStackComponent],
+  imports: [RouterOutlet, HeaderComponent, AlertStackComponent, ConfirmationModalComponent],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.scss'
@@ -41,12 +40,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     // Set default app language
     this.translateService.setDefaultLang('en');
     this.translateService.use(this.translateService.getBrowserLang() ?? 'en');
-
-    // Check if the current user is still authenticated
-    if (!await this.utilService.checkUserIdentityAsync()) {
-      const cookie = new Cookies(null, {path: '/'});
-      cookie.remove(Constants.COOKIE_NAMES.userIdentity);
-    }
 
   }
 

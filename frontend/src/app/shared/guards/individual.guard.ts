@@ -16,10 +16,14 @@ export const individualGuard: CanActivateFn = async (
   const router = inject(Router);
   const utilService = inject(UtilService);
 
-  // Check if current user is an "individual"
-  const isIndividual = utilService.getCurrentUserIdentity()?.roles.includes(UserRole.INDIVIDUAL) ?? false;
+  // Check if current user is authenticated as an "individual"
+  const isValid = await utilService.checkUserIdentityAsync(UserRole.INDIVIDUAL);
 
-  // Redirect to the auth form if the user isn't an "individual"
-  if (!isIndividual) await router.navigateByUrl('/sign-in');
-  return isIndividual;
+  // Redirect to the auth form if the user session isn't valid
+  if (!isValid) {
+    utilService.removeCurrentUserIdentity();
+    await router.navigateByUrl('/sign-in');
+  }
+
+  return isValid;
 };

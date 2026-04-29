@@ -8,6 +8,8 @@ import { AlertService } from './alert.service';
 import { AlertType } from '../../core/alert-manager/enums/alert-type';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
+import { UserRole } from '../enums/user-role';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +31,8 @@ export class UtilService {
 
   protected readonly alertService = inject(AlertService);
 
+  protected readonly router = inject(Router);
+
   //endregion
 
   //region methods
@@ -47,13 +51,22 @@ export class UtilService {
     cookie.remove(Constants.COOKIE_NAMES.userIdentity);
   }
 
-  /** @returns `true` if the current user identity is still valid, else `false`. */
-  public async checkUserIdentityAsync(): Promise<boolean> {
+  /**
+   * Check if the current user identity is valid.
+   * @param role If given, check if the authenticated user has the corresponding role.
+   * @returns `true` if the current user identity is valid, else `false`.
+   * */
+  public async checkUserIdentityAsync(role?: UserRole): Promise<boolean> {
     try {
+
+      // Check if the user identity is still valid
       await this.tryGetAsync(`${this.apiRootUrl}/user`, false);
-      return true;
+
+      // Check if the user has a specific role
+      return (!role || this.getCurrentUserIdentity()?.roles.includes(role) == true);
+
     } catch (e) {
-      if (e instanceof HttpErrorResponse && (e.status == 401 || e.status == 403)) return false;
+      if ((e as HttpErrorResponse).status == 401 || (e as HttpErrorResponse).status == 403) return false;
       else throw e;
     }
   }
@@ -68,9 +81,9 @@ export class UtilService {
    * @param handleErrors Display an alert if an error occurres.
    * @returns The retrieved data.
    */
-  public async tryGetAsync(url: string, handleErrors = true): Promise<any> {
+  public async tryGetAsync<TOut>(url: string, handleErrors = true): Promise<TOut> {
     try {
-      return await firstValueFrom(this.http.get(url, {headers: this.getApiAuthHeader()}));
+      return await firstValueFrom(this.http.get<TOut>(url, {headers: this.getApiAuthHeader()}));
     } catch (e) {
       if (handleErrors) {
         this.alertService.pushAlert(
@@ -90,9 +103,9 @@ export class UtilService {
    * @param handleErrors Display an alert if an error occurres.
    * @returns The server response.
    */
-  public async tryPostAsync(url: string, data: any, handleErrors = true): Promise<any> {
+  public async tryPostAsync<TIn, TOut>(url: string, data: TIn, handleErrors = true): Promise<TOut> {
     try {
-      return await firstValueFrom(this.http.post(url, data, {headers: this.getApiAuthHeader()}));
+      return await firstValueFrom(this.http.post<TOut>(url, data, {headers: this.getApiAuthHeader()}));
     } catch (e) {
       if (handleErrors) {
         this.alertService.pushAlert(
@@ -112,9 +125,9 @@ export class UtilService {
    * @param handleErrors Display an alert if an error occurres.
    * @returns The server response.
    */
-  public async tryPutAsync(url: string, data: any, handleErrors): Promise<any> {
+  public async tryPutAsync<TIn, TOut>(url: string, data: TIn, handleErrors = true): Promise<TOut> {
     try {
-      return await firstValueFrom(this.http.put(url, data, {headers: this.getApiAuthHeader()}));
+      return await firstValueFrom(this.http.put<TOut>(url, data, {headers: this.getApiAuthHeader()}));
     } catch (e) {
       if (handleErrors) {
         this.alertService.pushAlert(
@@ -133,9 +146,9 @@ export class UtilService {
    * @param handleErrors Display an alert if an error occurres.
    * @returns The server response.
    */
-  public async tryDeleteAsync(url: string, handleErrors = true): Promise<any> {
+  public async tryDeleteAsync<TOut>(url: string, handleErrors = true): Promise<TOut> {
     try {
-      return await firstValueFrom(this.http.delete(url, {headers: this.getApiAuthHeader()}));
+      return await firstValueFrom(this.http.delete<TOut>(url, {headers: this.getApiAuthHeader()}));
     } catch (e) {
       if (handleErrors) {
         this.alertService.pushAlert(
@@ -148,9 +161,13 @@ export class UtilService {
     }
   }
 
-  /** @returns The HTTP headers to use to call the API routes. */
-  public getApiAuthHeader(): HttpHeaders {
-    return new HttpHeaders({Authorization: `Bearer ${this.getCurrentUserIdentity()?.token}`});
+  /**
+   * @returns The HTTP headers containing the current user credentials to access the API routes if the user is
+   * authenticated, else `undefined`.
+   */
+  public getApiAuthHeader(): HttpHeaders | undefined {
+    const userIdentity = this.getCurrentUserIdentity();
+    return !!userIdentity ? new HttpHeaders({Authorization: `Bearer ${userIdentity.token}`}) : undefined;
   }
 
   //endregion

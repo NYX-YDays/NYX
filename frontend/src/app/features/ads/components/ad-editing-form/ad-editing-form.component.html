@@ -1,0 +1,124 @@
+<form #adEditingForm="ngForm"
+      (submit)="adEditingForm.valid ? saveAdAsync() : null"
+      class="d-flex flex-column gap-3 w-100">
+
+  @if (isLoading()) {
+    <div class="d-flex h-100 justify-content-center align-items-center">
+      <div class="spinner-grow text-primary"></div>
+    </div>
+  } @else {
+
+    <!-- Title -->
+    <div class="form-floating w-100">
+      <input #titleInput="ngModel"
+             [(ngModel)]="editedAd()!.title"
+             [class]="{'is-invalid': titleInput.dirty && titleInput.invalid}"
+             type="text"
+             class="form-control"
+             name="title"
+             id="titleInput"
+             placeholder="My ad..."
+             required>
+      <label for="titleInput">{{ 'ADS.EDITING_FORM.TITLE_LABEL_TEXT' | translate }}</label>
+      @if (titleInput.dirty && titleInput.invalid) {
+        <div class="d-block invalid-feedback">
+          {{ 'ADS.EDITING_FORM.TITLE_ERROR_TEXT' | translate }}
+        </div>
+      }
+    </div>
+
+    <!-- Description -->
+    <div class="form-floating w-100">
+    <textarea #descriptionInput="ngModel"
+              [(ngModel)]="editedAd()!.description"
+              class="form-control"
+              style="min-height: fit-content"
+              placeholder="Description..."
+              name="description"
+              id="descriptionInput"
+              required></textarea>
+      <label for="descriptionInput">{{ 'ADS.EDITING_FORM.DESCRIPTION_LABEL_TEXT' | translate }}</label>
+      @if (descriptionInput.dirty && descriptionInput.invalid) {
+        <div class="d-block invalid-feedback">
+          {{ 'ADS.EDITING_FORM.DESCRIPTION_ERROR_TEXT' | translate }}
+        </div>
+      }
+    </div>
+
+    <!-- Categories -->
+    <div class="p-3 border rounded" style="width: fit-content">
+      <div class="fs-6 mb-2 text-muted">{{ 'ADS.EDITING_FORM.CATEGORIES_LABEL_TEXT' | translate }}</div>
+      <div class="d-flex flex-wrap overflow-y-auto ps-1 pe-4 column-gap-3 row-gap-2"
+           style="max-height: 100px"
+           role="group">
+        @for (category of adCategories(); track category.id) {
+          <input (change)="toggleCategory(category)"
+                 type="checkbox"
+                 class="btn-check"
+                 [id]="`category${category.id}`"
+                 autocomplete="off">
+          <label class="btn btn-sm btn-outline-primary" [for]="`category${category.id}`">
+            {{ category.title }}
+          </label>
+        }
+      </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="w-100 d-flex gap-3">
+      <div class="form-floating">
+        <input #priceInput="ngModel"
+               [(ngModel)]="editedAd()!.price"
+               [class]="{'is-invalid': priceInput.dirty && priceInput.invalid}"
+               type="number"
+               class="form-control"
+               name="price"
+               id="priceInput"
+               placeholder="00.00€"
+               required>
+        <label for="priceInput">{{ 'ADS.EDITING_FORM.PRICE_LABEL_TEXT' | translate }}</label>
+        @if (priceInput.dirty && priceInput.invalid) {
+          <div class="d-block invalid-feedback">
+            {{ 'ADS.EDITING_FORM.PRICE_ERROR_TEXT' | translate }}
+          </div>
+        }
+      </div>
+      <div class="form-floating flex-grow-1">
+        <input #priceIndicationInput="ngModel"
+               [(ngModel)]="editedAd()!.priceIndication"
+               [class]="{'is-invalid': priceIndicationInput.dirty && priceIndicationInput.invalid}"
+               type="text"
+               class="form-control"
+               name="priceIndication"
+               id="priceIndicationInput"
+               placeholder="(service cost)"
+               required>
+        <label for="priceIndicationInput">{{ 'ADS.EDITING_FORM.PRICE_INDICATION_LABEL_TEXT' | translate }}</label>
+        @if (priceIndicationInput.dirty && priceIndicationInput.invalid) {
+          <div class="d-block invalid-feedback">
+            {{ 'ADS.EDITING_FORM.PRICE_INDICATION_ERROR_TEXT' | translate }}
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div>
+      @if (ad()) {
+        <button (click)="cancelEdition()" [disabled]="isSaving()" type="button" class="btn btn-outline-primary me-3">
+          <i class="bi bi-x-lg"></i> {{ 'COMMON.CANCEL' | translate }}
+        </button>
+      }
+      <button type="submit" [disabled]="!adEditingForm.valid || isSaving()" class="btn btn-primary">
+        @if (isSaving()) {
+          <div class="spinner-grow spinner-grow-sm"></div>
+        } @else {
+          <i class="bi bi-check2"></i>
+        }
+        {{ 'COMMON.SAVE' | translate }}
+      </button>
+    </div>
+
+  }
+
+</form>

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,26 @@ class EventRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Event::class);
+    }
+
+    /**
+     * Find the events that are linked to a user but not linked to an ad.
+     * @param int $userId ID of the user to get the events of.
+     * @param int $adId ID of the ad from which to get the events that aren't linked to it.
+     * @return Event[] Returns an array of the corresponding events.
+     */
+    public function findByNotLinkedToAd(int $userId, int $adId): array
+    {
+        return $this
+            ->getEntityManager()
+            ->getConnection()
+            ->prepare(
+                "select E.* from event E
+                where E.user_id = :userId
+                and not exists (select A.* from approach A where A.event_id = E.id and A.ad_id = :adId)"
+            )
+            ->executeQuery(['userId' => $userId, 'adId' => $adId])
+            ->fetchAll();
     }
 
 //    /**

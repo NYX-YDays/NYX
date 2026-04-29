@@ -1,0 +1,89 @@
+@if (isLoading()) {
+  <div class="d-flex w-100 h-100 justify-content-center align-items-center">
+    <div class="spinner-grow text-primary"></div>
+  </div>
+} @else {
+
+  <a class="btn btn-outline-primary mb-3" routerLink="/my-ads">
+    <i class="bi bi-arrow-left"></i> {{ 'ADS.SERVICE_PROVIDER_DETAIL_PAGE.GO_BACK_BUTTON' | translate }}
+  </a>
+
+  <!-- Event info -->
+  <div class="card w-100">
+    <div class="card-body">
+      @if (showEditForm()) {
+        <app-ad-editing-form [ad]="ad()"
+                             (onCancel)="showEditForm.set(false)"
+                             (onSave)="ngOnInit()"/>
+      } @else {
+
+        <div class="d-flex align-items-center gap-3 mb-3">
+
+          <!-- Title -->
+          <div class="card-title fw-bold mb-0">{{ ad().title }}</div>
+
+          <!-- Publication info -->
+          <div class="d-flex align-items-center justify-content-between gap-3">
+            <div class="badge text-bg-primary"
+                 [class.text-bg-warning]="!ad().isVerified"
+                 [class.text-bg-info]="ad().isVerified">
+              @if (ad().isVerified) {
+                <i class="bi bi-wifi"></i>
+              }
+              {{ (ad().isVerified ? 'ADS.AD_STATUS.VERIFIED' : 'ADS.AD_STATUS.NOT_VERIFIED') | translate }}
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Dates -->
+        @if (ad().isVerified) {
+          <div class="small text-muted text-nowrap flex-grow-0">
+            <i class="bi bi-calendar-week me-1"></i>
+            {{ 'ADS.SERVICE_PROVIDER_DETAIL_PAGE.PUBLISHED_DATE' | translate }} {{ ad().datePublicationAd | date: ('COMMON.DATETIME_FORMAT' | translate) }}
+          </div>
+        }
+        <div class="small text-muted text-nowrap flex-grow-0 mb-3">
+          <i class="bi bi-calendar-week me-1"></i>
+          {{ 'ADS.SERVICE_PROVIDER_LISTING_PAGE.LAST_MODIFIED_DATE' | translate }} {{ ad().dateAd | date: ('COMMON.DATETIME_FORMAT' | translate) }}
+        </div>
+
+        <!-- Description -->
+        <div class="small text-muted bg-body-secondary rounded p-2 mb-3" style="width: fit-content">
+          {{ ad().description }}
+        </div>
+
+        <!-- Categories -->
+        @if (ad().categories.length > 0) {
+          <div class="d-flex flex-wrap column-gap-2 row-gap-2 my-3">
+            @for (category of ad().categories; track category.id) {
+              <div class="badge rounded-pill text-bg-primary">{{ category.title }}</div>
+            }
+          </div>
+        } @else {
+          <div class="small text-muted my-3">{{ 'ADS.SERVICE_PROVIDER_LISTING_PAGE.NO_CATEGORY_TEXT' | translate }}
+          </div>
+        }
+
+        <!-- Pricing -->
+        <div class="d-flex align-items-end gap-2 mb-3">
+          <div class="fs-5 fw-bold">{{ ad().price }}€</div>
+          <div class="small">({{ ad().priceIndication }})</div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex gap-3">
+          <button (click)="showEditForm.set(true)" class="btn btn-primary">
+            <i class="bi bi-pencil"></i> {{ 'COMMON.UPDATE' | translate }}
+          </button>
+          <button (click)="confirmEventDeletionAsync()" class="btn btn-danger">
+            <i class="bi bi-trash"></i> {{ 'COMMON.DELETE' | translate }}
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+
+}
+
+<app-see-approach-modal #seeApproachModal (onStateChanged)="ngOnInit()"/>

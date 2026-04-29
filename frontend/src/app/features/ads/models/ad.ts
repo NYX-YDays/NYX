@@ -4,31 +4,35 @@ import { AdUser } from "./aduser";
 /** Ads */
 
 export class Ad {
-    
-    /** The ad ID. */
-    public id = NaN;
 
-    /** The user who created the ad */
-    public user: AdUser | null = null;
+  /** The ad ID. */
+  public id = NaN;
 
-    /** The ad title */
-    public title = '';
+  /** The user who created the ad */
+  public user: AdUser | null = null;
 
-    /** The ad description */
-    public description = '';
-    
-    /** The creation date of the ad */
-    public dateAd = new Date();
-    
-    /** The publication date of the ad */
-    public datePublicationAd = new Date();
-    
-    /** The price indication of the ad */
-    public priceIndication = '';
-    
-    /** Whether the ad is verified */
-    public isVerified = false;
+  /** The ad title */
+  public title = '';
 
-    /** Categories associated with this ad */
-    public categories: Category[] = [];
+  /** The ad description */
+  public description = '';
+
+  /** The creation date of the ad */
+  public dateAd = new Date();
+
+  /** The publication date of the ad */
+  public datePublicationAd = new Date();
+
+  /** Ad price. */
+  public price = 0;
+
+  /** The price indication of the ad */
+  public priceIndication = '';
+
+  /** Whether the ad is verified */
+  public isVerified = false;
+
+  /** Categories associated with this ad */
+  public categories: Category[] = [];
+
 }

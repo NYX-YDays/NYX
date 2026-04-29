@@ -1,74 +1,92 @@
 <div class="container mt-4">
-    <button class="btn btn-outline-primary mb-3" (click)="goBack()">
-        <i class="bi bi-arrow-left"></i> {{ "ADS.DETAIL_PAGE.BACK_TO_ADS" | translate }}
-    </button>
-  
-    <!-- Loading state -->
-    @if(isLoading) {
-        <div class="d-flex justify-content-center">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">{{"ADS.SPINNER_TEXT" | translate}}</span>
-            </div>
+  <button class="btn btn-outline-primary mb-3" (click)="goBack()">
+    <i class="bi bi-arrow-left"></i> {{ "ADS.DETAIL_PAGE.BACK_TO_ADS" | translate }}
+  </button>
+
+  <!-- Loading state -->
+  @if (isLoading) {
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">{{ "ADS.SPINNER_TEXT" | translate }}</span>
+      </div>
+    </div>
+  }
+
+  <!-- Ad details -->
+  @if (!isLoading && ad) {
+    <div class="card shadow-sm">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+          <h4 class="mb-0">{{ ad.title }}</h4>
+          @if (isCurrentUserAd) {
+            <i class="bi bi-pencil-fill cursor-pointer"
+            [routerLink]="`/my-ads/${ad.id}`"></i>
+          }
         </div>
-    }
-  
-    <!-- Ad details -->
-    @if(!isLoading && ad) {
-        <div class="card shadow-sm">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">{{ ad.title }}</h4>
-                <span class="badge" [class]="ad.isVerified ? 'bg-success' : 'bg-secondary'">
+        <span class="badge" [class]="ad.isVerified ? 'bg-success' : 'bg-secondary'">
                     {{ (ad.isVerified ? "ADS.AD_STATUS.VERIFIED" : "ADS.AD_STATUS.NOT_VERIFIED") | translate }}
                 </span>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <h5>{{"ADS.DETAIL_PAGE.DESCRIPTION" | translate}}</h5>
-                        <p>{{ ad.description }}</p>
-
-                        @if(ad.categories.length) {
-                        <div class="mt-4">
-                            <h5>{{"ADS.DETAIL_PAGE.CATEGORIES" | translate}}</h5>
-                            @for(category of ad.categories; track category.id) {
-                                @if(category) {
-                                    <span class="badge bg-info me-2 mb-2">{{ category.title }}</span>
-                                }
-                            }
-                        </div>
-                        }
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card bg-light">
-                            <div class="card-body">
-                                <h5 class="card-title text-primary">{{ ad.priceIndication }}</h5>
-                                <p class="mb-2">
-                                    <strong>{{"ADS.DETAIL_PAGE.CREATION_DATE" | translate}}</strong>{{ ad.dateAd | date:'dd/MM/yyyy' }}
-                                </p>
-                                <p class="mb-2">
-                                    <strong>{{"ADS.DETAIL_PAGE.PUBLICATION_DATE" | translate}}</strong>{{ ad.datePublicationAd | date:'dd/MM/yyyy' }}
-                                </p>
-                                <div class="mt-4">
-                                    <h5>{{"ADS.DETAIL_PAGE.CONTACT" | translate}}</h5>
-                                    @if(ad.user) {
-                                        <p class="mb-1">{{ ad.user.firstName }} {{ ad.user.lastName }}</p>
-                                        <p class="mb-1">{{ ad.user.email }}</p>
-                                    } @else {
-                                        <p>{{"ADS.DETAIL_PAGE.NO_INFORMATION" | translate}}</p>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-  
-    <!-- No ad found state -->
-    @if(!isLoading && !ad) {
-      <div class="alert alert-warning" role="alert">
-        Cette annonce n'existe pas ou a été supprimée.
       </div>
-    }
+      <div class="card-body">
+        <div class="row row-gap-3">
+          <div class="col-md-8">
+            <h5>{{ "ADS.DETAIL_PAGE.DESCRIPTION" | translate }}</h5>
+            <p>{{ ad.description }}</p>
+            @if (ad.categories.length) {
+              <div class="mt-4">
+                <h5>{{ "ADS.DETAIL_PAGE.CATEGORIES" | translate }}</h5>
+                @for (category of ad.categories; track category.id) {
+                  @if (category) {
+                    <span class="badge bg-info me-2 mb-2">{{ category.title }}</span>
+                  }
+                }
+              </div>
+            }
+          </div>
+          <div class="col-md-4">
+            <div class="card bg-light">
+              <div class="card-body">
+                <h5 class="card-title text-primary">{{ ad.priceIndication }}</h5>
+                <p class="mb-2">
+                  <strong>{{ "ADS.DETAIL_PAGE.CREATION_DATE" | translate }}</strong>{{ ad.dateAd | date:'dd/MM/yyyy' }}
+                </p>
+                <p class="mb-2">
+                  <strong>{{ "ADS.DETAIL_PAGE.PUBLICATION_DATE" | translate }}</strong>{{ ad.datePublicationAd | date:'dd/MM/yyyy' }}
+                </p>
+                <div class="mt-4">
+                  <h5>{{ "ADS.DETAIL_PAGE.CONTACT" | translate }}</h5>
+                  @if (ad.user) {
+                    <p class="mb-1">{{ ad.user.firstName }} {{ ad.user.lastName }}</p>
+                    <p class="mb-1">{{ ad.user.email }}</p>
+                  } @else {
+                    <p>{{ "ADS.DETAIL_PAGE.NO_INFORMATION" | translate }}</p>
+                  }
+                  <div class="mt-4">
+                    @if (isAuthenticated) {
+                      <button (click)="addApproachModal.openModalAsync(ad)" class="btn btn-primary">
+                        {{ 'ADS.DETAIL_PAGE.ADD_APPROACH_BUTTON_TEXT' | translate }}
+                      </button>
+                    } @else {
+                      <a routerLink="/sign-in" class="btn btn-outline-primary">
+                        <i class="bi bi-box-arrow-in-left"></i>
+                        {{ 'ADS.DETAIL_PAGE.SIGN_IN_ADD_APPROACH_LINK_TEXT' | translate }}
+                      </a>
+                    }</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- No ad found state -->
+  @if (!isLoading && !ad) {
+    <div class="alert alert-warning" role="alert">
+      Cette annonce n'existe pas ou a été supprimée.
+    </div>
+  }
 </div>
+
+<app-add-approach-modal #addApproachModal/>

@@ -1,0 +1,70 @@
+<form #eventEditingForm="ngForm"
+      (submit)="eventEditingForm.valid ? saveEventAsync() : null"
+      class="d-flex flex-column gap-3 w-100">
+
+  <!-- Title -->
+  <div class="form-floating w-100">
+    <input #titleInput="ngModel"
+           [(ngModel)]="editedEvent()!.title"
+           [class]="{'is-invalid': titleInput.dirty && titleInput.invalid}"
+           type="text"
+           class="form-control"
+           name="title"
+           id="titleInput"
+           placeholder="My event..."
+           required>
+    <label for="titleInput">{{ 'EVENT.EDIT_FORM.FORM_TITLE_INPUT_TEXT' | translate }}</label>
+    @if (titleInput.dirty && titleInput.invalid) {
+      <div class="d-block invalid-feedback">
+        {{ 'EVENT.EDIT_FORM.FORM_INVALID_TITLE_TEXT' | translate }}
+      </div>
+    }
+  </div>
+
+  <!-- Date -->
+  <div class="form-floating w-100">
+    <input #dateInput="ngModel"
+           [(ngModel)]="editedEvent()!.dateEvent"
+           [class]="{'is-invalid': dateInput.dirty && dateInput.invalid}"
+           type="datetime-local"
+           class="form-control"
+           name="date"
+           id="dateInput"
+           required>
+    <label for="dateInput">{{ 'EVENT.EDIT_FORM.FORM_DATE_INPUT_TEXT' | translate }}</label>
+    @if (dateInput.dirty && dateInput.invalid) {
+      <div class="d-block invalid-feedback">
+        {{ 'EVENT.EDIT_FORM.FORM_INVALID_DATE_TEXT' | translate }}
+      </div>
+    }
+  </div>
+
+  <!-- Description -->
+  <div class="form-floating w-100">
+    <textarea [(ngModel)]="editedEvent()!.description"
+              class="form-control"
+              style="min-height: fit-content"
+              placeholder="Description..."
+              name="description"
+              id="descriptionInput"></textarea>
+    <label for="descriptionInput">{{ 'EVENT.EDIT_FORM.FORM_DESCRIPTION_INPUT_TEXT' | translate }}</label>
+  </div>
+
+  <!-- Buttons -->
+  <div>
+    @if (event()) {
+      <button (click)="cancelEdition()" [disabled]="isSaving()" type="button" class="btn btn-outline-primary me-3">
+        <i class="bi bi-x-lg"></i> {{ 'COMMON.CANCEL' | translate }}
+      </button>
+    }
+    <button type="submit" [disabled]="!eventEditingForm.valid || isSaving()" class="btn btn-primary">
+      @if (isSaving()) {
+        <div class="spinner-grow spinner-grow-sm"></div>
+      } @else {
+        <i class="bi bi-check2"></i>
+      }
+      {{ 'COMMON.SAVE' | translate }}
+    </button>
+  </div>
+
+</form>
