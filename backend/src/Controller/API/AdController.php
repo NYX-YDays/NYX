@@ -49,11 +49,11 @@ class AdController extends AbstractController
     }
 
     #[Route('/api/ad', name: 'add_ad', methods: ['POST'])]
-    public function addAd(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, UserRepository $userRepository)
+    public function addAd(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, CategoryRepository $categoryRepository, Security $security)
     {
         $data = json_decode($request->getContent(), true);
     
-        $user = $userRepository->find($data['user']);
+        $user = $security->getUser();
         if (!$user) {
             return $this->json(['message' => 'User not found'], 404);
         }
@@ -66,6 +66,11 @@ class AdController extends AbstractController
         $ad->setPriceIndication($data['priceIndication']);
         $ad->setIsVerified($data['isVerified']);
         $ad->setUser($user);
+
+        foreach ($data['categories'] as $cat) {
+            $category = $categoryRepository->find($cat['id']);
+            $ad->addCategory($category);
+        }
 
         // Validation
         $errors = $validator->validate($ad);
@@ -102,8 +107,9 @@ class AdController extends AbstractController
         if(isset($data['priceIndication']))
             $ad->setPriceIndication($data['priceIndication']);
 
+        // Reset verification
         if(isset($data['isVerified']))
-            $ad->setIsVerified($data['isVerified']);
+            $ad->setIsVerified(false);
 
         // Mettre à jour automatiquement la date de l'ad
         $ad->setDateAd(new \DateTime());

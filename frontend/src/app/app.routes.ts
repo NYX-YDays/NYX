@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/components/home/home.component';
 import { IndividualProfileComponent } from './features/individuals/components/individual-profile/individual-profile.component';
 import { IndividualProfileEditComponent } from './features/individuals/components/individual-profile-edit/individual-profile-edit.component';
-import { IndividualEventsComponent } from './features/individuals/components/individual-events/individual-events.component';
 import { EventListComponent } from './features/events/components/event-list/event-list.component';
 import { individualGuard } from './shared/guards/individual.guard';
 import { RouteSettings } from './shared/models/route-settings';
@@ -21,6 +20,13 @@ import { EventDetailComponent } from './features/events/components/event-detail/
 import { AddEventComponent } from './features/events/components/add-event/add-event.component';
 import { ApproachListComponent } from './features/approaches/components/approach-list/approach-list.component';
 import { serviceProviderGuard } from './shared/guards/service-provider.guard';
+import {
+  ServiceProviderAdListComponent
+} from './features/ads/components/service-provider-ad-list/service-provider-ad-list.component';
+import { AdAddComponent } from './features/ads/components/ad-add/ad-add.component';
+import {
+  ServiceProviderAdDetailComponent
+} from './features/ads/components/service-provider-ad-detail/service-provider-ad-detail.component';
 
 export const routes: Routes = [
 
@@ -124,6 +130,27 @@ export const routes: Routes = [
   {
     path: 'ad/:id',
     component: AdDetailComponent
+  },
+
+  // Service provider ads
+  {
+    path: 'my-ads',
+    component: ServiceProviderAdListComponent,
+    canActivate: [serviceProviderGuard]
+  },
+
+  // Service provider ad form (addition)
+  {
+    path: 'my-ads/add',
+    component: AdAddComponent,
+    canActivate: [serviceProviderGuard]
+  },
+
+  // Service provider ad
+  {
+    path: 'my-ads/:id',
+    component: ServiceProviderAdDetailComponent,
+    canActivate: [serviceProviderGuard]
   },
 
   //endregion

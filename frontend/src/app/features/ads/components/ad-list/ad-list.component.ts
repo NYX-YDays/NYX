@@ -37,7 +37,7 @@ export class AdListComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      this.categories = await this.adService.getAllCategories();
+      this.categories = await this.adService.getAllCategoriesAsync();
       await this.loadAds();
     } catch (e) {
       this.alertService.pushAlert(AlertType.ERROR, this.translateService.instant("ADS.LISTING_PAGE.CATEGORIES_ERROR"), 2);

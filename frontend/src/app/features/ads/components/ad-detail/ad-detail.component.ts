@@ -28,6 +28,9 @@ export class AdDetailComponent implements OnInit {
   /** If the current user is authenticated. */
   protected isAuthenticated = false;
 
+  /** If the ad belongs to the current user. */
+  protected isCurrentUserAd = false;
+
   //endregion
 
   //region injections
@@ -51,8 +54,10 @@ export class AdDetailComponent implements OnInit {
     // Récupérer l'ID de l'annonce depuis l'URL
     const adId = this.route.snapshot.paramMap.get('id');
 
+    const userIdentity = this.adService.getCurrentUserIdentity();
+
     // Get if current user is authenticated
-    this.isAuthenticated = !!this.adService.getCurrentUserIdentity();
+    this.isAuthenticated = !!userIdentity;
 
     if (adId) {
       await this.loadAd(+adId); // Convertir en nombre
@@ -60,13 +65,15 @@ export class AdDetailComponent implements OnInit {
       this.alertService.pushAlert(AlertType.ERROR, this.translateService.instant("ADS.DETAIL_PAGE.NO_ID_ADS"), 2);
       await this.router.navigate(['/ads']);
     }
+
+    if (this.isAuthenticated) this.isCurrentUserAd = this.ad?.user?.id == userIdentity?.id;
   }
 
   async loadAd(id: number) {
     this.isLoading = true;
 
     try {
-      this.ad = await this.adService.getAdById(id);
+      this.ad = await this.adService.getAdByIdAsync(id);
       this.isLoading = false;
     } catch (e) {
       this.alertService.pushAlert(AlertType.ERROR, this.translateService.instant("ADS.DETAIL_PAGE.ADS_ERROR"), 2);

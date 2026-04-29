@@ -88,15 +88,40 @@
       "CREATION_DATE": "Date de création : ",
       "PUBLICATION_DATE": "Date de publication : ",
       "CONTACT": "Contact",
-      "NO_INFORMATION": "Pas d'informations disponibles",
+      "NO_INFORMATION": "Pas d'information disponible",
       "NO_ID_ADS": "Aucun ID d'annonce spécifié",
       "ADS_ERROR": "Erreur lors du chargement de l'annonce",
       "ADD_APPROACH_BUTTON_TEXT": "Commander cette prestation",
       "SIGN_IN_ADD_APPROACH_LINK_TEXT": "Se connecter pour commander cette prestation"
     },
+    "SERVICE_PROVIDER_LISTING_PAGE": {
+      "AD_COUNT": "{{count}} annonce(s)",
+      "ADD_AD_BUTTON": "Publier une annonce",
+      "NO_CATEGORY_TEXT": "Aucune catégorie",
+      "LAST_MODIFIED_DATE": "Dernière modif. :"
+    },
+    "SERVICE_PROVIDER_DETAIL_PAGE": {
+      "GO_BACK_BUTTON": "Retourner à mes annonces",
+      "PUBLISHED_DATE": "Publication :",
+      "DELETE_SUCCESS_MESSAGE": "Annonce supprimée.",
+      "DELETE_CONFIRM_MESSAGE": "Supprimer cette annonce ?"
+    },
+    "EDITING_FORM": {
+      "TITLE_LABEL_TEXT": "Titre",
+      "TITLE_ERROR_TEXT": "Un titre est requis",
+      "DESCRIPTION_LABEL_TEXT": "Description",
+      "DESCRIPTION_ERROR_TEXT": "Une description est requise",
+      "CATEGORIES_LABEL_TEXT": "Catégories",
+      "PRICE_LABEL_TEXT": "Prix",
+      "PRICE_ERROR_TEXT": "Un prix est requis",
+      "PRICE_INDICATION_LABEL_TEXT": "Indication du prix",
+      "PRICE_INDICATION_ERROR_TEXT": "Une indication est requise pour le prix",
+      "SAVE_CONFIRM_MESSAGE": "L'annonce va être soumise en attente de vérification. Elle ne sera rendue publique qu'une fois approuvée.",
+      "SAVE_SUCCESS_MESSAGE": "Annonce enregistrée."
+    },
     "AD_STATUS": {
-      "VERIFIED": "Vérifié",
-      "NOT_VERIFIED": "Non vérifié"
+      "VERIFIED": "Vérifiée",
+      "NOT_VERIFIED": "Non vérifiée"
     },
     "SPINNER_TEXT": "Chargement..."
   },

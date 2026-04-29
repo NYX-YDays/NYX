@@ -67,7 +67,7 @@
                 }
                 @if (currentUserIdentity.roles.includes(UserRole.SERVICE_PROVIDER)) {
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" routerLink="/my-ads">
                       <i class="bi bi-newspaper me-1"></i> {{ 'HEADER.MY_ADS_LINK_TEXT' | translate }}
                     </a>
                   </li>

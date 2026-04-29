@@ -17,16 +17,46 @@ export class AdService extends UtilService {
 
   //region methods
 
-  getAds(categoryId = NaN): Promise<Ad[]> {
+  public getAds(categoryId = NaN): Promise<Ad[]> {
     return this.tryGetAsync<Ad[]>(`${this.apiUrl}/ads${!isNaN(categoryId) ? `?category=${categoryId}` : ''}`);
   }
 
-  getAdById(id: number): Promise<Ad> {
+  /** Get the ads published by the current user. */
+  public getCurrentUserAdsAsync(): Promise<Ad[]> {
+    return this.tryGetAsync<Ad[]>(`${this.apiUrl}/user/ads`);
+  }
+
+  public getAdByIdAsync(id: number): Promise<Ad> {
     return this.tryGetAsync<Ad>(`${this.apiUrl}/ad/${id}`);
   }
 
-  getAllCategories(): Promise<Category[]> {
+  public getAllCategoriesAsync(): Promise<Category[]> {
     return this.tryGetAsync<Category[]>(`${this.apiUrl}/categories`);
+  }
+
+  /**
+   * Add an ad.
+   * @param ad Ad to add.
+   * @returns The added ad.
+   */
+  public addAdAsync(ad: Ad): Promise<Ad> {
+    return this.tryPostAsync(`${this.apiUrl}/ad`, ad);
+  }
+
+  /**
+   * Update an ad.
+   * @param ad Ad to update.
+   */
+  public updateAdAsync(ad: Ad) {
+    return this.tryPutAsync(`${this.apiUrl}/ad/${ad.id}`, ad);
+  }
+
+  /**
+   * Delete an ad.
+   * @param adId ID of the ad to delete.
+   */
+  public deleteAdAsync(adId: number) {
+    return this.tryDeleteAsync(`${this.apiUrl}/ad/${adId}`);
   }
 
   //endregion
