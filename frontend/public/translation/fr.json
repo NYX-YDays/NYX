@@ -35,33 +35,33 @@
   "AUTH": {
     "SIGN_UP": {
       "FORM_TITLE": "S'inscrire",
-      "FORM_EMAIL_INPUT_TEXT":"Adresse email",
-      "FORM_INVALID_EMAIL_TEXT":"Adresse email invalide",
-      "FORM_FIST_NAME_INPUT_TEXT":"Prénom",
-      "FORM_INVALID_FIST_NAME_TEXT":"Prénom invalide",
-      "FORM_LAST_NAME_INPUT_TEXT":"Nom",
-      "FORM_INVALID_LAST_NAME_TEXT":"Nom invalide",
-      "FORM_BIRTHDATE_INPUT_TEXT":"Date de naissance",
-      "FORM_INVALID_BIRTHDATE_TEXT":"Date de naissance invalide",
-      "FORM_PWD_INPUT_TEXT":"Mot de passe",
+      "FORM_EMAIL_INPUT_TEXT": "Adresse email",
+      "FORM_INVALID_EMAIL_TEXT": "Adresse email invalide",
+      "FORM_FIST_NAME_INPUT_TEXT": "Prénom",
+      "FORM_INVALID_FIST_NAME_TEXT": "Prénom invalide",
+      "FORM_LAST_NAME_INPUT_TEXT": "Nom",
+      "FORM_INVALID_LAST_NAME_TEXT": "Nom invalide",
+      "FORM_BIRTHDATE_INPUT_TEXT": "Date de naissance",
+      "FORM_INVALID_BIRTHDATE_TEXT": "Date de naissance invalide",
+      "FORM_PWD_INPUT_TEXT": "Mot de passe",
       "FORM_INVALID_PWD_TEXT": "Le mot de passe doit :<ul><li>contenir au moins 1 lettre majuscule</li><li>contenir au moins 1 lettre minuscule</li><li>contenir au moins 1 caractère spécial</li><li>faire au moins 8 caractères de long</li></ul>",
-      "FORM_CONFIRM_PWD_INPUT_TEXT":"Confirmer le mot de passe",
-      "FORM_INVALID_CONFIRM_PWD_TEXT":"Les mots de passe ne correspondent pas",
+      "FORM_CONFIRM_PWD_INPUT_TEXT": "Confirmer le mot de passe",
+      "FORM_INVALID_CONFIRM_PWD_TEXT": "Les mots de passe ne correspondent pas",
       "FORM_EMAIL_ALREADY_IN_USE_ERROR": "Un utilisateur s'est déjà inscrit avec l'adresse email saisie.",
       "FORM_SUBMIT_BUTTON_TEXT": "S'inscrire",
-      "FORM_LINK_TEXT":"Déjà un compte ? Se connecter",
+      "FORM_LINK_TEXT": "Déjà un compte ? Se connecter",
       "FORM_SUCCESS_TEXT": "Nouveau compte créé. Vous pouvez maintenant vous connecter."
     },
     "SIGN_IN": {
-      "FORM_TITLE":"Se connecter",
-      "FORM_EMAIL_INPUT_TEXT":"Adresse email",
-      "FORM_INVALID_EMAIL_TEXT":"Adresse email invalide",
-      "FORM_PWD_INPUT_TEXT":"Mot de passe",
-      "FORM_INVALID_PWD_TEXT":"Mot de passe invalide",
-      "FORM_REMEMBER_CB_TEXT":"Se souvenir de moi",
-      "FORM_INVALID_USER_ERROR":"Aucun utilisateur trouvé pour cette adresse email.",
+      "FORM_TITLE": "Se connecter",
+      "FORM_EMAIL_INPUT_TEXT": "Adresse email",
+      "FORM_INVALID_EMAIL_TEXT": "Adresse email invalide",
+      "FORM_PWD_INPUT_TEXT": "Mot de passe",
+      "FORM_INVALID_PWD_TEXT": "Mot de passe invalide",
+      "FORM_REMEMBER_CB_TEXT": "Se souvenir de moi",
+      "FORM_INVALID_USER_ERROR": "Aucun utilisateur trouvé pour cette adresse email.",
       "FORM_INVALID_LOGIN_ERROR": "L'adresse email ou le mot de passe saisie est erroné.",
-      "FORM_SUBMIT_BUTTON_TEXT":"Se connecter",
+      "FORM_SUBMIT_BUTTON_TEXT": "Se connecter",
       "FORM_LINK_TEXT": "Pas de compte ? S'inscrire",
       "FORM_SUCCESS_TEXT": "Connecté avec succès."
     },
@@ -95,6 +95,7 @@
       "SIGN_IN_ADD_APPROACH_LINK_TEXT": "Se connecter pour commander cette prestation"
     },
     "SERVICE_PROVIDER_LISTING_PAGE": {
+      "TITLE": "Mes annonces",
       "AD_COUNT": "{{count}} annonce(s)",
       "ADD_AD_BUTTON": "Publier une annonce",
       "NO_CATEGORY_TEXT": "Aucune catégorie",
@@ -118,6 +119,9 @@
       "PRICE_INDICATION_ERROR_TEXT": "Une indication est requise pour le prix",
       "SAVE_CONFIRM_MESSAGE": "L'annonce va être soumise en attente de vérification. Elle ne sera rendue publique qu'une fois approuvée.",
       "SAVE_SUCCESS_MESSAGE": "Annonce enregistrée."
+    },
+    "ADD_FORM": {
+      "TITLE": "Créer une annonce"
     },
     "AD_STATUS": {
       "VERIFIED": "Vérifiée",

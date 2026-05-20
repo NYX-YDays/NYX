@@ -4,7 +4,7 @@
   </button>
 
   <!-- Loading state -->
-  @if (isLoading) {
+  @if (isLoading()) {
     <div class="d-flex justify-content-center">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">{{ "ADS.SPINNER_TEXT" | translate }}</span>
@@ -13,31 +13,31 @@
   }
 
   <!-- Ad details -->
-  @if (!isLoading && ad) {
+  @if (!isLoading() && ad()) {
     <div class="card shadow-sm">
       <div class="card-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center gap-3">
-          <h4 class="mb-0">{{ ad.title }}</h4>
-          @if (isCurrentUserAd) {
+          <h4 class="mb-0">{{ ad()?.title }}</h4>
+          @if (isCurrentUserAd()) {
             <i class="bi bi-pencil-fill cursor-pointer"
-            [routerLink]="`/my-ads/${ad.id}`"></i>
+               [routerLink]="`/my-ads/${ad()?.id}`"></i>
           }
         </div>
-        <span class="badge" [class]="ad.isVerified ? 'bg-success' : 'bg-secondary'">
-                    {{ (ad.isVerified ? "ADS.AD_STATUS.VERIFIED" : "ADS.AD_STATUS.NOT_VERIFIED") | translate }}
+        <span class="badge" [class]="ad()?.isVerified ? 'bg-info' : 'bg-warning'">
+                    {{ (ad()?.isVerified ? "ADS.AD_STATUS.VERIFIED" : "ADS.AD_STATUS.NOT_VERIFIED") | translate }}
                 </span>
       </div>
       <div class="card-body">
         <div class="row row-gap-3">
           <div class="col-md-8">
             <h5>{{ "ADS.DETAIL_PAGE.DESCRIPTION" | translate }}</h5>
-            <p>{{ ad.description }}</p>
-            @if (ad.categories.length) {
+            <p>{{ ad()?.description }}</p>
+            @if (ad()?.categories?.length) {
               <div class="mt-4">
                 <h5>{{ "ADS.DETAIL_PAGE.CATEGORIES" | translate }}</h5>
-                @for (category of ad.categories; track category.id) {
+                @for (category of ad()?.categories; track category.id) {
                   @if (category) {
-                    <span class="badge bg-info me-2 mb-2">{{ category.title }}</span>
+                    <span class="badge bg-secondary me-2 mb-2">{{ category.title }}</span>
                   }
                 }
               </div>
@@ -46,24 +46,24 @@
           <div class="col-md-4">
             <div class="card bg-light">
               <div class="card-body">
-                <h5 class="card-title text-primary">{{ ad.priceIndication }}</h5>
+                <h5 class="card-title text-primary">{{ ad()?.priceIndication }}</h5>
                 <p class="mb-2">
-                  <strong>{{ "ADS.DETAIL_PAGE.CREATION_DATE" | translate }}</strong>{{ ad.dateAd | date:'dd/MM/yyyy' }}
+                  <strong>{{ "ADS.DETAIL_PAGE.CREATION_DATE" | translate }}</strong>{{ ad()?.dateAd | date:'dd/MM/yyyy' }}
                 </p>
                 <p class="mb-2">
-                  <strong>{{ "ADS.DETAIL_PAGE.PUBLICATION_DATE" | translate }}</strong>{{ ad.datePublicationAd | date:'dd/MM/yyyy' }}
+                  <strong>{{ "ADS.DETAIL_PAGE.PUBLICATION_DATE" | translate }}</strong>{{ ad()?.datePublicationAd | date:'dd/MM/yyyy' }}
                 </p>
                 <div class="mt-4">
                   <h5>{{ "ADS.DETAIL_PAGE.CONTACT" | translate }}</h5>
-                  @if (ad.user) {
-                    <p class="mb-1">{{ ad.user.firstName }} {{ ad.user.lastName }}</p>
-                    <p class="mb-1">{{ ad.user.email }}</p>
+                  @if (ad()?.user) {
+                    <p class="mb-1">{{ ad()?.user?.firstName }} {{ ad()?.user?.lastName }}</p>
+                    <p class="mb-1">{{ ad()?.user?.email }}</p>
                   } @else {
                     <p>{{ "ADS.DETAIL_PAGE.NO_INFORMATION" | translate }}</p>
                   }
                   <div class="mt-4">
-                    @if (isAuthenticated) {
-                      <button (click)="addApproachModal.openModalAsync(ad)" class="btn btn-primary">
+                    @if (isAuthenticated()) {
+                      <button (click)="addApproachModal.openModalAsync(ad())" class="btn btn-primary">
                         {{ 'ADS.DETAIL_PAGE.ADD_APPROACH_BUTTON_TEXT' | translate }}
                       </button>
                     } @else {

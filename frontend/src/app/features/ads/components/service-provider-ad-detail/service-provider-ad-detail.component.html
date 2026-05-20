@@ -24,7 +24,7 @@
 
           <!-- Publication info -->
           <div class="d-flex align-items-center justify-content-between gap-3">
-            <div class="badge text-bg-primary"
+            <div class="badge text-bg-primary text-light"
                  [class.text-bg-warning]="!ad().isVerified"
                  [class.text-bg-info]="ad().isVerified">
               @if (ad().isVerified) {
@@ -57,7 +57,7 @@
         @if (ad().categories.length > 0) {
           <div class="d-flex flex-wrap column-gap-2 row-gap-2 my-3">
             @for (category of ad().categories; track category.id) {
-              <div class="badge rounded-pill text-bg-primary">{{ category.title }}</div>
+              <div class="badge rounded-pill text-bg-secondary">{{ category.title }}</div>
             }
           </div>
         } @else {

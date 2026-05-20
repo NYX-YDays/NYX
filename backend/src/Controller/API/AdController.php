@@ -5,9 +5,7 @@ namespace App\Controller\API;
 use App\Entity\Ad;
 use App\Repository\AdRepository;
 use App\Repository\CategoryRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,9 +22,20 @@ class AdController extends AbstractController
         // Récupérer le paramètre de catégorie depuis la requête
         $categoryId = $request->query->get('category');
         if ($categoryId) {
-            $ads = $adRepository->findByCategory($categoryId);
+            $ads = $adRepository
+                ->createQueryBuilder('a')
+                ->join('a.categories', 'category')
+                ->andWhere('category.id = :categoryId')
+                ->andWhere('a.isVerified = 1')
+                ->setParameter('categoryId', $categoryId)
+                ->getQuery()
+                ->getResult();
         } else {
-            $ads = $adRepository->findAll();
+            $ads = $adRepository
+                ->createQueryBuilder('a')
+                ->where('a.isVerified = 1')
+                ->getQuery()
+                ->getResult();
         }
         return $this->json($ads, 200, [], ['groups' => 'ad:read']);
     }
@@ -41,18 +50,25 @@ class AdController extends AbstractController
     #[Route('/api/ad/{adId}', name: 'get_ad_by_id', methods: ['GET'])]
     public function getAdById($adId, AdRepository $adRepository): Response
     {
-        $ad = $adRepository->find($adId);
-        if (!$ad) {
+        $ads = $adRepository
+            ->createQueryBuilder('a')
+            ->where('a.id = :adId')
+            //->andWhere('a.isVerified = 1')
+            ->setParameter('adId', $adId)
+            ->getQuery()
+            ->getResult();
+
+        if (!$ads) {
             return $this->json(['error' => 'Ad not found'], 404);
         }
-        return $this->json($ad, 200, [], ['groups' => 'ad:read']);
+        return $this->json($ads[0], 200, [], ['groups' => 'ad:read']);
     }
 
     #[Route('/api/ad', name: 'add_ad', methods: ['POST'])]
     public function addAd(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, CategoryRepository $categoryRepository, Security $security)
     {
         $data = json_decode($request->getContent(), true);
-    
+
         $user = $security->getUser();
         if (!$user) {
             return $this->json(['message' => 'User not found'], 404);
@@ -93,27 +109,38 @@ class AdController extends AbstractController
             return $this->json(['message' => 'User not found'], 404);
         }
 
-        $ad = $adRepository->find($adId);
-        if (!$ad) {
+        $ads = $adRepository
+            ->createQueryBuilder('a')
+            ->join('a.user', 'u')
+            ->andWhere('a.id = :adId')
+            ->andWhere('u.id = :userId')
+            ->setParameter('adId', $adId)
+            ->setParameter('userId', $user->getId())
+            ->getQuery()
+            ->getResult();
+
+        if (!$ads) {
             return $this->json(['error' => 'Ad not found'], 404);
         }
 
+        $ad = $ads[0];
+
         $data = json_decode($request->getContent(), true);
 
-        if(isset($data['title'])) 
+        if (isset($data['title']))
             $ad->setTitle($data['title']);
 
-        if(isset($data['price']))
+        if (isset($data['price']))
             $ad->setPrice($data['price']);
 
-        if(isset($data['description']))
+        if (isset($data['description']))
             $ad->setDescription($data['description']);
 
-        if(isset($data['priceIndication']))
+        if (isset($data['priceIndication']))
             $ad->setPriceIndication($data['priceIndication']);
 
         // Reset verification
-        if(isset($data['isVerified']))
+        if (isset($data['isVerified']))
             $ad->setIsVerified(false);
 
         $ad->clearCategories();
@@ -139,14 +166,28 @@ class AdController extends AbstractController
     }
 
     #[Route('/api/ad/{adId}', name: 'delete_ad', methods: ['DELETE'])]
-    public function deleteAd($adId, EntityManagerInterface $entityManager, AdRepository $adRepository)
+    public function deleteAd($adId, EntityManagerInterface $entityManager, AdRepository $adRepository, Security $security)
     {
-        $ad = $adRepository->find($adId);
-        if (!$ad) {
+        $user = $security->getUser();
+        if (!$user) {
+            return $this->json(['message' => 'User not found'], 404);
+        }
+
+        $ads = $adRepository
+            ->createQueryBuilder('a')
+            ->join('a.user', 'u')
+            ->andWhere('a.id = :adId')
+            ->andWhere('u.id = :userId')
+            ->setParameter('adId', $adId)
+            ->setParameter('userId', $user->getId())
+            ->getQuery()
+            ->getResult();
+
+        if (!$ads) {
             return $this->json(['error' => 'Ad not found'], 404);
         }
 
-        $entityManager->remove($ad);
+        $entityManager->remove($ads[0]);
         $entityManager->flush();
 
         return $this->json(null, 204);

@@ -95,6 +95,7 @@
       "SIGN_IN_ADD_APPROACH_LINK_TEXT": "Sign in to book this approach"
     },
     "SERVICE_PROVIDER_LISTING_PAGE": {
+      "TITLE": "My ads",
       "AD_COUNT": "{{count}} ad(s)",
       "ADD_AD_BUTTON": "Publish an add",
       "NO_CATEGORY_TEXT": "No category",

@@ -2,7 +2,9 @@
   <div class="container-fluid">
 
     <!-- App title / logo -->
-    <a class="navbar-brand fw-bold" routerLink="/">{{ appName }}</a>
+    <a class="navbar-brand" routerLink="/">
+      <img src="/images/logos/nyx_logo_white.png" style="width: 50px; height: auto" alt="app_logo"/>
+    </a>
 
     <!-- Mobile mode menu button -->
     <button class="navbar-toggler"
@@ -29,10 +31,10 @@
 
         <!-- Service provider notification button -->
         @if (currentUserIdentity?.roles?.includes(UserRole.SERVICE_PROVIDER)) {
-          <button class="btn btn-secondary position-relative" routerLink="/approaches">
+          <button class="btn btn-outline-light position-relative" routerLink="/approaches">
             <i class="bi bi-bell-fill"></i>
             @if (pendingApproachCount() > 0) {
-              <div class="approach-count position-absolute top-0 end-0 badge rounded-pill text-bg-danger">
+              <div class="approach-count position-absolute top-0 end-0 badge rounded-pill text-bg-warning text-white">
                 {{ pendingApproachCount() }}
               </div>
             }
@@ -41,13 +43,13 @@
 
         <!-- Sign in button -->
         @if (!currentUserIdentity) {
-          <a class="btn btn-outline-secondary" routerLink="/sign-in">
+          <a class="btn btn-outline-light" routerLink="/sign-in">
             <i class="bi bi-box-arrow-in-left"></i> {{ 'HEADER.SIGN_IN_BTN_TEXT' | translate }}
           </a>
         } @else {
           <ul class="navbar-nav" data-bs-theme="light">
             <li class="nav-item dropdown">
-              <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <button class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-person-circle me-1"></i>
                 {{ currentUserIdentity.firstName }} {{ currentUserIdentity.lastName }}
               </button>

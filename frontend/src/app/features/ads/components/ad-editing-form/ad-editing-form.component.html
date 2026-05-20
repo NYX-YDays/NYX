@@ -58,7 +58,7 @@
                  [id]="`category${category.id}`"
                  [checked]="!!editedAd()?.categories?.find(x => x.id == category.id)"
                  autocomplete="off">
-          <label class="btn btn-sm btn-outline-primary" [for]="`category${category.id}`">
+          <label class="btn btn-sm btn-outline-secondary" [for]="`category${category.id}`">
             {{ category.title }}
           </label>
         }

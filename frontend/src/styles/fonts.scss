@@ -1,13 +1,14 @@
 @font-face {
-  font-family: poppins;
-  src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+  font-family: montserrat;
+  src: url('/fonts/Montserrat-Medium.ttf') format('truetype');
   font-weight: normal;
 }
 
 @font-face {
-  font-family: poppins;
-  src: url('/fonts/Poppins-Bold.ttf') format('truetype');
+  font-family: montserrat;
+  src: url('/fonts/Montserrat-Bold.ttf') format('truetype');
   font-weight: 500;
 }
 
-$font-family-sans-serif: poppins, system-ui, Arial, sans-serif;
+
+$font-family-sans-serif: montserrat, system-ui, Arial, sans-serif;

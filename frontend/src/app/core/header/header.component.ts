@@ -8,12 +8,14 @@ import { UserRole } from '../../shared/enums/user-role';
 import { AlertService } from '../../shared/services/alert.service';
 import { AlertType } from '../alert-manager/enums/alert-type';
 import { ApproachService } from '../../features/approaches/services/approach.service';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   imports: [
     RouterLink,
-    TranslatePipe
+    TranslatePipe,
+    NgOptimizedImage
   ],
   templateUrl: './header.component.html',
   standalone: true,
