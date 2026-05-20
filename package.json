@@ -1,6 +1,6 @@
 {
   "name": "nyx",
-  "version": "1.0.0",
+  "version": "2.0.0.1",
   "scripts": {
     "install": "cd frontend && npm i && cd ../backend && npm i",
     "dev": "concurrently --kill-others --kill-others-on-fail -c red,blue --names Back,Front \"npm run dev:back\" \"npm run dev:front\"",
